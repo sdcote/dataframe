@@ -1,0 +1,99 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+sourceCompatibility = 1.5
+version = '0.1'
+
+// EMMA code coverage
+configurations{
+	emma
+}
+
+dependencies{
+	emma "emma:emma:2.1.5320"
+	emma "emma:emma_ant:2.1.5320"
+}
+
+def emmaConvention = new EmmaPluginConvention(project)
+project.convention.plugins.emma = emmaConvention
+
+class EmmaPluginConvention{
+	def verbosityLevel = "info"
+	def reportPath;
+	def coverageFileName;
+	def tmpDir;
+	def instrDir;
+	def metaDataFilePath;
+	
+	def emma(Closure close){
+		close.delegate = this;
+		close.run()
+	}
+	
+	EmmaPluginConvention(Project project){
+		reportPath 			= "${project.reporting.baseDir.absolutePath}/emma"
+		coverageFileName	= "coverage"
+		tmpDir				= "${project.buildDir}/tmp/emma"
+		instrDir			= "${tmpDir}/instr"
+		metaDataFilePath 	= "${tmpDir}/metadata.emma"
+	}
+}
+
+
+// Tasks
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Gradle Quickstart', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
+    testCompile group: 'junit', name: 'junit', version: '4.+'
+}
+
+test {
+    systemProperties 'property': 'value'
+	
+	jvmArgs "-Demma.coverage.out.file=build/tmp/emma/metadata.emma", "-Demma.coverage.out.merge=true"
+
+   doFirst{
+      ant.taskdef( resource:"emma_ant.properties", classpath: configurations.emma.asPath)
+       ant.path(id:"run.classpath") {
+          pathelement(location:sourceSets.main.output.classesDir.absolutePath)
+       }
+        ant.emma(verbosity:'info'){
+            instr(merge:"true", destdir:'build/tmp/emma/instr', instrpathref:"run.classpath", metadatafile:'build/tmp/emma/metadata.emma'){
+                instrpath{
+                    fileset(dir:sourceSets.main.output.classesDir.absolutePath, includes:"**/*.class")
+                }
+            }
+        }
+         setClasspath(files("$buildDir/tmp/emma/instr") + configurations.emma +  getClasspath())
+      }
+
+      doLast{
+        ant.emma(enabled:"true"){
+            report(sourcepath:"src/main/java"){
+                fileset(dir:"build/tmp/emma"){
+                    include(name:"*.emma")
+                }
+                txt(outfile:"build/reports/emma/coverage.txt")
+                html(outfile:"build/reports/emma/coverage.html")
+                xml(outfile:"build/reports/emma/coverage.xml")
+            }
+        }
+    }
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs 'repos'
+       }
+    }
+}
