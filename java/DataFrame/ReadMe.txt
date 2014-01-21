@@ -1,6 +1,6 @@
 Overview:
 =======================
-  This is the DataFrame project for Java, a (Data Transmission Object (DTO) toolkit that 
+  This is the DataFrame project for Java, a Data Transmission Object (DTO) toolkit that 
   allows developers to marshal data formats between a variety of technologies
   (XML, JSON, et. el.) in a platform agnostic manner.
 
