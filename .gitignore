@@ -11,6 +11,13 @@ bin/
 *.dll
 
 
+# Eclipse IDE Artifacts #
+#########################
+.classpath
+.project
+.settings/
+
+
 # Testing Results #
 ###################
 *.log
