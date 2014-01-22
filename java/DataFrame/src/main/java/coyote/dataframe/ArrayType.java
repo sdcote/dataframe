@@ -20,7 +20,13 @@ import java.util.ArrayList;
 import coyote.util.ByteUtil;
 
 
-/** Type representing an ordered array of values */
+/** 
+ * Type representing an ordered array of values.
+ * 
+ * <p>The current design involves encoding a name, type (array), length (number 
+ * of elements) and a set of Type, Length, Value (TLV) triplets for each array 
+ * element.</p>
+ */
 public class ArrayType implements FieldType
 {
   private static final int _size = -1;
@@ -117,6 +123,9 @@ public class ArrayType implements FieldType
 
 
 
+  /**
+   * Encode the payload portion of the array (i.e., no name or type)
+   */
   public byte[] encode( Object obj )
   {
     final Object[] ary = (Object[])obj;
@@ -128,8 +137,10 @@ public class ArrayType implements FieldType
     {
       try
       {
+        // This will throw an exception for any unsupported data types.
         final short tipe = DataField.getType( ary[x] );
         final byte[] data = DataField.encode( ary[x], tipe );
+        final int size = DataField.getDataType( tipe ).getSize();
 
         // Write the type field
         dos.write( ByteUtil.renderShortByte( tipe ) );
@@ -137,23 +148,24 @@ public class ArrayType implements FieldType
         if( data != null )
         {
           // If the value is variable in length
-          //          if( ( tipe <= 2 ) || ( tipe == DataField.URI ) || ( tipe == DataField.ARRAY ) )
-          //          {
-          //            // write the length
-          //            dos.writeShort( data.length );
-          //          }
+          if( size < 0 )
+          {
+            // write the length
+            dos.writeShort( data.length );
+          }
 
           // write the value itself
           dos.write( data );
         }
         else
         {
-          dos.writeShort( 0 );
+          dos.writeShort( 0 );// null value
         }
       }
       catch( final Throwable t )
       {
-        // just skip the offending object
+        System.err.println( "Array object of type " + ary[x].getClass().getSimpleName() + " is not supported in DataFrames" );
+        // just skip the offending object and add the rest.
       }
     } // for each
 

@@ -541,7 +541,7 @@ public class DataField implements Cloneable
 
 
 
-  private static FieldType getDataType( short typ )
+  protected static FieldType getDataType( short typ )
   {
     FieldType retval = null;
 
