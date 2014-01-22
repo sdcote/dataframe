@@ -1,10 +1,9 @@
 /*
- * DataFrame - a data marshaling toolkit
- * Copyright (C) 2006 Stephan D. Cote' - All rights reserved.
+ * Copyright (c) 2006 Stephan D. Cote' - All rights reserved.
  * 
  * This program and the accompanying materials are made available under the 
- * terms of the Eclipse Public License v1.0  which accompanies this 
- * distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+ * terms of the MIT License which accompanies this distribution, and is 
+ * available at http://creativecommons.org/licenses/MIT/
  *
  * Contributors:
  *   Stephan D. Cote 
@@ -306,13 +305,13 @@ public class DataField implements Cloneable
 
 
   /**
-   * Method getType
+   * Get the numeric code representing the type of the passed object
    *
-   * @param obj
+   * @param obj THe object to check
    *
-   * @return
+   * @return the numeric type as it would be encoded in the field
    *
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the passed object is an unsupported type.
    */
   public static short getType( final Object obj ) throws IllegalArgumentException
   {
@@ -502,7 +501,9 @@ public class DataField implements Cloneable
 
 
   /**
-   * @return
+   * Access the name of this field.
+   * 
+   * @return The name of this field.
    */
   public String getName()
   {
@@ -513,7 +514,9 @@ public class DataField implements Cloneable
 
 
   /**
-   * @param string
+   * Set the name of this field.
+   * 
+   * @param string Then name of this field.
    */
   public void setName( final String string )
   {
