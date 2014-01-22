@@ -73,7 +73,7 @@ public class DataFrameTest
   {
     DataFrame frame = new DataFrame();
     assertNotNull( frame );
-    assertTrue( frame.getTypeCount() == 17 );
+    assertTrue( frame.getTypeCount() == 18 );
     assertTrue( frame.getFieldCount() == 0 );
   }
 
