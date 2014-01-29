@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.6
 version = '0.1'
 
 // EMMA code coverage
@@ -10,8 +10,11 @@ configurations{
 }
 
 dependencies{
-	emma "emma:emma:2.1.5320"
-	emma "emma:emma_ant:2.1.5320"
+
+  // Code coverage tools
+  emma 'emma:emma:2.1.5320'
+  emma 'emma:emma_ant:2.1.5320'
+	
 }
 
 def emmaConvention = new EmmaPluginConvention(project)
