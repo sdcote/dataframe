@@ -105,9 +105,8 @@ public class DataField implements Cloneable
     DataField.addType( 15, new DateType() );
     /** (16) Type code representing a uniform resource identifier */
     DataField.addType( 16, new UriType() );
-
-    /** (17) Type code representing an ordered array of values */
-    //DataField.addType( 16, new ArrayType() );
+    /** (17) Type code representing an ordered array of values (DataFields) */
+    DataField.addType( 17, new ArrayType() );
   }
 
   /** Field name */
@@ -140,6 +139,19 @@ public class DataField implements Cloneable
   }
 
 
+  /**
+   * Create a DataField with a specified type and value.
+   * 
+   * Used by the ArrayType in decoding arrays of values.
+   * 
+   * @param type the type code representing the type of data held.
+   * @param value the encoded value of the field.
+   */
+  protected DataField(short type, byte[] value)
+  {
+    this.type = type;
+    this.value = value;
+  }
 
 
   /**
@@ -541,7 +553,23 @@ public class DataField implements Cloneable
 
 
 
-  private static FieldType getDataType( short typ )
+  /**
+   * Get the size of the given type.
+   * 
+   * @param code the type code used in encoded fields
+   * 
+   * @return the number of octets used to represent the data type in its 
+   * encoded form.
+   */
+  protected static int getTypeSize( final short code )
+  {
+    return getDataType( code ).getSize();
+  }
+
+
+
+
+  protected static FieldType getDataType( short typ )
   {
     FieldType retval = null;
 

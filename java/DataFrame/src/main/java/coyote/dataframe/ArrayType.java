@@ -15,12 +15,19 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import coyote.util.ByteUtil;
 
 
-/** Type representing an ordered array of values */
+/** 
+ * Type representing an ordered array of values.
+ * 
+ * <p>The current design involves encoding a name, type (array), length (number 
+ * of elements) and a set of Type, Length, Value (TLV) triplets for each array 
+ * element.</p>
+ */
 public class ArrayType implements FieldType
 {
   private static final int _size = -1;
@@ -45,78 +52,76 @@ public class ArrayType implements FieldType
 
     final DataInputStream dis = new DataInputStream( new ByteArrayInputStream( value ) );
 
-    //    try
-    //    {
-    //      // keep parsing DataFields from the byte array until a match is made
-    //      while( dis.available() > 0 )
-    //      {
-    //        // get the type
-    //        final short tipe = dis.readByte();
-    //
-    //        // Figure out the length of the data to read
-    //        short valen = 0;
-    //        if( ( tipe <= 2 ) || ( tipe == DataField.ARRAY ) || ( tipe == DataField.URI ) )
-    //        {
-    //          valen = dis.readShort();
-    //        }
-    //        else if( ( tipe == DataField.U8 ) || ( tipe == DataField.S8 ) || ( tipe == DataField.BOOLEAN ) )
-    //        {
-    //          valen = 1;
-    //        }
-    //        else if( ( tipe == DataField.U16 ) || ( tipe == DataField.S16 ) )
-    //        {
-    //          valen = 2;
-    //        }
-    //        else if( ( tipe == DataField.U32 ) || ( tipe == DataField.S32 ) || ( tipe == DataField.FLOAT ) )
-    //        {
-    //          valen = 4;
-    //        }
-    //        else if( ( tipe == DataField.U64 ) || ( tipe == DataField.S64 ) || ( tipe == DataField.DATE ) || ( tipe == DataField.DOUBLE ) )
-    //        {
-    //          valen = 8;
-    //        }
-    //
-    //        //create a file the size we need
-    //        final byte[] fld = new byte[valen];
-    //
-    //        // fill it from the input stream
-    //        dis.readFully( fld );
-    //
-    //        // convert it into an object through a recursive call
-    //        retval.add( (DataField)getObjectValue( tipe, fld ) );
-    //      } // while
-    //
-    //      if( retval.size() > 0 )
-    //      {
-    //        return retval.toArray();
-    //      }
-    //      else
-    //      {
-    return new Object[0];
-    //      }
-    //    }
-    //    catch( final Exception e )
-    //    {
-    //      return null;
-    //    }
-    //    finally
-    //    {
-    //      try
-    //      {
-    //        if( dis != null )
-    //        {
-    //          dis.close();
-    //        }
-    //      }
-    //      catch( final IOException ioe2 )
-    //      {
-    //      }
-    //    }
+    try
+    {
+      // keep parsing DataFields from the byte array until a match is made
+      while( dis.available() > 0 )
+      {
+        // get the type
+        final short tipe = dis.readByte();
+
+        // Figure out the length of the data to read
+        int valen = DataField.getTypeSize( tipe );
+        if( valen < 0 )
+        {
+          valen = dis.readShort();
+        }
+
+        if( valen > 0 )
+        {
+          //create a field the size we need
+          final byte[] fld = new byte[valen];
+
+          // fill it from the input stream
+          dis.readFully( fld );
+
+          // Now create a data field of the appropriate type and value
+          DataField field = new DataField( tipe, fld );
+
+          // Add it to the return value
+          retval.add( field );
+
+        }
+        else
+        {
+          retval.add( new DataField( null ) );
+        }
+      } // while
+
+      if( retval.size() > 0 )
+      {
+        return retval.toArray();
+      }
+      else
+      {
+        return new Object[0];
+      }
+    }
+    catch( final Exception e )
+    {
+      return null;
+    }
+    finally
+    {
+      try
+      {
+        if( dis != null )
+        {
+          dis.close();
+        }
+      }
+      catch( final IOException ioe2 )
+      {
+      }
+    }
   }
 
 
 
 
+  /**
+   * Encode the payload portion of the array (i.e., no name or type)
+   */
   public byte[] encode( Object obj )
   {
     final Object[] ary = (Object[])obj;
@@ -128,8 +133,10 @@ public class ArrayType implements FieldType
     {
       try
       {
+        // This will throw an exception for any unsupported data types.
         final short tipe = DataField.getType( ary[x] );
         final byte[] data = DataField.encode( ary[x], tipe );
+        final int size = DataField.getDataType( tipe ).getSize();
 
         // Write the type field
         dos.write( ByteUtil.renderShortByte( tipe ) );
@@ -137,23 +144,24 @@ public class ArrayType implements FieldType
         if( data != null )
         {
           // If the value is variable in length
-          //          if( ( tipe <= 2 ) || ( tipe == DataField.URI ) || ( tipe == DataField.ARRAY ) )
-          //          {
-          //            // write the length
-          //            dos.writeShort( data.length );
-          //          }
+          if( size < 0 )
+          {
+            // write the length
+            dos.writeShort( data.length );
+          }
 
           // write the value itself
           dos.write( data );
         }
         else
         {
-          dos.writeShort( 0 );
+          dos.writeShort( 0 );// null value
         }
       }
       catch( final Throwable t )
       {
-        // just skip the offending object
+        System.err.println( "Array object of type " + ary[x].getClass().getSimpleName() + " is not supported in DataFrames" );
+        // just skip the offending object and add the rest.
       }
     } // for each
 
