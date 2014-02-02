@@ -79,10 +79,10 @@ public class DataField implements Cloneable
     DataField.addType( 2, new ByteArrayType() );
     /** (3) Type code representing a String object */
     DataField.addType( 3, new StringType() );
-    /** (4) Type code representing an unsigned, 8-bit value in the range of 0 to 255 */
-    DataField.addType( 4, new U8Type() );
     /** (5) Type code representing an signed, 8-bit value in the range of -128 to 127 */
-    DataField.addType( 5, new S8Type() );
+    DataField.addType( 4, new S8Type() );
+    /** (4) Type code representing an unsigned, 8-bit value in the range of 0 to 255 */
+    DataField.addType( 5, new U8Type() );
     /** (6) Type code representing an unsigned, 16-bit value in the range of 0 to 65,535 */
     DataField.addType( 6, new U16Type() );
     /** (7) Type code representing an signed, 16-bit value in the range of -32,768 to 32,767 */
