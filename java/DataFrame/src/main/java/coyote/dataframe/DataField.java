@@ -87,14 +87,14 @@ public class DataField implements Cloneable
     DataField.addType( 6, new S16Type() );
     /** (7) Type code representing an unsigned, 16-bit value in the range of 0 to 65,535 */
     DataField.addType( 7, new U16Type() );
-    /** (8) Type code representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */
-    DataField.addType( 8, new U32Type() );
-    /** (9) Type code representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
-    DataField.addType( 9, new S32Type() );
-    /** (10) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
-    DataField.addType( 10, new U64Type() );
-    /** (11) Type code representing an signed, 64-bit value in the range of -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 */
-    DataField.addType( 11, new S64Type() );
+    /** (8) Type code representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
+    DataField.addType( 8, new S32Type() );
+    /** (9) Type code representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */
+    DataField.addType( 9, new U32Type() );
+    /** (10) Type code representing an signed, 64-bit value in the range of -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 */
+    DataField.addType( 10, new S64Type() );
+    /** (11) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
+    DataField.addType( 11, new U64Type() );
     /** (12) Type code representing a 32-bit floating point value in the range of ±1.4013e-45 to ±3.4028e+38. */
     DataField.addType( 12, new FloatType() );
     /** (13) Type code representing a 64-bit floating point value in the range of ±4.9406e-324 to ±1.7977e+308. */
