@@ -26,7 +26,10 @@ public class S8Type implements FieldType
 
   public boolean checkType( Object obj )
   {
-    return ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= -128 && ( (Short)obj ).shortValue() <= 127 );
+    return (
+        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= -128 && ( (Byte)obj ).byteValue() <= 127 ) || 
+        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= -128 && ( (Short)obj ).shortValue() <= 127 )
+        );
   }
 
 
