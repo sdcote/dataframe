@@ -13,6 +13,7 @@ package coyote.dataframe;
 
 import coyote.util.ByteUtil;
 
+
 /** Type representing an unsigned, 8-bit value in the range of 0 to 255 */
 
 public class U8Type implements FieldType
@@ -26,7 +27,7 @@ public class U8Type implements FieldType
 
   public boolean checkType( Object obj )
   {
-    return obj instanceof Byte;//TODO: Fix Me!
+    return ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 );
   }
 
 
@@ -34,7 +35,7 @@ public class U8Type implements FieldType
 
   public Object decode( byte[] value )
   {
-    return new Byte( value[0] );//TODO: Fix Me!
+    return new java.lang.Short( value[0]);
   }
 
 
@@ -42,7 +43,9 @@ public class U8Type implements FieldType
 
   public byte[] encode( Object obj )
   {
-    return ByteUtil.renderUnsignedShort( (Integer)obj );//TODO: Fix Me!
+    final byte[] retval = new byte[1];
+    retval[0] = ByteUtil.renderShortByte( (Short)obj );
+    return retval;
   }
 
 
