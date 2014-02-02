@@ -23,9 +23,17 @@ public class U16Type implements FieldType
 
 
 
+  /**
+   * This can support multiple types and values, but really not efficient for 
+   * Byte and Short types.
+   */
   public boolean checkType( Object obj )
   {
-    return obj instanceof Short;
+    return ( 
+        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 && ( (Byte)obj ).byteValue() <= 255 ) || 
+        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 ) || 
+        ( obj instanceof java.lang.Integer && ( (Integer)obj ).intValue() >= 0 && ( (Integer)obj ).intValue() <= 65535 )
+        );
   }
 
 
@@ -41,7 +49,7 @@ public class U16Type implements FieldType
 
   public byte[] encode( Object obj )
   {
-    return ByteUtil.renderUnsignedShort( ( (Short)obj ).shortValue() );
+    return ByteUtil.renderUnsignedShort( ( (Integer)obj ).shortValue() );
   }
 
 

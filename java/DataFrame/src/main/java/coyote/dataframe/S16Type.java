@@ -13,7 +13,8 @@ package coyote.dataframe;
 
 import coyote.util.ByteUtil;
 
-/** (6) Type code representing an signed, 16-bit value in the range of -32,768 to 32,767 */
+
+/** signed, 16-bit value in the range of -32,768 to 32,767 */
 public class S16Type implements FieldType
 {
   private static final int _size = 2;
@@ -25,7 +26,7 @@ public class S16Type implements FieldType
 
   public boolean checkType( Object obj )
   {
-    return obj instanceof Short;//TODO: Fix Me!
+    return ( obj instanceof java.lang.Short );
   }
 
 
@@ -41,7 +42,7 @@ public class S16Type implements FieldType
 
   public byte[] encode( Object obj )
   {
-    return ByteUtil.renderUnsignedShort( ( (Short)obj ).shortValue() );//TODO: Fix Me!
+    return ByteUtil.renderShort( ( (Short)obj ).shortValue() );
   }
 
 
