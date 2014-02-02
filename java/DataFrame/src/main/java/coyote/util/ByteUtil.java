@@ -1317,7 +1317,7 @@ public class ByteUtil
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the number.
    *
-   * @return the unsigned short number (0 to 255) stored at the offset.
+   * @return the unsigned short number (-128 to 127) stored at the offset.
    */
   public static short retrieveShortByte( final byte[] buf, final int offset )
   {
