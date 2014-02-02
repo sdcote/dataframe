@@ -35,7 +35,7 @@ public class U8Type implements FieldType
 
   public Object decode( byte[] value )
   {
-    return new java.lang.Short( value[0] );
+    return new Short( ByteUtil.retrieveUnsignedShortByte( value, 0 ));
   }
 
 

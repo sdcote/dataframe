@@ -7,6 +7,8 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import coyote.util.ByteUtil;
+
 
 public class U8TypeTest
 {
@@ -74,10 +76,12 @@ public class U8TypeTest
     byte[] data = new byte[1];
     byte value = -1;
     data[0] = value; // should be single octet of all 1's
+    
+    System.out.println(ByteUtil.dump( data[0] ));
 
     Object obj = datatype.decode( data );
     assertTrue( obj instanceof java.lang.Short );
-    assertTrue( ( (Short)obj ).shortValue() == -1 );
+    assertTrue( ( (Short)obj ).shortValue() == 255 );
 
     //test for overflow
     value++;
