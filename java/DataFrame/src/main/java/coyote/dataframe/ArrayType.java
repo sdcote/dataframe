@@ -21,15 +21,20 @@ import java.util.ArrayList;
 import coyote.util.ByteUtil;
 
 
-/** 
+/**
  * Type representing an ordered array of values.
  * 
- * <p>The current design involves encoding a name, type (array), length (number 
- * of elements) and a set of Type, Length, Value (TLV) triplets for each array 
- * element.</p>
+ * <p>
+ * The current design involves encoding a name, type (array), length (number of
+ * elements) and a set of Type, Length, Value (TLV) triplets for each array
+ * element.
+ * </p>
  */
 public class ArrayType implements FieldType
 {
+
+  private static final Object[] EMPTY_ARRAY = new Object[0];
+
   private static final int _size = -1;
 
   private final static String _name = "ARY";
@@ -45,75 +50,89 @@ public class ArrayType implements FieldType
 
 
 
+  /**
+   * 
+   */
   public Object decode( byte[] value )
   {
-    // as long as there is data to read, convert them into object values
-    final ArrayList<DataField> retval = new ArrayList<DataField>();
 
-    final DataInputStream dis = new DataInputStream( new ByteArrayInputStream( value ) );
+    Object[] retval = EMPTY_ARRAY;
+    ArrayList<Object> elements = new ArrayList<Object>();
+    short type = 0;
+    byte[] data = null;
+    FieldType datatype = null;
 
-    try
+    if( value != null )
     {
-      // keep parsing DataFields from the byte array until a match is made
-      while( dis.available() > 0 )
-      {
-        // get the type
-        final short tipe = dis.readByte();
 
-        // Figure out the length of the data to read
-        int valen = DataField.getTypeSize( tipe );
-        if( valen < 0 )
-        {
-          valen = dis.readShort();
-        }
-
-        if( valen > 0 )
-        {
-          //create a field the size we need
-          final byte[] fld = new byte[valen];
-
-          // fill it from the input stream
-          dis.readFully( fld );
-
-          // Now create a data field of the appropriate type and value
-          DataField field = new DataField( tipe, fld );
-
-          // Add it to the return value
-          retval.add( field );
-
-        }
-        else
-        {
-          retval.add( new DataField( null ) );
-        }
-      } // while
-
-      if( retval.size() > 0 )
-      {
-        return retval.toArray();
-      }
-      else
-      {
-        return new Object[0];
-      }
-    }
-    catch( final Exception e )
-    {
-      return null;
-    }
-    finally
-    {
       try
       {
-        if( dis != null )
+        // Create a data input stream
+        final ByteArrayInputStream bais = new ByteArrayInputStream( value );
+        final DataInputStream dis = new DataInputStream( bais );
+
+        while( dis.available() > 0 )
         {
-          dis.close();
-        }
+          // the next field we read is the data type
+          type = dis.readByte();
+
+          try
+          {
+            // get the proper field type
+            datatype = DataField.getDataType( type );
+          }
+          catch( Throwable ball )
+          {
+            throw new IOException( "non supported type: '" + type + "'" );
+          }
+
+          // if the file type is a variable length (i.e. size < 0), read in the length
+          if( datatype.getSize() < 0 )
+          {
+            final int length = dis.readUnsignedShort();
+
+            if( length < 0 )
+            {
+              throw new IOException( "read length bad value: length = " + length + " type = " + type );
+            }
+
+            int i = dis.available();
+
+            if( i < length )
+            {
+              throw new IOException( "value underflow: length specified as " + length + " but only " + i + " octets are available" );
+            }
+
+            data = new byte[length];
+
+            if( length > 0 )
+            {
+              dis.read( data, 0, length );
+            }
+          }
+          else
+          {
+            data = new byte[datatype.getSize()];
+            dis.read( data );
+          }
+
+          // now get the object value of the data
+          elements.add( datatype.decode( data ) );
+
+        } // while there is data available to read
+
+        retval = elements.toArray();
+
       }
-      catch( final IOException ioe2 )
+      catch( Exception e )
       {
+        throw new IllegalArgumentException( "Could not decode value", e );
       }
+
     }
+
+    return retval;
+
   }
 
 
