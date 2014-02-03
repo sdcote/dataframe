@@ -11,7 +11,10 @@
  */
 package coyote.dataframe;
 
+import java.math.BigInteger;
+
 import coyote.util.ByteUtil;
+
 
 /** (9) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
 public class U64Type implements FieldType
@@ -20,12 +23,22 @@ public class U64Type implements FieldType
 
   private final static String _name = "U64";
 
+  static final BigInteger MAX_VALUE;
+  static final BigInteger MIN_VALUE;
+  static
+  {
+    byte[] input = { (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff };
+    MAX_VALUE = new BigInteger( 1, input );
+    byte[] input2 = { (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00 };
+    MIN_VALUE = new BigInteger( input2 );
+  }
+
 
 
 
   public boolean checkType( Object obj )
   {
-    return obj instanceof Long;
+    return ( ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 ) || ( obj instanceof java.lang.Integer && ( (Integer)obj ).intValue() >= 0 ) || ( obj instanceof java.lang.Long && ( (Long)obj ).longValue() >= 0 || ( obj instanceof java.math.BigInteger && ( (BigInteger)obj ).compareTo( MIN_VALUE ) >= 0 && ( (BigInteger)obj ).compareTo( MAX_VALUE ) <= 0 ) ) );
   }
 
 
@@ -33,7 +46,7 @@ public class U64Type implements FieldType
 
   public Object decode( byte[] value )
   {
-    return new Long( ByteUtil.retrieveLong( value, 0 ) );
+    return new BigInteger( 1, value );
   }
 
 
@@ -41,8 +54,7 @@ public class U64Type implements FieldType
 
   public byte[] encode( Object obj )
   {
-    //return ByteUtil.renderUnsignedLong(( (Long)obj ).longValue());
-    return ByteUtil.renderUnsignedInt( ( (Long)obj ).intValue() ); //TODO: FixMe!
+    return ByteUtil.renderBigInteger( (BigInteger)obj );
   }
 
 

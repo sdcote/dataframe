@@ -1507,17 +1507,42 @@ public class ByteUtil
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the number.
    *
-   * @deprecated Still under construction will activate later
-   *
    * @return the signed long number (0 to 18,446,744,073,709,551,615) stored at
    *         the offset.
    */
-  public static BigInteger retrieveUnsignedLong( final byte[] buf, final int offset )
+  public static BigInteger retrieveBigInteger( final byte[] buf, final int offset )
   {
     final byte[] chunk = new byte[8];
     System.arraycopy( buf, offset, chunk, 0, 8 );
 
-    return new BigInteger( chunk );
+    return new BigInteger( 1, chunk );
+  }
+
+
+
+
+  /**
+   * Return an 8 byte array from a BigInteger value.
+   * 
+   * Only 8 bytes will be supported, enough for a U64 value of over 18 
+   * quintillion.
+   * 
+   * @param bint the big integer object to render
+   * 
+   * @return an 8 byte array representing the big integer.
+   */
+  public static byte[] renderBigInteger( final BigInteger bint )
+  {
+    final byte[] retval = new byte[8];
+    byte[] arry = bint.toByteArray();
+    if( arry.length > retval.length )
+      System.arraycopy( arry, arry.length - retval.length, retval, 0, retval.length );
+    else if( arry.length < retval.length )
+      System.arraycopy( arry, 0, retval, retval.length - arry.length, arry.length );
+    else
+      System.arraycopy( arry, 0, retval, 0, retval.length );
+
+    return retval;
   }
 
 
