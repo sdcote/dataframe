@@ -30,8 +30,8 @@ public class U16Type implements FieldType
   public boolean checkType( Object obj )
   {
     return ( 
-        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 && ( (Byte)obj ).byteValue() <= 255 ) || 
-        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 ) || 
+        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || 
+        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 ) || 
         ( obj instanceof java.lang.Integer && ( (Integer)obj ).intValue() >= 0 && ( (Integer)obj ).intValue() <= 65535 )
         );
   }
