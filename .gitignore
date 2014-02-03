@@ -5,6 +5,10 @@ bin/
 .gradle/
 
 
+# Other Projects #
+##################
+csharp/
+
 # Compiled Artifacts #
 ######################
 *.class
