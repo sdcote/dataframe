@@ -29,7 +29,7 @@ public class U8Type implements FieldType
   {
     return ( 
         ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || 
-        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 ) 
+        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 ) 
         );
   }
 
