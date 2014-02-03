@@ -20,7 +20,7 @@ public class NullType implements FieldType
 
   private static final byte[] NULLVALUE = new byte[0];
 
-  private final static String _name = "BYTE";
+  private final static String _name = "NUL";
 
 
 

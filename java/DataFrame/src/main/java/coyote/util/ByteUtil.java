@@ -1535,6 +1535,7 @@ public class ByteUtil
   {
     final byte[] retval = new byte[8];
     byte[] arry = bint.toByteArray();
+    
     if( arry.length > retval.length )
       System.arraycopy( arry, arry.length - retval.length, retval, 0, retval.length );
     else if( arry.length < retval.length )
