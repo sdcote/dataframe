@@ -15,6 +15,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import coyote.util.ByteUtil;
+
 
 /**
  * This class contains unit test for the ArrayType
@@ -44,7 +46,29 @@ public class ArrayTypeTest
   @Test
   public void testDecode()
   {
-    //fail( "Not yet implemented" );
+    byte[] data = new byte[12];
+    data[0] = 3; // type of string
+    data[1] = 0; // first byte of length
+    data[2] = 1; // second byte of length
+    data[3] = 65; // Latin-1 Capital 'A'
+    data[4] = 3;
+    data[5] = 0;
+    data[6] = 1;
+    data[7] = 66;
+    data[8] = 3;
+    data[9] = 0;
+    data[10] = 1;
+    data[11] = 67;
+
+    ArrayType subject = new ArrayType();
+    Object obj = subject.decode( data );
+    assertTrue( obj instanceof Object[] );
+    Object[] array = (Object[])obj;
+    assertTrue( array.length == 3 );
+    Object value1 = array[0];
+    Object value2 = array[1];
+    Object value3 = array[2];
+    assertTrue( value1 instanceof String );
   }
 
 
@@ -63,7 +87,6 @@ public class ArrayTypeTest
     ArrayType subject = new ArrayType();
     byte[] payload = subject.encode( array );
     assertTrue( payload.length == 12 );
-    System.out.println( coyote.util.ByteUtil.dump( payload ) );
   }
 
 
@@ -105,4 +128,68 @@ public class ArrayTypeTest
     assertTrue( subject.getSize() == -1 );
   }
 
+
+
+
+  @Test
+  public void roundTrip()
+  {
+    byte[] bytes = new byte[1];
+    bytes[0] = (byte)255;
+    System.out.println( ByteUtil.dump( bytes ) );
+
+    Object[] values = new Object[10];
+    values[0] = "test";
+    values[1] = (short)255; //U8 type5
+    values[2] = (short)-32768; //S16 type6
+    values[3] = 65535; //U16 type7
+    values[4] = -2147483648; //S32 type8
+    values[5] = 4294967296L; //U32 type9
+    values[6] = -9223372036854775808L; //S64 type10
+    values[7] = 9223372036854775807L; //U64 type11
+    values[8] = 123456.5F; //type12
+    values[9] = 123456.5D; //type13
+
+    ArrayType subject = new ArrayType();
+    byte[] payload = subject.encode( values );
+    assertTrue( payload.length == 61 );
+    System.out.println( coyote.util.ByteUtil.dump( payload ) );
+
+    Object obj = subject.decode( payload );
+    assertTrue( obj instanceof Object[] );
+    Object[] array = (Object[])obj;
+    assertTrue( array.length == 10 );
+    Object element = array[0];
+    //System.out.println( "Element 0 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[0] );
+    assertTrue( element instanceof String );
+    assertTrue( "test".equals( (String)element ) );
+    element = array[1];
+    //System.out.println( "Element 1 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[1] );
+    assertTrue( element instanceof Short );
+    assertTrue( 255 == ( (Short)element ).shortValue() );
+    element = array[2];
+    //System.out.println( "Element 2 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[2] );
+    assertTrue( element instanceof Short );
+    assertTrue( -32768 == ( (Short)element ).shortValue() );
+    element = array[3];
+    //System.out.println( "Element 3 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[3] );
+    assertTrue( element instanceof Integer );
+    assertTrue( 65535 == ( (Integer)element ).intValue() );
+    element = array[4];
+    //System.out.println( "Element 4 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[4] );
+    assertTrue( -2147483648 == ( (Integer)element ).intValue() );
+    element = array[5];
+    //System.out.println( "Element 5 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[5] );
+    assertTrue( element instanceof Long );
+    assertTrue( 4294967296L == ( (Long)element ).longValue() );
+    element = array[6];
+    //System.out.println( "Element 6 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[6] );
+    assertTrue( element instanceof Long );
+    assertTrue( -9223372036854775808L == ( (Long)element ).longValue() );
+    element = array[7];
+    //System.out.println( "Element 7 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[7] );
+    assertTrue( element instanceof Long );
+    assertTrue( 9223372036854775807L == ( (Long)element ).longValue() );
+
+  }
 }
