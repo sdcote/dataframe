@@ -47,31 +47,25 @@ public class S8TypeTest
   public void testCheckType()
   {
     short value = (short)127;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0x7F = 01111111
 
     value++;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0x00 = 00000000
 
     value--; // -1
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0xFF = 11111111
 
     value = -128;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0x80 = 10000000
 
     value--;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
   }

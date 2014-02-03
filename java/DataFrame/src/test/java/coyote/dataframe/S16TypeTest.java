@@ -52,31 +52,25 @@ public class S16TypeTest
   public void testCheckType()
   {
     short value = (short)32767;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0x7FFF = 01111111 11111111
 
     // This overflows in Java to -32768
     value++;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value--; // -1
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value = -32768;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
     //0x8000 = 10000000 00000000
 
     // This overflows in Java to 32767
     value--;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
   }

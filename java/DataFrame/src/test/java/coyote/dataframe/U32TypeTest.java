@@ -52,22 +52,18 @@ public class U32TypeTest
   {
     // Maximum size for this type
     long value = 4294967295L;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // Too big of an integer for this type
     value++;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
     // Minimum size for this type
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // No negative numbers
     value--; // -1
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
   }

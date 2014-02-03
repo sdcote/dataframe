@@ -53,30 +53,24 @@ public class S32TypeTest
   {
     //2147483647 = 0x7FFFFFFF = 01111111 11111111 11111111 11111111
     int value = 2147483647;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // This overflows in Java to -2147483648
     value++;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value--; // -1
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     //-2147483648 = 0x80000000 = 10000000 00000000 00000000 00000000
     value = -2147483648;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // This overflows in Java to 2147483647
     value--;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
   }

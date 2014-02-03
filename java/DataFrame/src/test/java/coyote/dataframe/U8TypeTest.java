@@ -46,21 +46,17 @@ public class U8TypeTest
   {
     short value = (short)255;
 
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value++;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
     // test for overflow
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // don't allow negatives
     value--;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
   }

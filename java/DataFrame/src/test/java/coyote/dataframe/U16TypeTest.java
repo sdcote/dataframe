@@ -54,22 +54,18 @@ public class U16TypeTest
   {
     // Maximum size for this type
     int value = 65535;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // Too big of an integer for this type
     value++;
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
     // Minimum size for this type
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // No negative numbers
     value--; // -1
-    datatype.checkType( value );
     assertFalse( datatype.checkType( value ) );
 
   }

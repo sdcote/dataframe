@@ -51,30 +51,24 @@ public class S64TypeTest
   {
     //9223372036854775807 = 0x7FFFFFFFFFFFFFFF = 01111111 11111111 11111111 11111111 11111111 11111111 11111111 11111111
     long value = 9223372036854775807L;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // This overflows in Java to -9223372036854775808
     value++;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value = 0;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     value--; // -1
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     //-9223372036854775808 = 0x8000000000000000 = 10000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
     value = -9223372036854775808L;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
     // This overflows in Java to 9223372036854775807
     value--;
-    datatype.checkType( value );
     assertTrue( datatype.checkType( value ) );
 
   }
