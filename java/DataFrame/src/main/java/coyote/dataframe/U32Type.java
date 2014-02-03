@@ -13,6 +13,7 @@ package coyote.dataframe;
 
 import coyote.util.ByteUtil;
 
+
 /** Type representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */
 public class U32Type implements FieldType
 {
@@ -25,7 +26,11 @@ public class U32Type implements FieldType
 
   public boolean checkType( Object obj )
   {
-    return obj instanceof Integer;
+    return ( 
+        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || 
+        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 ) || 
+        ( obj instanceof java.lang.Integer && ( (Integer)obj ).intValue() >= 0 ) || 
+        ( obj instanceof java.lang.Long && ( (Long)obj ).longValue() >= 0 && ( (Long)obj ).longValue() <= 4294967295L ) );
   }
 
 
@@ -41,7 +46,7 @@ public class U32Type implements FieldType
 
   public byte[] encode( Object obj )
   {
-    return ByteUtil.renderUnsignedInt( ( (Integer)obj ).intValue() );
+    return ByteUtil.renderUnsignedInt( ( (Long)obj ).longValue() );
   }
 
 
