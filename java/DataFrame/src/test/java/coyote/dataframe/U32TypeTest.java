@@ -108,7 +108,7 @@ public class U32TypeTest
   @Test
   public void testEncode()
   {
-    // 65535 =0xFFFFFFFF = 11111111 11111111 11111111 11111111
+    // 4294967295 =0xFFFFFFFF = 11111111 11111111 11111111 11111111
     long value = 4294967295L;
     byte[] data = datatype.encode( value );
     assertTrue( data.length == 4 );
@@ -126,20 +126,24 @@ public class U32TypeTest
     assertTrue( data[2] == 0 );
     assertTrue( data[3] == 0 );
 
-    //0 = 0x0000 = 00000000 00000000
+    //0 = 0x00000000 = 00000000 00000000 00000000 00000000
     value = 0;
     data = datatype.encode( value );
     assertTrue( data.length == 4 );
     assertTrue( data[0] == 0 );
     assertTrue( data[1] == 0 );
+    assertTrue( data[2] == 0 );
+    assertTrue( data[3] == 0 );
 
-    // underflow to 65535
-    //65535 = 0xFFFF = 11111111 11111111
+    // underflow to 4294967295
+    //4294967295 = 0xFFFFFFFF = 11111111 11111111 11111111 11111111
     value--;
     data = datatype.encode( value );
     assertTrue( data.length == 4 );
     assertTrue( data[0] == -1 );
     assertTrue( data[1] == -1 );
+    assertTrue( data[2] == -1 );
+    assertTrue( data[3] == -1 );
 
   }
 
