@@ -139,6 +139,8 @@ public class DataField implements Cloneable
   }
 
 
+
+
   /**
    * Create a DataField with a specified type and value.
    * 
@@ -147,11 +149,13 @@ public class DataField implements Cloneable
    * @param type the type code representing the type of data held.
    * @param value the encoded value of the field.
    */
-  protected DataField(short type, byte[] value)
+  protected DataField( short type, byte[] value )
   {
     this.type = type;
     this.value = value;
   }
+
+
 
 
   /**
@@ -626,7 +630,14 @@ public class DataField implements Cloneable
     final StringBuffer buf = new StringBuffer( "DataField:" );
     buf.append( " name='" + name + "'" );
     buf.append( " type=" + type );
-    buf.append( " value='" + value + "'" );
+    if( value.length > 40 )
+    {
+      byte[] sample = new byte[40];
+      System.arraycopy( value, 0, sample, 0, sample.length );
+      buf.append( " value=[" + ByteUtil.bytesToHex( sample ) + " ...]" );
+    }
+    else
+      buf.append( " value=[" + ByteUtil.bytesToHex( value ) + "]" );
 
     return buf.toString();
   }
