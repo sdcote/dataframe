@@ -15,8 +15,6 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import coyote.util.ByteUtil;
-
 
 /**
  * This class contains unit test for the ArrayType
@@ -136,7 +134,7 @@ public class ArrayTypeTest
   {
     byte[] bytes = new byte[1];
     bytes[0] = (byte)255;
-    System.out.println( ByteUtil.dump( bytes ) );
+    //System.out.println( ByteUtil.dump( bytes ) );
 
     Object[] values = new Object[10];
     values[0] = "test";
@@ -153,7 +151,7 @@ public class ArrayTypeTest
     ArrayType subject = new ArrayType();
     byte[] payload = subject.encode( values );
     assertTrue( payload.length == 61 );
-    System.out.println( coyote.util.ByteUtil.dump( payload ) );
+    //System.out.println( coyote.util.ByteUtil.dump( payload ) );
 
     Object obj = subject.decode( payload );
     assertTrue( obj instanceof Object[] );
@@ -190,6 +188,13 @@ public class ArrayTypeTest
     //System.out.println( "Element 7 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[7] );
     assertTrue( element instanceof Long );
     assertTrue( 9223372036854775807L == ( (Long)element ).longValue() );
-
+    element = array[8];
+    //System.out.println( "Element 8 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[8] );
+    assertTrue( element instanceof Float );
+    assertTrue( 123456.5F == ( (Float)element ).floatValue() );
+    element = array[9];
+    //System.out.println( "Element 9 is " + element.getClass() + " value=>" + element.toString() + " Original=>" + values[9] );
+    assertTrue( element instanceof Double );
+    assertTrue( 123456.5D == ( (Double)element ).doubleValue() );
   }
 }
