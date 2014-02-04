@@ -310,17 +310,40 @@ public class ByteUtil
 
   /**
    * Convert a byte array to a string of 2-character hexadecimal values, with
-   * leading zero if needed.
+   * leading zero if needed each separated with a single space.
    *
-   * @param barray
+   * @param barray The byte array to convert
    *
-   * @return
+   * @return the string representing the array in hex
    */
   public static String bytesToHex( final byte[] barray )
+  {
+    return bytesToHex( barray, " " );
+  }
+
+
+
+
+  /**
+   * Convert a byte array to a string of 2-character hexadecimal values, with
+   * leading zero if needed each separated with the given string delimiter.
+   * 
+   * @param barray The byte array to convert
+   * @param delim the string to place between each hex code
+   * 
+   * @return the string representing the array in hex with the given delimiter between each
+   */
+  public static String bytesToHex( final byte[] barray, String delim )
   {
     if( barray == null )
     {
       return null;
+    }
+
+    String delimiter = "";
+    if( delim != null )
+    {
+      delimiter = delim;
     }
 
     final StringBuffer result = new StringBuffer();
@@ -328,6 +351,7 @@ public class ByteUtil
     for( int i = 0; i < barray.length; i++ )
     {
       result.append( ByteUtil.show( barray[i], 4 ) );
+      if( i+1 < barray.length) result.append( delimiter );
     }
 
     return result.toString().toUpperCase();
@@ -1535,7 +1559,7 @@ public class ByteUtil
   {
     final byte[] retval = new byte[8];
     byte[] arry = bint.toByteArray();
-    
+
     if( arry.length > retval.length )
       System.arraycopy( arry, arry.length - retval.length, retval, 0, retval.length );
     else if( arry.length < retval.length )
