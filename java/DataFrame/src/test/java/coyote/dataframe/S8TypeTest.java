@@ -7,8 +7,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import coyote.util.ByteUtil;
-
 
 public class S8TypeTest
 {

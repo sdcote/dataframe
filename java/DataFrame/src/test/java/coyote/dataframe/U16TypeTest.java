@@ -7,8 +7,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import coyote.util.ByteUtil;
-
 
 /**
  * 16-bit value in the range of 0 to 65,535

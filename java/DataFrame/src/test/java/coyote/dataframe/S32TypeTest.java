@@ -6,8 +6,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import coyote.util.ByteUtil;
-
 
 /**
  * -2,147,483,648 to 2,147,483,647
