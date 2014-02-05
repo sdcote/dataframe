@@ -351,7 +351,8 @@ public class ByteUtil
     for( int i = 0; i < barray.length; i++ )
     {
       result.append( ByteUtil.show( barray[i], 4 ) );
-      if( i+1 < barray.length) result.append( delimiter );
+      if( i + 1 < barray.length )
+        result.append( delimiter );
     }
 
     return result.toString().toUpperCase();
@@ -1746,12 +1747,21 @@ public class ByteUtil
 
 
 
-  // TODO: implement
+  /**
+   * Render a UUID into a 16 byte array.
+   * 
+   * <p>This simply creates a 16 byte array, places the most significant bits 
+   * into the first 8 octets and the least significant bits in the last 8.</p>
+   *  
+   * @param value The UUID to encode.
+   * 
+   * @return the 16 bytes representing the UUID.
+   */
   public static byte[] renderUUID( final UUID value )
   {
     final byte[] retval = new byte[16];
     System.arraycopy( renderLong( value.getMostSignificantBits() ), 0, retval, 0, 8 );
-    System.arraycopy( renderLong( value.getLeastSignificantBits() ), 0, retval, 7, 8 );
+    System.arraycopy( renderLong( value.getLeastSignificantBits() ), 0, retval, 8, 8 );
     return retval;
   }
 

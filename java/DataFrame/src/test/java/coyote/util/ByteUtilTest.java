@@ -4,6 +4,7 @@
 package coyote.util;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Calendar;
@@ -341,11 +342,19 @@ public class ByteUtilTest
   @Test
   public void testRenderUUID()
   {
-
     UUID uuid = UUID.randomUUID();
     byte[] data = ByteUtil.renderUUID( uuid );
-    // System.out.println(ByteUtil.dump(data));
 
+    String text = uuid.toString();
+    text = text.replace( "-", "" );
+    assertNotNull( data );
+    assertTrue( data.length == 16 );
+
+    int x = 0;
+    for( int i = 0; i < text.length(); i += 2 )
+    {
+      assertTrue( ( data[x++] == (byte)Integer.parseInt( text.substring( i, i + 2 ), 16 ) ) );
+    }
   }
 
 }
