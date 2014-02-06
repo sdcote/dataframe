@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/sdcote/dataframe.png)](http://travis-ci.org/sdcote/dataframe)
+[![Build Status](https://travis-ci.org/sdcote/dataframe.png?branch=master)](https://travis-ci.org/sdcote/dataframe)
 DataFrame
 =========
 
