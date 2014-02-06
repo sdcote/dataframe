@@ -1,3 +1,4 @@
+[![Build Status](https://secure.travis-ci.org/sdcote/dataframe.png)](http://travis-ci.org/sdcote/dataframe)
 DataFrame
 =========
 
