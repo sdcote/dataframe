@@ -1,1 +1,0 @@
-This directory contains the Java projects related to the Data Frame library.
