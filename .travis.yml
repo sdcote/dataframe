@@ -1,8 +1,12 @@
 language: java
 jdk:
   - oraclejdk7
+  - oraclejdk6
   - openjdk7
   - openjdk6
 
 before_install:
   - chmod +x gradlew
+
+after_failure: 
+  - "cat build/reports/tests/index.html"
