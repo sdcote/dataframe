@@ -95,9 +95,9 @@ public class DataField implements Cloneable
     DataField.addType( 10, new S64Type() );
     /** (11) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
     DataField.addType( 11, new U64Type() );
-    /** (12) Type code representing a 32-bit floating point value in the range of ±1.4013e-45 to ±3.4028e+38. */
+    /** (12) Type code representing a 32-bit floating point value in the range of +/-1.4013e-45 to +/-3.4028e+38. */
     DataField.addType( 12, new FloatType() );
-    /** (13) Type code representing a 64-bit floating point value in the range of ±4.9406e-324 to ±1.7977e+308. */
+    /** (13) Type code representing a 64-bit floating point value in the range of +/-4.9406e-324 to +/-1.7977e+308. */
     DataField.addType( 13, new DoubleType() );
     /** (14) Type code representing a boolean value */
     DataField.addType( 14, new BooleanType() );

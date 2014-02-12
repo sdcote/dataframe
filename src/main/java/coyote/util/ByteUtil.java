@@ -1579,7 +1579,7 @@ public class ByteUtil
    *
    * <p>This encodes the float in network byte order.</p>
    *
-   * @param value float from ±1.4013e-45 to ±3.4028e+38 to render into the
+   * @param value float from +/-1.4013e-45 to +/-3.4028e+38 to render into the
    *        4-byte array
    *
    * @return a 4-byte array representing the float value
@@ -1598,7 +1598,7 @@ public class ByteUtil
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the number.
    *
-   * @return the signed floating point number (±1.4013e-45 to ±3.4028e+38)
+   * @return the signed floating point number (+/-1.4013e-45 to +/-3.4028e+38)
    *       stored at the offset.
    */
   public static float retrieveFloat( final byte[] buf, final int offset )
@@ -1614,9 +1614,9 @@ public class ByteUtil
    *
    * <p>This encodes the long in network byte order.</p>
    *
-   * @param value double precision value from ±4.9406e-324 to ±1.7977e+308 to render into the 8-byte array
+   * @param value double precision value from +/-4.9406e-324 to +/-1.7977e+308 to render into the 8-byte array
    *
-   * @param value double precision value from ±4.9406e-324 to ±1.7977e+308 to
+   * @param value double precision value from +/-4.9406e-324 to +/-1.7977e+308 to
    *        render into the 8-byte array
    * @return a 8-byte array representing the double precision value
    */
@@ -1634,7 +1634,7 @@ public class ByteUtil
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the number.
    *
-   * @return the signed floating point number (±4.9406e-324 to ±1.7977e+308)
+   * @return the signed floating point number (+/-4.9406e-324 to +/-1.7977e+308)
    *         stored at the offset.
    */
   public static double retrieveDouble( final byte[] buf, final int offset )

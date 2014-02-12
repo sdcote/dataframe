@@ -8,7 +8,7 @@ import org.junit.Test;
 
 
 /**
- * 32-bit floating point value in the range of ±1.4013e-45 to ±3.4028e+38.
+ * 32-bit floating point value in the range of +/-1.4013e-45 to +/-3.4028e+38.
  */
 public class DoubleTypeTest
 {
