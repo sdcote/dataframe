@@ -9,4 +9,4 @@ before_install:
   - chmod +x gradlew
 
 after_failure: 
-  - "cat build/reports/tests/index.html"
+  - "cat ./build/reports/tests/index.html"
