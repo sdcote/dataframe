@@ -10,7 +10,10 @@ import static org.junit.Assert.fail;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -26,6 +29,7 @@ public class DateTypeTest {
 	static DateType datatype = null;
 	static SimpleDateFormat dateFormat = null;
 	static byte[] datedata = new byte[8];
+	static Calendar cal = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -39,6 +43,16 @@ public class DateTypeTest {
 		datedata[5] = (byte) 97;
 		datedata[6] = (byte) 245;
 		datedata[7] = (byte) 248;
+		
+		cal = new GregorianCalendar();
+		cal.set( Calendar.YEAR, 1996 );
+		cal.set( Calendar.MONTH, 1 );
+		cal.set( Calendar.DAY_OF_MONTH, 1 );
+		cal.set( Calendar.HOUR_OF_DAY, 8 );
+		cal.set( Calendar.MINUTE, 15 );
+	    cal.set( Calendar.SECOND, 23 );
+	    cal.set( Calendar.MILLISECOND, 0 );
+		cal.set( Calendar.ZONE_OFFSET, TimeZone.getTimeZone("US/Eastern").getRawOffset());
 	}
 
 	@AfterClass
@@ -62,12 +76,7 @@ public class DateTypeTest {
 		Date date = (Date) obj;
 		System.out.println("Decoded as: " + date);
 		System.out.println("a long value of: " + date.getTime());
-		try {
-			Date test = dateFormat.parse("1996/02/01 08:15:23");
-			assertTrue(test.equals(date));
-		} catch (ParseException e) {
-			fail(e.getMessage());
-		}
+		assertTrue(cal.getTime().equals(date));
 		System.out.println("Test Completed Successfully =====================================================\r\n");
 	}
 
@@ -78,27 +87,22 @@ public class DateTypeTest {
 	@Test
 	public void testEncode() {
 		System.out.println("=================================================================================\r\n");
-		try {
-			String dateInString = "1996/02/01 08:15:23";
-			Date date = dateFormat.parse(dateInString);
-			System.out.println("Encoding date '" + dateInString
-					+ "' as long value: " + date.getTime());
-			System.out.println("Java date: " + date);
-			System.out.println("Expecting an encoding of:\r\n"
-					+ ByteUtil.dump(datedata));
-			byte[] data = datatype.encode(date);
-			assertNotNull(data);
-			System.out.println("Encoded as:\r\n" + ByteUtil.dump(data));
-			assertTrue("Dat should be 8 bytes in length, is actually "
-					+ data.length + " bytes", data.length == 8);
-			for (int i = 0; i < datedata.length; i++) {
-				assertTrue("element " + i + " should be " + datedata[i]
-						+ " but is '" + data[i] + "'", data[i] == datedata[i]);
-			}
-			System.out.println("Test Completed Successfully =====================================================\r\n");
-		} catch (ParseException e) {
-			fail(e.getMessage());
+
+		Date date = cal.getTime();
+		System.out.println("Encoding date '" + date.toString()
+				+ "' as long value: " + date.getTime());
+		System.out.println("Expecting an encoding of:\r\n"
+				+ ByteUtil.dump(datedata));
+		byte[] data = datatype.encode(date);
+		assertNotNull(data);
+		System.out.println("Encoded as:\r\n" + ByteUtil.dump(data));
+		assertTrue("Dat should be 8 bytes in length, is actually "
+				+ data.length + " bytes", data.length == 8);
+		for (int i = 0; i < datedata.length; i++) {
+			assertTrue("element " + i + " should be " + datedata[i]
+					+ " but is '" + data[i] + "'", data[i] == datedata[i]);
 		}
+		System.out.println("Test Completed Successfully =====================================================\r\n");
 	}
 
 	@Test

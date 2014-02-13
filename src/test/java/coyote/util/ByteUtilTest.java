@@ -10,6 +10,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 import java.util.UUID;
 
 import org.junit.After;
@@ -288,8 +289,7 @@ public class ByteUtilTest
     // Time: 1092234364465
     // +000:00--+001:01--+002:02--+003:03--+004:04--+005:05--+006:06--+007:07--+
     // |00000000|00000000|00000000|11111110|01001110|00111101|11000110|00110001|
-    // |000:00: |000:00: |000:00: |254:fe: |078:4e:N|061:3d:=|198:c6:
-    // |049:31:1|
+    // |000:00: |000:00: |000:00: |254:fe: |078:4e:N|061:3d:=|198:c6: |049:31:1|
     // +--------+--------+--------+--------+--------+--------+--------+--------+
 
     Calendar cal = new GregorianCalendar();
@@ -300,6 +300,7 @@ public class ByteUtilTest
     cal.set( Calendar.MINUTE, 26 );
     cal.set( Calendar.SECOND, 04 );
     cal.set( Calendar.MILLISECOND, 465 );
+	cal.set( Calendar.ZONE_OFFSET, TimeZone.getTimeZone("US/Eastern").getRawOffset());
 
     Date date = cal.getTime();
     byte[] data = ByteUtil.renderDate( date );
