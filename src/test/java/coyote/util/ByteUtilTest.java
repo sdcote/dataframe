@@ -304,7 +304,7 @@ public class ByteUtilTest
     Date date = cal.getTime();
     byte[] data = ByteUtil.renderDate( date );
 
-    // System.out.println(ByteUtil.dump(data));
+    System.out.println(ByteUtil.dump(data));
     assertTrue( "Byte0=" + data[0], data[0] == 0 );
     assertTrue( "Byte1=" + data[1], data[1] == 0 );
     assertTrue( "Byte2=" + data[2], data[2] == 0 );
