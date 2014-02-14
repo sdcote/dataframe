@@ -6,6 +6,7 @@ package coyote.util;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -289,6 +290,8 @@ public class ByteUtilTest
     // |00000000|00000000|00000000|11111110|01001110|00111101|11000110|00110001|
     // |000:00: |000:00: |000:00: |254:fe: |078:4e:N|061:3d:=|198:c6: |049:31:1|
     // +--------+--------+--------+--------+--------+--------+--------+--------+
+    final long TESTMILLIS = 1092234364465L;
+
     Calendar cal = new GregorianCalendar();
     cal.set( Calendar.YEAR, 2004 );
     cal.set( Calendar.MONTH, 7 );
@@ -302,14 +305,24 @@ public class ByteUtilTest
 
     byte[] data = ByteUtil.renderDate( date );
 
+    long longval = ByteUtil.retrieveLong( data, 0 );
+
     assertTrue( "Byte0=" + data[0], data[0] == 0 );
     assertTrue( "Byte1=" + data[1], data[1] == 0 );
     assertTrue( "Byte2=" + data[2], data[2] == 0 );
     assertTrue( "Byte3=" + data[3], data[3] == -2 ); // signed value
     assertTrue( "Byte4=" + data[4], data[4] == 78 );
-    assertTrue( "Byte5=" + data[5], data[5] == 61 );
-    assertTrue( "Byte6=" + data[6], data[6] == -58 ); // signed value
-    assertTrue( "Byte7=" + data[7], data[7] == 49 );
+
+    if( longval - TESTMILLIS == 0 )
+    {
+      assertTrue( "Byte5=" + data[5], data[5] == 61 );
+      assertTrue( "Byte6=" + data[6], data[6] == -58 ); // signed value
+      assertTrue( "Byte7=" + data[7], data[7] == 49 );
+    }
+    else if( longval - TESTMILLIS != 3600000 ) // Daylight saving time issue
+    {
+      fail( "Time discrepancy" );
+    }
   }
 
 
