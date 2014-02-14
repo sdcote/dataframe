@@ -283,15 +283,12 @@ public class ByteUtilTest
   @Test
   public void testRenderDate()
   {
-    // Our test data:
-
     // Wed Aug 11 10:26:04 EDT 2004
     // Time: 1092234364465
     // +000:00--+001:01--+002:02--+003:03--+004:04--+005:05--+006:06--+007:07--+
     // |00000000|00000000|00000000|11111110|01001110|00111101|11000110|00110001|
     // |000:00: |000:00: |000:00: |254:fe: |078:4e:N|061:3d:=|198:c6: |049:31:1|
     // +--------+--------+--------+--------+--------+--------+--------+--------+
-
     Calendar cal = new GregorianCalendar();
     cal.set( Calendar.YEAR, 2004 );
     cal.set( Calendar.MONTH, 7 );
@@ -300,27 +297,19 @@ public class ByteUtilTest
     cal.set( Calendar.MINUTE, 26 );
     cal.set( Calendar.SECOND, 04 );
     cal.set( Calendar.MILLISECOND, 465 );
-	cal.set( Calendar.ZONE_OFFSET, TimeZone.getTimeZone("US/Eastern").getRawOffset());
-
+    cal.set( Calendar.ZONE_OFFSET, TimeZone.getTimeZone( "US/Eastern" ).getRawOffset() );
     Date date = cal.getTime();
-    System.out.println( date );// locally formatted date
-    System.out.println( date.getTime() ); // GMT Epoch time
-    System.out.println( ByteUtil.dump( ByteUtil.renderLong( date.getTime() ) ) );
-    System.out.println( "This host's TimeZone is "+ TimeZone.getDefault().getID() );
-    System.out.println();
-    
-    
+
     byte[] data = ByteUtil.renderDate( date );
 
-    System.out.println(ByteUtil.dump(data));
     assertTrue( "Byte0=" + data[0], data[0] == 0 );
     assertTrue( "Byte1=" + data[1], data[1] == 0 );
     assertTrue( "Byte2=" + data[2], data[2] == 0 );
     assertTrue( "Byte3=" + data[3], data[3] == -2 ); // signed value
     assertTrue( "Byte4=" + data[4], data[4] == 78 );
-    //assertTrue( "Byte5=" + data[5], data[5] == 61 );
-    //assertTrue( "Byte6=" + data[6], data[6] == -58 ); // signed value
-    //assertTrue( "Byte7=" + data[7], data[7] == 49 );
+    assertTrue( "Byte5=" + data[5], data[5] == 61 );
+    assertTrue( "Byte6=" + data[6], data[6] == -58 ); // signed value
+    assertTrue( "Byte7=" + data[7], data[7] == 49 );
   }
 
 
