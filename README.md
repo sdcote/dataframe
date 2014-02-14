@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/sdcote/dataframe.png?branch=master)](https://travis-ci.org/sdcote/dataframe)
+[![Build Status](https://drone.io/github.com/sdcote/dataframe/status.png)](https://drone.io/github.com/sdcote/dataframe/latest)
+
 DataFrame
 =========
 
