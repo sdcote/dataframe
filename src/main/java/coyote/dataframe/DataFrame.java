@@ -49,10 +49,10 @@ public class DataFrame implements Cloneable
   
 
   /** The array of fields this frame holds */
-  ArrayList<DataField> fields = new ArrayList<DataField>();
+  protected ArrayList<DataField> fields = new ArrayList<DataField>();
 
   /** Flag indicating the top-level elements of this frame has been changed. */
-  private volatile boolean modified = false;
+  protected volatile boolean modified = false;
 
 
 
