@@ -1,10 +1,27 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.3'
+    }
+}
+
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'bintray'
+
 
 defaultTasks 'clean', 'build', 'jacocoTestReport'
 
-version = '0.1'
+
+group = 'coyote'
+version = '0.0.1'
+bintray_package = 'DataFrame'
+
 
 jar {
     manifest {
@@ -12,22 +29,67 @@ jar {
     }
 }
 
-repositories {
-    mavenCentral()
-    ivy {
-        // Development of code goes in a local Ivy repository on disk
-        url "../local-repo"
-    }
+
+// custom tasks for creating source/javadoc jars
+task sourcesJar(type: Jar, dependsOn: classes) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
 }
+
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from javadoc.destinationDir
+}
+
+
+// add javadoc/source jar tasks as artifacts
+artifacts {
+	archives sourcesJar, javadocJar
+}
+
+
+repositories {
+    jcenter()
+}
+
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
 
-uploadArchives {
-    repositories {
-		ivy {
-			url "../local-repo"
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			if (plugins.hasPlugin('war')) {
+				from components.web
+			} else {
+				from components.java
+			}
+
+			artifact sourcesJar {
+				classifier "sources"
+			}
+
+			artifact javadocJar {
+				classifier "javadoc"
+			}
 		}
 	}
 }
+
+
+bintray {
+	user = bintrayUser //this usually comes form gradle.properties file in ~/.gradle
+	key = bintrayKey //this usually comes form gradle.properties file in ~/.gradle
+	publications = ['mavenJava'] // see publications closure
+	pkg { //package will be created if does not exist
+		repo = 'maven'
+		name = 'dataframe'
+		desc = 'A toolkit for Data Transfer Object (DTO) / Value Object (VO) design pattern implementations'
+		licenses = ['MIT']
+		labels = ['Java', 'DTO', 'VO']
+	}
+}
+ 

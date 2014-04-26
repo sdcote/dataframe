@@ -39,3 +39,4 @@ csharp/
 *.war
 *.ear
 !gradle/wrapper/gradle-wrapper.jar
+/.nb-gradle/profiles/private/
