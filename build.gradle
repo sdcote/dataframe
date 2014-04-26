@@ -20,8 +20,10 @@ defaultTasks 'clean', 'build', 'jacocoTestReport'
 
 group = 'coyote'
 version = '0.0.1'
-bintray_package = 'DataFrame'
 
+ext {
+	bintray_package = 'DataFrame'
+}
 
 jar {
     manifest {
