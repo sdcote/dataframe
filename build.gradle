@@ -84,8 +84,8 @@ publishing {
 
 
 bintray {
-	user = bintrayUser //this usually comes from gradle.properties file in ~/.gradle
-	key = bintrayKey //this usually comes from gradle.properties file in ~/.gradle
+	user = bintrayUser
+	key = bintrayKey
 	publications = ['mavenJava']
 	pkg {
 		repo = 'maven'
