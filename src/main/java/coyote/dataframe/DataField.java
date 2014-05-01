@@ -159,9 +159,9 @@ public class DataField implements Cloneable
 
 
   /**
-   * Constructor DataField
+   * Create a DataField for the specific object.
    *
-   * @param obj
+   * @param obj THe object to use as the value of the field
    */
   public DataField( final Object obj )
   {
@@ -245,11 +245,11 @@ public class DataField implements Cloneable
 
 
   /**
-   * Constructor DataField
+   * Construct the data field from data read in from the given input stream.
    *
-   * @param dis
+   * @param dis The input stream from which the data field will be read
    *
-   * @throws IOException
+   * @throws IOException if there was a problem reading the stream.
    */
   public DataField( final DataInputStream dis ) throws IOException
   {
@@ -543,11 +543,11 @@ public class DataField implements Cloneable
 
 
   /**
-   * Method getTypeName
+   * Get the name of the type for the given code
    *
-   * @param code
+   * @param code THe code representing the data field type
    *
-   * @return
+   * @return The name of the type represented by the code
    */
   private static String getTypeName( final short code )
   {
@@ -597,9 +597,9 @@ public class DataField implements Cloneable
 
 
   /**
-   * Method getTypeName
+   * Return the name of the data type this field contains/
    *
-   * @return
+   * @return The name of the data type for this instance
    */
   public String getTypeName()
   {
@@ -621,10 +621,11 @@ public class DataField implements Cloneable
 
 
   /**
-   * Method toString
+   * Human readable format of the data field.
    *
-   * @return
+   * @return a string representation of the data field instance
    */
+  @Override
   public String toString()
   {
     final StringBuffer buf = new StringBuffer( "DataField:" );
@@ -649,4 +650,5 @@ public class DataField implements Cloneable
   {
     return _types.size();
   }
+  
 }

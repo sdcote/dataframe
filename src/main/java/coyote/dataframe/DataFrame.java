@@ -285,7 +285,7 @@ public class DataFrame implements Cloneable
    * <p>The sequence, source and digest are NOT cloned, as they are generated 
    * as a part of the transmission process.</p>
    *
-   * @return
+   * @return a clone of this DataFrame
    */
   public Object clone()
   {
@@ -320,7 +320,7 @@ public class DataFrame implements Cloneable
 
 
   /**
-   * Add a new field with the given value.
+   * Add a new field with the given value without a name.
    * 
    * <p><strong>NOTICE:</strong> Because values are added as byte arrays and
    * not references, only complete frames can be added. This is because child 
@@ -332,21 +332,20 @@ public class DataFrame implements Cloneable
    * the number of times field values are marshaled, thereby improving overall
    * performance.</p>  
    *
-   * @param name The name of the field to populate.
-   * @param value The value to place in the named field
+   * @param value The value to place in the un-named field
    *
    * @return the index of the field just added.
    */
-  public int add( final Object obj )
+  public int add( final Object value )
   {
     modified = true;
-    if( obj instanceof DataField )
+    if( value instanceof DataField )
     {
-      fields.add( (DataField)obj );
+      fields.add( (DataField)value );
     }
     else
     {
-      fields.add( new DataField( obj ) );
+      fields.add( new DataField( value ) );
     }
 
     return fields.size() - 1;
@@ -590,7 +589,7 @@ public class DataFrame implements Cloneable
    * <p><strong>NOTE:</strong> This is a very expensive function and should not 
    * be used without due consideration.</p>
    *
-   * @see getDigest()
+   * @see #getDigest()
    * 
    * @return A String representation of the digest of the payload.
    */
