@@ -17,7 +17,7 @@ public class MapFrame {
    * 
    * @param source
    * 
-   * @return
+   * @return A dataframe version of the given Map.
    */
   public DataFrame marshal( Map<?, ?> source ) {
     DataFrame retval = new DataFrame();

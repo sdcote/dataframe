@@ -21,8 +21,6 @@ import coyote.dataframe.DataFrame;
 
 /**
  * This class marshals between Java properties and DataFrames.
- * 
- * @author Steve Cote
  */
 public class PropertyFrame {
 

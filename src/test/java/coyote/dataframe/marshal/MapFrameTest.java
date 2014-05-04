@@ -26,7 +26,7 @@ public class MapFrameTest {
    * Test method for {@link coyote.dataframe.marshal.MapFrame#marshal(java.util.Map)}.
    */
   @Test
-  @SuppressWarnings({ "rawtypes" })
+  @SuppressWarnings({ "rawtypes", "unchecked" })
   public void testMarshalMap() {
     HashMap data = new HashMap();
     data.put( "One", "One" );

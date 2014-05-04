@@ -153,13 +153,14 @@ public class FrameFormatter {
 
 
   /**
+   * Recursive call into generating XML from a given dataframe.
    * 
-   * @param frame
-   * @param name
+   * @param frame The frame to represent as XML
+   * @param name The name of the current XML node
    * @param indent -1 means no indentation or padding
    * @param increment number of columns to increment each indentation. 
    * 
-   * @return
+   * @return XML string representing the given dataframe
    */
   private static String toIndentedXML( final DataFrame frame, String name, final int indent, int increment ) {
 
