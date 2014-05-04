@@ -164,7 +164,7 @@ public class FrameFormatter {
   private static String toIndentedXML( final DataFrame frame, String name, final int indent, int increment ) {
 
     String padding = new String( "" ); // padding(indent) for our markup
-    String fieldpadding = new String( "" ); // padding(indent) for our fields
+    String fieldpadding = new String( "" ); // padding for our fields
     int nextindent = -1; // what the next, recursive indent value should be
 
     // if we are indenting
@@ -173,6 +173,7 @@ public class FrameFormatter {
       final char[] pad = new char[indent];
       for( int i = 0; i < indent; pad[i++] = ' ' ) {}
       padding = new String( pad );
+      // determine our next indent
       nextindent = indent + increment;
     }
 
@@ -228,7 +229,7 @@ public class FrameFormatter {
           xml.append( "</" );
           xml.append( fname );
           xml.append( ">" );
-        } // frame or scalar/frame
+        }
 
         // if this is not a flat XML, move to the next line
         if( indent > -1 ) {
@@ -236,7 +237,6 @@ public class FrameFormatter {
         }
 
       } // for each field
-      // / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
       xml.append( padding );
       xml.append( "</" );
@@ -256,7 +256,14 @@ public class FrameFormatter {
 
 
 
-  //should only use for the content of an attribute or tag      
+  /**
+   * This is a quick & dirty method to escape some common characters. Should 
+   * only use for the content of an attribute or tag.
+   *       
+   * @param content The string to transform
+   * 
+   * @return the new string with XML safe content.
+   */
   private static String toEscaped( String content ) {
     String result = content;
 
