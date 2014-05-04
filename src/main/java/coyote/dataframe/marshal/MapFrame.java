@@ -9,6 +9,10 @@ import coyote.dataframe.DataFrame;
 public class MapFrame {
 
   /**
+   * Create a DataFrame from the given map.
+   * 
+   * <p>If a map contains other maps, then the DataFrame will contain other 
+   * DataFrames.</p>
    * 
    * @param source
    * 
@@ -52,4 +56,7 @@ public class MapFrame {
   {
     return new HashMap();
   }
+  
+  
+  
 }
