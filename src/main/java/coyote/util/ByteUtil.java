@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2006 Stephan D. Cote' - All rights reserved.
  * 
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
@@ -111,9 +110,9 @@ public class ByteUtil
   /**
    * Return a byte[] (2 byte value) as an unsigned short
    *
-   * @param value
+   * @param value value to convert
    *
-   * @return
+   * @return 3 bytes representing and unsigned short
    */
   public static byte[] renderUnsignedShort( final int value )
   {
@@ -201,10 +200,10 @@ public class ByteUtil
   /**
    * Find the first occurrence of a specified byte.
    *
-   * @param c
-   * @param buf
+   * @param c the byte to look for
+   * @param buf the buffer to search
    * @param offset from which to start
-   * @param len
+   * @param len the limit of the search
    * @return offset of first occurrence or -1 if not found.
    */
   public static int findNextByte( final byte c, final byte[] buf, final int offset, final int len )
@@ -235,11 +234,11 @@ public class ByteUtil
   /**
    * Find the first occurrence of a specified byte.
    *
-   * @param c1
-   * @param c2
-   * @param buf
+   * @param c1 first of the two bytes for which to search
+   * @param c2 second of the two bytes for which to search
+   * @param buf the buffer in which to search
    * @param offset from which to start
-   * @param len
+   * @param len the limit of the search
    * @return offset of first occurrence or -1 if not found.
    */
   public static int findNextTwoBytes( final byte c1, final byte c2, final byte[] buf, final int offset, final int len )
@@ -273,9 +272,9 @@ public class ByteUtil
    * <p>Sorta misnamed as this method will return the character representation
    * of the given byte in the current / default encoding for the locale.</p>
    *
-   * @param b
+   * @param b the byte to convert
    *
-   * @return
+   * @return the ASCII character representation of the byte
    */
   public static char byteToASCII( final byte b )
   {
@@ -296,9 +295,9 @@ public class ByteUtil
    * Convert a byte to a 2-character string representing its hexadecimal value,
    * with leading zero if needed.
    *
-   * @param b
+   * @param b the byte to convert
    *
-   * @return
+   * @return hex representation of the byte
    */
   public static String byteToHex( final byte b )
   {
@@ -374,10 +373,10 @@ public class ByteUtil
    * </pre>
    * Leading digits are included.</p>
    *
-   * @param i
-   * @param num_bits
+   * @param i the number to show
+   * @param num_bits number of bits to consider
    *
-   * @return
+   * @return string representation of the number represented by the bits
    */
   public static String show( long i, final int num_bits )
   {
@@ -418,10 +417,10 @@ public class ByteUtil
    * </pre>
    * Leading digits are included.</p>
    *
-   * @param i
-   * @param num_bits
+   * @param i the number to show
+   * @param num_bits number of bits to consider
    *
-   * @return
+   * @return string representation of the number represented by the bits
    */
   public static String show( int i, final int num_bits )
   {
@@ -462,10 +461,10 @@ public class ByteUtil
    * </pre>
    * Leading digits are included.</p>
    *
-   * @param i
-   * @param num_bits
+   * @param i the number to show
+   * @param num_bits number of bits to consider
    *
-   * @return
+   * @return string representation of the number represented by the bits
    */
   public static String show( short i, final int num_bits )
   {
@@ -506,10 +505,10 @@ public class ByteUtil
    * </pre>
    * Leading digits are included.</p>
    *
-   * @param i
-   * @param num_bits
+   * @param i the number to show
+   * @param num_bits number of bits to consider
    *
-   * @return
+   * @return string representation of the number represented by the bits
    */
   public static String show( byte i, final int num_bits )
   {
@@ -539,9 +538,9 @@ public class ByteUtil
   /**
    * Return this byte as a binary string.
    *
-   * @param octet
+   * @param octet the byte value to represent
    *
-   * @return
+   * @return string representation of the octet 
    */
   public static String show( final byte octet )
   {
@@ -566,7 +565,7 @@ public class ByteUtil
    * 
    * @param data the number to format.
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final long data )
   {
@@ -594,7 +593,7 @@ public class ByteUtil
    * 
    * @param data the number to format.
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final int data )
   {
@@ -622,7 +621,7 @@ public class ByteUtil
    * 
    * @param data the byte array to format.
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final short data )
   {
@@ -652,7 +651,7 @@ public class ByteUtil
    * 
    * @param data the byte array to format.
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final byte data )
   {
@@ -682,7 +681,7 @@ public class ByteUtil
    * 
    * @param data the byte array to format.
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final byte[] data )
   {
@@ -715,7 +714,7 @@ public class ByteUtil
    * @param data the byte array to format.
    * @param size
    *
-   * @return
+   * @return formatted dump of the data
    */
   public static String dump( final byte[] data, int size )
   {
@@ -793,7 +792,7 @@ public class ByteUtil
    *
    * @param val
    *
-   * @return
+   * @return array of byte representing little-endian encoding of the value
    */
   public final static byte[] intToLittleEndian( int val )
   {
@@ -816,7 +815,7 @@ public class ByteUtil
    *
    * @param val
    *
-   * @return
+   * @return array of byte representing little-endian encoding of the value
    */
   public final static byte[] shortToLittleEndian( short val )
   {
@@ -838,9 +837,9 @@ public class ByteUtil
    * Converts a little-endian four-byte array to a long, represented as a
    * double, since long is signed.
    *
-   * @param b
+   * @param b the byte to encode
    *
-   * @return
+   * @return array of byte representing little-endian encoding of the value
    */
   public final static double vax_to_long( final byte[] b )
   {
@@ -854,9 +853,9 @@ public class ByteUtil
    * Converts a little-endian four-byte array to a short, represented as an int,
    * since short is signed.
    *
-   * @param b
+   * @param b the array of bytes to encode
    *
-   * @return
+   * @return array of byte representing little-endian encoding of the value
    */
   public final static int vax_to_short( final byte[] b )
   {
@@ -869,9 +868,9 @@ public class ByteUtil
   /**
    * bytes are signed; let's fix them...
    *
-   * @param b
+   * @param b the byte to convert
    *
-   * @return
+   * @return the byte encoded as an unsigned value
    */
   public final static short fixByte( final byte b )
   {
@@ -887,11 +886,11 @@ public class ByteUtil
 
 
   /**
-   * Method toBase64
+   * Convert the data into base64 encoding.
    *
-   * @param data
+   * @param data the data to encode
    *
-   * @return
+   * @return string representing base64 encoding of the data
    */
   public static String toBase64( final byte[] data )
   {
@@ -935,11 +934,11 @@ public class ByteUtil
 
 
   /**
-   * Method getBase64Length
+   * Return the length of the data expected from the given base64 encoded string.
    *
-   * @param string
+   * @param string base64 encoded data
    *
-   * @return
+   * @return the number of data bytes expected from the given string. 
    */
   public static int getBase64Length( final String string )
   {
@@ -957,11 +956,11 @@ public class ByteUtil
 
 
   /**
-   * Method fromBase64
+   * Decode the data from the given base64 encoded string
    *
-   * @param text
+   * @param text The string to decode
    *
-   * @return
+   * @return the data represented by the encoded text.
    */
   public static byte[] fromBase64( final String text )
   {
@@ -1018,11 +1017,11 @@ public class ByteUtil
 
 
   /**
-   * Method toBase64
+   * convert the byte to base64 encoding
    *
-   * @param octet
+   * @param octet the octet to encode
    *
-   * @return
+   * @return the base64 encoded representation of the given byte
    */
   public static byte toBase64( final byte octet )
   {
@@ -1053,11 +1052,11 @@ public class ByteUtil
 
 
   /**
-   * Method fromBase64
+   * Decode the base64 encoded byte
    *
-   * @param octet
+   * @param octet the octet to decode
    *
-   * @return
+   * @return the decoded byte
    */
   public static byte fromBase64( final byte octet )
   {
@@ -1090,7 +1089,8 @@ public class ByteUtil
   /**
    * Swap bytes
    *
-   * @param s
+   * @param s the short value to swap
+   * 
    * @return The byte swapped version of <code>s</code>.
    */
   public static short swapBytes( final short s )
@@ -1104,7 +1104,8 @@ public class ByteUtil
   /**
    * Swap bytes
    *
-   * @param i
+   * @param i the integer value to swap
+   * 
    * @return The byte swapped version of <code>i</code>.
    */
   public static int swapBytes( final int i )
@@ -1122,7 +1123,7 @@ public class ByteUtil
    * @param start starting byte
    * @param length length of the array to return
    *
-   * @return
+   * @return the portion of the byte array specified.
    */
   public static byte[] subArray( final byte[] source, final int start, final int length )
   {
@@ -1285,11 +1286,11 @@ public class ByteUtil
 
 
   /**
-   * Method hexToBytes
+   * Convert the hex representation to bytes of data
    *
-   * @param hex
+   * @param hex the hex-encoded string to convert
    *
-   * @return
+   * @return the byte array represented by the hex encoded string.
    */
   public static byte[] hexToBytes( final String hex )
   {
@@ -1613,8 +1614,6 @@ public class ByteUtil
    * Return an 8-byte array from a double precision value.
    *
    * <p>This encodes the long in network byte order.</p>
-   *
-   * @param value double precision value from +/-4.9406e-324 to +/-1.7977e+308 to render into the 8-byte array
    *
    * @param value double precision value from +/-4.9406e-324 to +/-1.7977e+308 to
    *        render into the 8-byte array
