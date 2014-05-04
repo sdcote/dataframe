@@ -1,46 +1,84 @@
 package coyote.util;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
 
 
-public class FrameFormatter
-{
+public class FrameFormatter {
+
   /** Platform specific line separator (default = CRLF) */
   private static final String LINE_FEED = System.getProperty( "line.separator", "\r\n" );
 
-  /*  */
+  /** Name of a frame used in XML if it has no field name, also used as the root */
   private static final String NODENAME = "frame";
 
+  /** Prefix of a field name when no name if found */
+  private static final String FIELDNAME = "field";
+
+  // These dictate how characters are escaped into XML @see toEscaped(String)
+  private final static String ESCAPE_CHARS = "<>&\"\'";
+  private final static List<String> ESCAPE_STRINGS = Collections.unmodifiableList( Arrays.asList( new String[] { "&lt;", "&gt;", "&amp;", "&quot;", "&apos;" } ) );
+  private static String UNICODE_LOW = "" + ( (char)0x20 ); //space
+  private static String UNICODE_HIGH = "" + ( (char)0x7f );
 
 
 
-  public static String toXML( DataFrame frame )
-  {
-    return toXML( frame, NODENAME );
+
+  /**
+   * Return an XML string representing the given data frame.
+   * 
+   * @param frame The frame to represent in XML
+   * 
+   * @return and XML string
+   */
+  public static String toXML( DataFrame frame ) {
+    return toIndentedXML( frame, NODENAME, -1, -1 );
   }
 
 
 
 
-  public static String toIndentedXML( DataFrame frame )
-  {
-    return toIndentedXML( frame, 2 );
+  /**
+   * Return a multi-line XML string representing the given data frame.
+   * 
+   * @param frame The frame to represent in XML
+   * 
+   * @return and XML string
+   */
+  public static String toIndentedXML( DataFrame frame ) {
+    return toIndentedXML( frame, NODENAME, 0, 2 );
   }
 
 
 
 
-  public static String prettyPrint( DataFrame frame )
-  {
+  /**
+   * Display the given frame in human readable, multi-line text with an 
+   * indentation of 2 characters.
+   * 
+   * @param frame The frame to format
+   * 
+   * @return an easy to read test representation of the given frame.
+   */
+  public static String prettyPrint( DataFrame frame ) {
     return prettyPrint( frame, 2 );
   }
 
 
 
 
-  public static String dump( DataFrame frame )
-  {
+  /**
+   * format the frame in a readable format of the wire format of the frame.
+   * 
+   * @param frame The frame to dump.
+   * 
+   * @return a string representing the binary dump of the frame.
+   */
+  public static String dump( DataFrame frame ) {
     final int length = frame.getBytes().length;
     final StringBuffer buffer = new StringBuffer();
     buffer.append( "DataFrame of " );
@@ -55,34 +93,33 @@ public class FrameFormatter
 
 
 
-  private static String prettyPrint( final DataFrame frame, final int indent )
-  {
+  /**
+   * Display the given frame in human readable, multi-line text a given indentation.
+   * 
+   * @param frame The frame to format
+   * @param the number of columns to indent each successive level
+   * 
+   * @return an easy to read test representation of the given frame.
+   */
+  private static String prettyPrint( final DataFrame frame, final int indent ) {
     String padding = null;
     int nextindent = -1;
 
-    if( indent > -1 )
-    {
+    if( indent > -1 ) {
       final char[] pad = new char[indent];
-      for( int i = 0; i < indent; pad[i++] = ' ' )
-      {
-        ;
-      }
+      for( int i = 0; i < indent; pad[i++] = ' ' ) {}
 
       padding = new String( pad );
       nextindent = indent + 2;
-    }
-    else
-    {
+    } else {
       padding = new String( "" );
     }
 
     final StringBuffer buffer = new StringBuffer();
 
-    for( int x = 0; x < frame.getFieldCount(); x++ )
-    {
+    for( int x = 0; x < frame.getFieldCount(); x++ ) {
       final DataField field = frame.getField( x );
-      if( indent > -1 )
-      {
+      if( indent > -1 ) {
         buffer.append( padding );
       }
       buffer.append( x );
@@ -96,18 +133,14 @@ public class FrameFormatter
       buffer.append( field.getType() );
       buffer.append( ") " );
 
-      if( field.getType() == DataField.FRAMETYPE )
-      {
+      if( field.getType() == DataField.FRAMETYPE ) {
         buffer.append( LINE_FEED );
         buffer.append( prettyPrint( (DataFrame)field.getObjectValue(), nextindent ) );
-      }
-      else
-      {
+      } else {
         buffer.append( field.getObjectValue().toString() );
       }
 
-      if( x + 1 < frame.getFieldCount() )
-      {
+      if( x + 1 < frame.getFieldCount() ) {
         buffer.append( LINE_FEED );
       }
 
@@ -120,172 +153,137 @@ public class FrameFormatter
 
 
   /**
-   * This dumps the packet in a form of XML adding a name attribute to the
-   * packet for additional identification.
    * 
-   * <p>
-   * This method is called to represent an embedded or child packet with the
-   * name of the PacketField being used as the name of the XML node.
-   * </p>
+   * @param frame
+   * @param name
+   * @param indent -1 means no indentation or padding
+   * @param increment number of columns to increment each indentation. 
    * 
-   * @return an XML representation of the packet.
+   * @return
    */
-  private static String toXML( final DataFrame packet, final String name )
-  {
-    final StringBuffer buffer = new StringBuffer();
-    buffer.append( "<" );
-    buffer.append( NODENAME );
-    if( name != null )
-    {
-      buffer.append( " name='" );
-      buffer.append( name );
-      buffer.append( "'" );
+  private static String toIndentedXML( final DataFrame frame, String name, final int indent, int increment ) {
+
+    String padding = new String( "" ); // padding(indent) for our markup
+    String fieldpadding = new String( "" ); // padding(indent) for our fields
+    int nextindent = -1; // what the next, recursive indent value should be
+
+    // if we are indenting
+    if( indent > -1 ) {
+      // Generate our padding
+      final char[] pad = new char[indent];
+      for( int i = 0; i < indent; pad[i++] = ' ' ) {}
+      padding = new String( pad );
+      nextindent = indent + increment;
     }
 
-    if( packet.getFieldCount() > 0 )
-    {
-      buffer.append( ">" );
-      for( int i = 0; i < packet.getFieldCount(); i++ )
-      {
-        final DataField field = packet.getField( i );
+    final StringBuffer xml = new StringBuffer();
+    xml.append( padding );
+    xml.append( "<" );
 
-        if( field.getType() == DataField.FRAMETYPE )
-        {
-          buffer.append( toXML( (DataFrame)field.getObjectValue(), field.getName() ) );
-        }
-        else
-        {
-          String fname = field.getName();
-
-          if( fname == null )
-          {
-            fname = "field" + i;
-          }
-
-          buffer.append( "<Field " );
-
-          if( field.getName() != null )
-          {
-            buffer.append( "name='" );
-            buffer.append( field.getName() );
-            buffer.append( "' " );
-          }
-          buffer.append( "type='" );
-          buffer.append( field.getTypeName() );
-          buffer.append( "'>" );
-          buffer.append( field.getObjectValue().toString() );
-          buffer.append( "</Field>" );
-        }
-      } // foreach field
-
-      buffer.append( "</" );
-      buffer.append( NODENAME );
-      buffer.append( ">" );
-    }
+    // Name the XML node
+    if( name == null || name.trim().length() == 0 )
+      xml.append( NODENAME );
     else
-    {
-      buffer.append( "/>" );
+      xml.append( name );
+
+    // If we have fields, close the opening XML tag
+    if( ( frame.getFieldCount() > 0 ) ) {
+      xml.append( ">" );
+
+      // if this is not a flat XML, move to the next line
+      if( indent > -1 ) {
+        xml.append( LINE_FEED );
+      }
+
+      // Generate our field padding
+      if( indent > -1 ) {
+        final char[] pad = new char[increment];
+        for( int i = 0; i < increment; pad[i++] = ' ' ) {}
+        fieldpadding = new String( pad );
+      }
+
+      // get each field in this frame
+      for( int x = 0; x < frame.getFieldCount(); x++ ) {
+        final DataField field = frame.getField( x );
+
+        String fname = field.getName();
+
+        if( field.isFrame() ) {
+          xml.append( toIndentedXML( (DataFrame)field.getObjectValue(), fname, nextindent, increment ) );
+        } else {
+          xml.append( padding );
+          xml.append( fieldpadding ); // indent the field
+
+          // Add the field
+          xml.append( "<" );
+          if( fname == null ) {
+            fname = "field" + x;
+          } else {
+            xml.append( fname );
+          }
+          xml.append( " type='" );
+          xml.append( field.getTypeName() );
+          xml.append( "'>" );
+          xml.append( toEscaped( field.getObjectValue().toString() ) );
+          xml.append( "</" );
+          xml.append( fname );
+          xml.append( ">" );
+        } // frame or scalar/frame
+
+        // if this is not a flat XML, move to the next line
+        if( indent > -1 ) {
+          xml.append( LINE_FEED );
+        }
+
+      } // for each field
+      // / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
+
+      xml.append( padding );
+      xml.append( "</" );
+      if( name == null || name.trim().length() == 0 ) {
+        xml.append( NODENAME );
+      } else {
+        xml.append( name );
+      }
+      xml.append( ">" );
+    } else {
+      xml.append( "/>" );
     }
 
-    return buffer.toString();
+    return xml.toString();
   }
 
 
 
 
-  private static String toIndentedXML( final DataFrame frame, final int indent )
-  {
-    String padding = null;
-    String nextPadding = null;
+  //should only use for the content of an attribute or tag      
+  private static String toEscaped( String content ) {
+    String result = content;
 
-    int nextindent = -1;
-
-    if( indent > -1 )
-    {
-      final char[] pad = new char[indent];
-      for( int i = 0; i < indent; pad[i++] = ' ' )
-        ;
-
-      padding = new String( pad );
-      nextindent = indent + 2;
-    }
-    else
-    {
-      padding = new String( "" );
-    }
-
-    final StringBuffer xml = new StringBuffer( padding + "<" );
-
-    xml.append( NODENAME );
-
-    if( ( frame.getFieldCount() > 0 ) )
-    {
-
-      xml.append( ">" );
-
-      if( indent >= 0 )
-      {
-        xml.append( LINE_FEED );
-      }
-
-      if( nextindent > -1 )
-      {
-        final char[] pad = new char[nextindent];
-        for( int i = 0; i < nextindent; pad[i++] = ' ' )
-        {
-          ;
-        }
-
-        nextPadding = new String( pad );
-      }
-      else
-      {
-        nextPadding = new String( "" );
-      }
-
-      for( int x = 0; x < frame.getFieldCount(); x++ )
-      {
-        final DataField field = frame.getField( x );
-
-        {
-          xml.append( nextPadding );
-
-          String fname = field.getName();
-          xml.append( padding );
-          if( fname == null )
-          {
-            fname = "field" + x;
+    if( ( content != null ) && ( content.length() > 0 ) ) {
+      boolean modified = false;
+      StringBuilder stringBuilder = new StringBuilder( content.length() );
+      for( int i = 0, count = content.length(); i < count; ++i ) {
+        String character = content.substring( i, i + 1 );
+        int pos = ESCAPE_CHARS.indexOf( character );
+        if( pos > -1 ) {
+          stringBuilder.append( ESCAPE_STRINGS.get( pos ) );
+          modified = true;
+        } else {
+          if( ( character.compareTo( UNICODE_LOW ) > -1 ) && ( character.compareTo( UNICODE_HIGH ) < 1 ) ) {
+            stringBuilder.append( character );
+          } else {
+            stringBuilder.append( "&#" + ( (int)character.charAt( 0 ) ) + ";" );
+            modified = true;
           }
-
-          xml.append( "<Field " );
-
-          if( field.getName() != null )
-          {
-            xml.append( "name='" );
-            xml.append( field.getName() );
-            xml.append( "' " );
-          }
-          xml.append( "type='" );
-          xml.append( field.getTypeName() );
-          xml.append( "'>" );
-          xml.append( field.getObjectValue().toString() );
-          xml.append( "</Field>" );
-
-        }
-
-        if( indent >= 0 )
-        {
-          xml.append( LINE_FEED );
         }
       }
-
-    }
-    else
-    {
-      xml.append( "/>" );
+      if( modified ) {
+        result = stringBuilder.toString();
+      }
     }
 
-    return xml.toString();
+    return result;
   }
 
 }
