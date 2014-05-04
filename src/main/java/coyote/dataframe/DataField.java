@@ -621,6 +621,17 @@ public class DataField implements Cloneable
 
 
   /**
+   * @return True if the value is a frame, false otherwise.
+   */
+  public boolean isFrame()
+  {
+    return type == FRAMETYPE;
+  }
+
+
+
+
+  /**
    * Human readable format of the data field.
    *
    * @return a string representation of the data field instance
@@ -650,5 +661,5 @@ public class DataField implements Cloneable
   {
     return _types.size();
   }
-  
+
 }
