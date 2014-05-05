@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /** Type representing an signed, 8-bit value in the range of -128 to 127 */

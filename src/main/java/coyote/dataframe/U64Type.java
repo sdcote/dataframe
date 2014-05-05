@@ -13,7 +13,7 @@ package coyote.dataframe;
 
 import java.math.BigInteger;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /** (9) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */

@@ -23,7 +23,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /**

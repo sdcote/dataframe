@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 /** (10) Type code representing an signed, 64-bit value in the range of -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 */
 public class S64Type implements FieldType

@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /** signed, 16-bit value in the range of -32,768 to 32,767 */

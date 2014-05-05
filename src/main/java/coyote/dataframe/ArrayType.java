@@ -18,7 +18,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /**

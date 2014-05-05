@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 /** Type code representing a 64-bit floating point value in the range of +/-4.9406e-324 to +/-1.7977e+308. */
 public class DoubleType implements FieldType

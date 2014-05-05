@@ -20,6 +20,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import coyote.commons.ByteUtil;
+
 
 /**
  * 
@@ -239,7 +241,7 @@ public class ByteUtilTest
 
 
   /**
-   * Test method for {@link coyote.util.ByteUtil#renderBoolean(boolean)}.
+   * Test method for {@link coyote.commons.ByteUtil#renderBoolean(boolean)}.
    */
   @Test
   public void testRenderBoolean()
@@ -265,7 +267,7 @@ public class ByteUtilTest
 
   /**
    * Test method for
-   * {@link coyote.util.ByteUtil#retrieveBoolean(byte[], int)}.
+   * {@link coyote.commons.ByteUtil#retrieveBoolean(byte[], int)}.
    */
   @Test
   public void testRetrieveBoolean()
@@ -330,7 +332,7 @@ public class ByteUtilTest
 
   /**
    * Test method for
-   * {@link coyote.util.ByteUtil#retrieveDate(byte[], int)}.
+   * {@link coyote.commons.ByteUtil#retrieveDate(byte[], int)}.
    */
   @Test
   public void testRetrieveDate()

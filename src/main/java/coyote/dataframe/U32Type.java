@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /** Type representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */

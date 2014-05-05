@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 /** (5) Type code representing an unsigned, 16-bit value in the range of 0 to 65,535 */
 public class U16Type implements FieldType

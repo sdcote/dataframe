@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 /** Type code representing a 32-bit floating point value in the range of +/-1.4013e-45 to +/-3.4028e+38. */
 public class FloatType implements FieldType

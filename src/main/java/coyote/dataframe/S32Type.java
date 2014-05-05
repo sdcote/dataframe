@@ -11,7 +11,7 @@
  */
 package coyote.dataframe;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 /** (8) Type code representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
 public class S32Type implements FieldType

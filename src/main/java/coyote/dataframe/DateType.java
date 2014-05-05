@@ -13,7 +13,7 @@ package coyote.dataframe;
 
 import java.util.Date;
 
-import coyote.util.ByteUtil;
+import coyote.commons.ByteUtil;
 
 
 /** Type representing a unsigned 64-bit epoch time in milliseconds */

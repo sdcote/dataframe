@@ -9,7 +9,7 @@
  *   Stephan D. Cote 
  *      - Initial API and implementation
  */
-package coyote.util;
+package coyote.commons;
 
 import java.lang.reflect.Array;
 

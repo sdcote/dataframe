@@ -1,4 +1,4 @@
-package coyote.util;
+package coyote.commons;
 
 import java.util.Arrays;
 import java.util.Collections;

@@ -14,9 +14,9 @@ package coyote.dataframe.selector;
 import java.util.ArrayList;
 import java.util.List;
 
+import coyote.commons.SegmentFilter;
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
-import coyote.util.SegmentFilter;
 
 
 /**
