@@ -219,7 +219,7 @@ public class FrameFormatter {
           // Add the field
           xml.append( "<" );
           if( fname == null ) {
-            fname = "field" + x;
+            fname = FIELDNAME + x;
           } else {
             xml.append( fname );
           }
