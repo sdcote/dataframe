@@ -19,6 +19,7 @@ public class MapFrame {
    * 
    * @return A dataframe version of the given Map.
    */
+  @SuppressWarnings("rawtypes")
   public DataFrame marshal( Map<?, ?> source ) {
     DataFrame retval = new DataFrame();
 

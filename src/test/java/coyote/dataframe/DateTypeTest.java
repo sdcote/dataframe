@@ -3,12 +3,11 @@
  */
 package coyote.dataframe;
 
+//import static org.junit.Assert.*;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,8 +24,7 @@ import coyote.util.ByteUtil;
 /**
  *
  */
-public class DateTypeTest
-{
+public class DateTypeTest {
   /** The data type under test. */
   static DateType datatype = null;
   static SimpleDateFormat dateFormat = null;
@@ -117,8 +115,7 @@ public class DateTypeTest
     assertNotNull( data );
     System.out.println( "Encoded as:\r\n" + ByteUtil.dump( data ) );
     assertTrue( "Dat should be 8 bytes in length, is actually " + data.length + " bytes", data.length == 8 );
-    for( int i = 0; i < datedata.length; i++ )
-    {
+    for( int i = 0; i < datedata.length; i++ ) {
       assertTrue( "element " + i + " should be " + datedata[i] + " but is '" + data[i] + "'", data[i] == datedata[i] );
     }
     System.out.println( "Test Completed Successfully =====================================================\r\n" );

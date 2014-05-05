@@ -37,6 +37,7 @@ public class PropertyFrame {
    * 
    * @return a dataframe with the contents of the properties collection.
    */
+  @SuppressWarnings("rawtypes")
   public DataFrame marshal( Properties source, boolean expand ) {
     if( expand ) {
       Map tree = buildPropertyTree( source );

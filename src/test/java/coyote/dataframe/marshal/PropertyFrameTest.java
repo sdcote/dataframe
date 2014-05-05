@@ -10,13 +10,13 @@ import org.junit.Test;
 
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
-import coyote.util.FrameFormatter;
 
 
 public class PropertyFrameTest {
 
   @Test
-  public void testMarshalProperties() {
+  public void testMarshalProperties()
+  {
     PropertyFrame marshaler = new PropertyFrame();
     DataFrame frame = marshaler.marshal( System.getProperties(), true );
     assertNotNull( frame );
@@ -31,9 +31,9 @@ public class PropertyFrameTest {
     assertTrue( 3 == frame.getFieldCount() );
     Object value = frame.getField( "user" );
     assertNotNull( value );
-    assertTrue(value instanceof DataField);
+    assertTrue( value instanceof DataField );
     DataField field = (DataField)value;
-    assertTrue(field.isFrame());
+    assertTrue( field.isFrame() );
     DataFrame uframe = (DataFrame)field.getObjectValue();
     assertTrue( 1 == uframe.getFieldCount() );
     value = uframe.getField( "name" );
@@ -47,7 +47,8 @@ public class PropertyFrameTest {
 
 
   @Test
-  public void testMarshalFrame() {
+  public void testMarshalFrame()
+  {
     DataFrame frame = new DataFrame();
 
     DataFrame vframe = new DataFrame();

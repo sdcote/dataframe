@@ -45,6 +45,7 @@ public class MapFrameTest {
   /**
    * Test method for {@link coyote.dataframe.marshal.MapFrame#marshal(coyote.dataframe.DataFrame)}.
    */
+  @SuppressWarnings("rawtypes")
   @Test
   public void testMarshalDataFrame() {
     DataFrame frame = new DataFrame();
