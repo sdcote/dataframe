@@ -9,7 +9,7 @@
  *   Stephan D. Cote 
  *      - Initial API and implementation
  */
-package coyote.dataframe.selector;
+package coyote.util;
 
 import java.lang.reflect.Array;
 

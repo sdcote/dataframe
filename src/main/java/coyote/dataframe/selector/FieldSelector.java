@@ -16,6 +16,7 @@ import java.util.List;
 
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
+import coyote.util.SegmentFilter;
 
 
 /**
@@ -54,7 +55,45 @@ public class FieldSelector {
   public List<DataField> select( DataFrame frame )
   {
     List<DataField> retval = new ArrayList<DataField>();
-
+    if( frame != null )
+      recurse( frame, null, retval );
     return retval;
   }
+
+
+
+
+  /**
+   * Recurse onto the frame concatenating the field names according to their 
+   * hierarchy and performing a check on the name to see if they match the set 
+   * filter.
+   * 
+   * @param frame The current frame to check
+   * @param token the current value of the concatenated field name
+   * 
+   * @param results The current set of field found to have matched the filter
+   */
+  private void recurse( DataFrame frame, String token, List<DataField> results )
+  {
+    for( int x = 0; x < frame.getFieldCount(); x++ ) {
+      final DataField field = frame.getField( x );
+      String fname = field.getName();
+
+      if( fname == null )
+        fname = "field" + x;
+
+      if( token != null )
+        fname = token + "." + fname;
+
+      if( field.isFrame() )
+        recurse( (DataFrame)field.getObjectValue(), fname, results );
+      else {
+        if( filter.matches( fname ) )
+          results.add( field );
+      }
+
+    } // for each frame
+
+  }
+
 }
