@@ -117,11 +117,10 @@ public class SegmentFilterTest {
   @Test
   public void testConstructor3()
   {
-    SegmentFilter filter = null;
     String testPattern = "my.si>mple.*.subject.>";
 
     try {
-      filter = new SegmentFilter( testPattern );
+      new SegmentFilter( testPattern );
 
       fail( "Should not have parsed '" + testPattern + "'" );
     }
