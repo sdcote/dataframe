@@ -89,7 +89,7 @@ bintray {
 	publications = ['mavenJava']
 	pkg {
 		repo = 'maven'
-		name = 'dataframe'
+		name = 'DataFrame'
 		desc = 'A toolkit for Data Transfer Object (DTO) / Value Object (VO) design pattern implementations'
 		licenses = ['MIT']
 		labels = ['Java', 'DTO', 'VO']
