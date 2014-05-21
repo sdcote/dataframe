@@ -16,7 +16,7 @@ import java.math.BigInteger;
 import coyote.commons.ByteUtil;
 
 
-/** (9) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
+/** Type representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
 public class U64Type implements FieldType
 {
   private static final int _size = 8;

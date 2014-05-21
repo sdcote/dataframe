@@ -717,6 +717,9 @@ public class DataFrame implements Cloneable
 
 
 
+  /**
+   * @return The number of types supported/
+   */
   public int getTypeCount()
   {
     return DataField.typeCount();

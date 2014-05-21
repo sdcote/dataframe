@@ -657,6 +657,9 @@ public class DataField implements Cloneable
 
 
 
+  /**
+   * @return the number of types currently supported/
+   */
   static int typeCount()
   {
     return _types.size();

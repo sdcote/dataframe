@@ -15,7 +15,7 @@ import java.io.UnsupportedEncodingException;
 
 
 /**
- *
+ * Type representing a string of characters.
  */
 public class StringType implements FieldType
 {

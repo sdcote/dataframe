@@ -16,10 +16,9 @@ import java.net.URI;
 
 
 /**
- *
+ * Type representing a Uniform Resource Identifier
  */
-public class UriType implements FieldType
-{
+public class UriType implements FieldType {
   /** negative size indicates a variable length value is to be expected. */
   private static final int _size = -1;
 
@@ -31,19 +30,13 @@ public class UriType implements FieldType
   public static String DEFAULT_ENCODING = UriType.ENC_8859_1;
 
   // setup the string encoding of field names
-  static
-  {
-    try
-    {
+  static {
+    try {
       UriType.DEFAULT_ENCODING = System.getProperty( "file.encoding", UriType.ENC_8859_1 );
-    }
-    catch( final SecurityException _ex )
-    {
+    } catch ( final SecurityException _ex ) {
       UriType.DEFAULT_ENCODING = UriType.ENC_8859_1;
       System.err.println( "Security settings preclude accessing Java System Property \"file.encoding\" - Using default string encoding of " + UriType.DEFAULT_ENCODING + " instead." );
-    }
-    catch( final Exception _ex )
-    {
+    } catch ( final Exception _ex ) {
       UriType.DEFAULT_ENCODING = UriType.ENC_8859_1;
     }
   }
@@ -57,8 +50,7 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#checkType(java.lang.Object)
    */
-  public boolean checkType( Object obj )
-  {
+  public boolean checkType( Object obj ) {
     return ( obj instanceof URI );
   }
 
@@ -68,14 +60,10 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#decode(byte[])
    */
-  public Object decode( byte[] value )
-  {
-    try
-    {
+  public Object decode( byte[] value ) {
+    try {
       return new String( value, UriType.strEnc );
-    }
-    catch( UnsupportedEncodingException e )
-    {
+    } catch ( UnsupportedEncodingException e ) {
       e.printStackTrace();
       return new String( value );
     }
@@ -87,14 +75,10 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#encode(java.lang.Object)
    */
-  public byte[] encode( Object obj )
-  {
-    try
-    {
+  public byte[] encode( Object obj ) {
+    try {
       return ( (URI)obj ).toString().getBytes( UriType.strEnc );
-    }
-    catch( final UnsupportedEncodingException e )
-    {
+    } catch ( final UnsupportedEncodingException e ) {
       e.printStackTrace();
       return ( (URI)obj ).toString().getBytes();
     }
@@ -107,8 +91,7 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#isNumeric()
    */
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return false;
   }
 
@@ -118,8 +101,7 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#getSize()
    */
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
   }
 
@@ -129,8 +111,7 @@ public class UriType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#getTypeName()
    */
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 

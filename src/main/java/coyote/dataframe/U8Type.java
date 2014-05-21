@@ -15,7 +15,6 @@ import coyote.commons.ByteUtil;
 
 
 /** Type representing an unsigned, 8-bit value in the range of 0 to 255 */
-
 public class U8Type implements FieldType
 {
   private static final int _size = 1;
