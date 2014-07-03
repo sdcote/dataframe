@@ -95,4 +95,13 @@ bintray {
 		labels = ['Java', 'DTO', 'VO']
 	}
 }
- 
+
+
+// Used to share projects locally
+uploadArchives {
+    repositories {
+		ivy {
+			url "../local-repo"
+		}
+	}
+}
