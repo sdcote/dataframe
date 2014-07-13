@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import coyote.commons.ByteUtil;
 
@@ -723,6 +725,31 @@ public class DataFrame implements Cloneable
   public int getTypeCount()
   {
     return DataField.typeCount();
+  }
+
+
+
+
+  /**
+   * This will return a list of unique field names in this data frame.
+   * 
+   * <p>Note that fields are not required to have names. They can be anonymous 
+   * and accessed by their index in the frame. Therefore it is possible that 
+   * some fields will be inaccessible by name and will not be represented in 
+   * the returned list of names.</p>
+   * 
+   * @return a list of field names in this frame.
+   */
+  public List<String> getNames() {
+    List<String> retval = new ArrayList<String>();
+
+    // get a list of unique field names
+    Set<String> names = new HashSet<String>();
+    for ( int i = 0; i < fields.size(); names.add( fields.get( i++ ).getName() ) );
+
+    retval.addAll( names);
+    
+    return retval;
   }
 
 }
