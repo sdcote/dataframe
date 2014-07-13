@@ -12,7 +12,9 @@
 package coyote.dataframe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +26,39 @@ public class FrameSet {
 
   private List<DataFrame> rows = new ArrayList<DataFrame>();
   private Set<String> columns = new HashSet<String>();
+
+
+
+
+  /**
+   * Default Constructor
+   */
+  public FrameSet() {}
+
+
+
+
+  /**
+   * Constructor for a list of frames. Each frame in the list will be added to 
+   * this set.
+   * 
+   * @param frames The list of frames to be added to this set.
+   */
+  public FrameSet( List<DataFrame> frames ) {
+    this.addAll( frames );
+  }
+
+
+
+
+  /**
+   * Adds all the frames in the given collection of frames to this frame set.
+   * 
+   * @param frames the collection of frames to add.
+   */
+  public void addAll( Collection<DataFrame> frames ) {
+    for ( Iterator<DataFrame> it = frames.iterator(); it.hasNext(); this.add( it.next() ) );
+  }
 
 
 

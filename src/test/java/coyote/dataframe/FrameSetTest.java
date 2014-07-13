@@ -14,6 +14,7 @@ package coyote.dataframe;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -90,4 +91,34 @@ public class FrameSetTest {
 
   }
 
+
+
+
+  /**
+   * Test the addAll method
+   */
+  @Test
+  public void testAddAll() {
+    List<DataFrame> list = new ArrayList<DataFrame>();
+
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", "first" );
+    list.add( frame1 );
+    DataFrame frame2 = new DataFrame();
+    frame2.add( "beta", "second" );
+    list.add( frame2 );
+
+    // addAll(Collection<DataFrame>) is called by the constructor
+    FrameSet set = new FrameSet( list );
+    assertTrue( set.size() == 2 );
+    assertTrue( set.get( 0 ) == frame1 );
+    assertTrue( set.get( 1 ) == frame2 );
+
+    // try addAll on it own
+    set = new FrameSet();
+    set.addAll( list );
+    assertTrue( set.size() == 2 );
+    assertTrue( set.get( 0 ) == frame1 );
+    assertTrue( set.get( 1 ) == frame2 );
+  }
 }
