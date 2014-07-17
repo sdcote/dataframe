@@ -21,6 +21,11 @@ import java.util.Set;
 
 /**
  * This class models a set of rows and allows for their uniform treatment.
+ * 
+ * <This class was created in response to using DataFrames as Value Objects in
+ * a project which queried a variety of objects from data base tables. Using a
+ * Frame Set made it easy to collect the objects in one large set and parse
+ * through them for easy output to files and displays.</p>
  */
 public class FrameSet {
 
@@ -127,4 +132,47 @@ public class FrameSet {
     return rows.get( index );
   }
 
+
+
+
+  /**
+   * Return the values of the named column as strings.
+   * 
+   * <p>The values will be in the same order as the rows in the frame set.</p>
+   *  
+   * @param name The name of the column to return.
+   * 
+   * @return list of the string values of the object in that column.
+   */
+  public List<String> getColumn( String name ) {
+    List<String> retval = new ArrayList<String>();
+    for ( DataFrame frame : rows ) {
+      if ( frame.contains( name ) ) {
+        retval.add( frame.getAsString( name ) );
+      }
+    }
+    return retval;
+  }
+
+
+
+
+  /**
+   * Return the actual object values of the named column.
+   * 
+   * <p>The values will be in the same order as the rows in the frame set.</p>
+   *  
+   * @param name The name of the column to return.
+   * 
+   * @return list of the object values in that column.
+   */
+  public List<Object> getColumnValue( String name ) {
+    List<Object> retval = new ArrayList<Object>();
+    for ( DataFrame frame : rows ) {
+      if ( frame.contains( name ) ) {
+        retval.add( frame.getObject( name ) );
+      }
+    }
+    return retval;
+  }
 }
