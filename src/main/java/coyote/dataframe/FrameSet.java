@@ -49,8 +49,8 @@ public class FrameSet {
    * 
    * @param frames The list of frames to be added to this set.
    */
-  public FrameSet( List<DataFrame> frames ) {
-    this.addAll( frames );
+  public FrameSet( List<? extends DataFrame> frames ) {
+    addAll( frames );
   }
 
 
@@ -61,8 +61,8 @@ public class FrameSet {
    * 
    * @param frames the collection of frames to add.
    */
-  public void addAll( Collection<DataFrame> frames ) {
-    for ( Iterator<DataFrame> it = frames.iterator(); it.hasNext(); this.add( it.next() ) );
+  public void addAll( Collection<? extends DataFrame> frames ) {
+    for ( Iterator<? extends DataFrame> it = frames.iterator(); it.hasNext(); this.add( it.next() ) );
   }
 
 

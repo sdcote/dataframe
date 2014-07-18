@@ -193,4 +193,38 @@ public class FrameSetTest {
     assertTrue( 5 == ( (Long)obj ).longValue() );
 
   }
+  
+  /**
+   * Test the use of generics in the API to allow anything which subclasses 
+   * DataFrame to be used.
+   */
+  @Test
+  public void testAddAllThing() {
+    List<MyThing> list = new ArrayList<MyThing>();
+
+    MyThing thing1 = new MyThing();
+    thing1.add( "alpha", "first" );
+    list.add( thing1 );
+    MyThing thing2 = new MyThing();
+    thing2.add( "beta", "second" );
+    list.add( thing2 );
+
+    // addAll(Collection<DataFrame>) is called by the constructor
+    FrameSet set = new FrameSet( list );
+    assertTrue( set.size() == 2 );
+    assertTrue( set.get( 0 ) == thing1 );
+    assertTrue( set.get( 1 ) == thing2 );
+
+    // try addAll on its own
+    set = new FrameSet();
+    set.addAll( list );
+    assertTrue( set.size() == 2 );
+    assertTrue( set.get( 0 ) == thing1 );
+    assertTrue( set.get( 1 ) == thing2 );
+  }
+
+  
+  public class MyThing extends DataFrame{
+  
+  }
 }
