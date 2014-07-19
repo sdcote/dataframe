@@ -45,10 +45,15 @@ import coyote.commons.ByteUtil;
  * distributed components, reducing latency, improving throughput and 
  * decoupling not only the components of the system, but moving business logic
  * out of the data model.</p>
+ * 
+ * <p>More recently, this class ha proven to be an effective implementation of 
+ * the Value Object pattern and has made representing data base rows and object 
+ * relatively easy to code. It has several features which make this class more 
+ * feature rich than implementing VOs with Maps or other map-based structures 
+ * such as properties. Most of the recent upgrades have been directly related 
+ * to VO implementations.</p> 
  */
-public class DataFrame implements Cloneable
-{
-  
+public class DataFrame implements Cloneable {
 
   /** The array of fields this frame holds */
   protected ArrayList<DataField> fields = new ArrayList<DataField>();
@@ -62,9 +67,7 @@ public class DataFrame implements Cloneable
   /**
    * Construct an empty frame.
    */
-  public DataFrame()
-  {
-  }
+  public DataFrame() {}
 
 
 
@@ -74,26 +77,18 @@ public class DataFrame implements Cloneable
    *
    * @param data The byte array from which to construct the frame.
    */
-  public DataFrame( final byte[] data )
-  {
-    if( data != null )
-    {
-      try
-      {
+  public DataFrame( final byte[] data ) {
+    if ( data != null ) {
+      try {
         final ByteArrayInputStream bais = new ByteArrayInputStream( data );
         final DataInputStream in = new DataInputStream( bais );
 
-        while( in.available() > 0 )
-        {
+        while ( in.available() > 0 ) {
           add( new DataField( in ) );
         }
-      }
-      catch( final EOFException eof )
-      {
+      } catch ( final EOFException eof ) {
         throw new IllegalArgumentException( "Data underflow adding field #" + ( fields.size() + 1 ) );
-      }
-      catch( final IOException ioe )
-      {
+      } catch ( final IOException ioe ) {
         throw new IllegalArgumentException( ioe.getMessage() );
       }
     }
@@ -110,14 +105,11 @@ public class DataFrame implements Cloneable
    * @return The first occurrence of the named frame Field or null if an frame 
    *         Field with the given name was not found.
    */
-  public DataField getField( final String name )
-  {
-    for( int i = 0; i < fields.size(); i++ )
-    {
+  public DataField getField( final String name ) {
+    for ( int i = 0; i < fields.size(); i++ ) {
       final DataField field = fields.get( i );
 
-      if( ( field.getName() != null ) && field.getName().equals( name ) )
-      {
+      if ( ( field.getName() != null ) && field.getName().equals( name ) ) {
         return field;
       }
     }
@@ -140,13 +132,10 @@ public class DataFrame implements Cloneable
    * 
    * @return True if the field with the given name exists, false otherwise.
    */
-  public boolean contains( final String name )
-  {
-    for( int i = 0; i < fields.size(); i++ )
-    {
+  public boolean contains( final String name ) {
+    for ( int i = 0; i < fields.size(); i++ ) {
       final DataField field = fields.get( i );
-      if( ( field.getName() != null ) && field.getName().equals( name ) )
-      {
+      if ( ( field.getName() != null ) && field.getName().equals( name ) ) {
         return true;
       }
     }
@@ -164,10 +153,8 @@ public class DataFrame implements Cloneable
    * @return The indexed occurrence of an frame Field or null if the index is 
    *         out of range or less than zero.
    */
-  public DataField getField( final int indx )
-  {
-    if( ( indx < fields.size() ) && ( indx > -1 ) )
-    {
+  public DataField getField( final int indx ) {
+    if ( ( indx < fields.size() ) && ( indx > -1 ) ) {
       return fields.get( indx );
     }
 
@@ -180,8 +167,7 @@ public class DataFrame implements Cloneable
   /**
    * @return The number of fields in the frame.
    */
-  public int getFieldCount()
-  {
+  public int getFieldCount() {
     return fields.size();
   }
 
@@ -196,11 +182,9 @@ public class DataFrame implements Cloneable
    * @return The string value of the first file with the given name or null if 
    *         the field could not be found.
    */
-  public String getAsString( final String name )
-  {
+  public String getAsString( final String name ) {
     final Object val = getObject( name );
-    if( val != null )
-    {
+    if ( val != null ) {
       return val.toString();
     }
     return null;
@@ -220,11 +204,9 @@ public class DataFrame implements Cloneable
    * @throws DataFrameException if the field does not exist or if the value of the 
    *         found field could not be parsed or converted to a String value.
    */
-  public String getAsString( final int indx ) throws DataFrameException
-  {
+  public String getAsString( final int indx ) throws DataFrameException {
     final Object val = getObject( indx );
-    if( val != null )
-    {
+    if ( val != null ) {
       return val.toString();
     }
     throw new DataFrameException( "Indexed field does not exist" );
@@ -241,14 +223,11 @@ public class DataFrame implements Cloneable
    * @return The object value of the first occurrence of the named field or null 
    *         if the filed with the given name was not found.
    */
-  public Object getObject( final String name )
-  {
-    for( int i = 0; i < fields.size(); i++ )
-    {
+  public Object getObject( final String name ) {
+    for ( int i = 0; i < fields.size(); i++ ) {
       final DataField field = fields.get( i );
 
-      if( ( field.getName() != null ) && field.getName().equals( name ) )
-      {
+      if ( ( field.getName() != null ) && field.getName().equals( name ) ) {
         return field.getObjectValue();
       }
     }
@@ -268,10 +247,8 @@ public class DataFrame implements Cloneable
    * @return The object value of the field at the given index, or null if there 
    *         was no value at that index (out-of-bounds)
    */
-  public Object getObject( final int i )
-  {
-    if( i < fields.size() )
-    {
+  public Object getObject( final int i ) {
+    if ( i < fields.size() ) {
       return ( fields.get( i ) ).getObjectValue();
     }
 
@@ -289,14 +266,12 @@ public class DataFrame implements Cloneable
    *
    * @return a clone of this DataFrame
    */
-  public Object clone()
-  {
+  public Object clone() {
     final DataFrame retval = new DataFrame();
 
     // Clone all the fields
-    for( int i = 0; i < fields.size(); i++ )
-    {
-      retval.fields.add( i, (DataField) fields.get( i ).clone() );
+    for ( int i = 0; i < fields.size(); i++ ) {
+      retval.fields.add( i, (DataField)fields.get( i ).clone() );
     }
     retval.modified = false;
 
@@ -312,8 +287,7 @@ public class DataFrame implements Cloneable
    * @param name The name of the field to populate.
    * @param value The value to place in the named field
    */
-  public DataFrame( final String name, final Object value )
-  {
+  public DataFrame( final String name, final Object value ) {
     add( name, value );
     modified = false;
   }
@@ -338,15 +312,11 @@ public class DataFrame implements Cloneable
    *
    * @return the index of the field just added.
    */
-  public int add( final Object value )
-  {
+  public int add( final Object value ) {
     modified = true;
-    if( value instanceof DataField )
-    {
+    if ( value instanceof DataField ) {
       fields.add( (DataField)value );
-    }
-    else
-    {
+    } else {
       fields.add( new DataField( value ) );
     }
 
@@ -370,8 +340,7 @@ public class DataFrame implements Cloneable
    * @throws IllegalArgumentException If the name is longer than 255 characters 
    *         or the value is an unsupported type.
    */
-  public int add( final String name, final Object value )
-  {
+  public int add( final String name, final Object value ) {
     modified = true;
     fields.add( new DataField( name, value ) );
     return fields.size() - 1;
@@ -392,25 +361,17 @@ public class DataFrame implements Cloneable
    * 
    * @return The index of the field the value was placed.
    */
-  public int put( final String name, final Object obj )
-  {
-    if( ( obj != null ) || ( name != null ) )
-    {
-      if( name != null )
-      {
-        for( int i = 0; i < fields.size(); i++ )
-        {
+  public int put( final String name, final Object obj ) {
+    if ( ( obj != null ) || ( name != null ) ) {
+      if ( name != null ) {
+        for ( int i = 0; i < fields.size(); i++ ) {
           final DataField field = fields.get( i );
 
-          if( ( field.name != null ) && field.name.equals( name ) )
-          {
-            if( obj != null )
-            {
+          if ( ( field.name != null ) && field.name.equals( name ) ) {
+            if ( obj != null ) {
               field.type = DataField.getType( obj );
               field.value = DataField.encode( obj );
-            }
-            else
-            {
+            } else {
               // Null object implies remove the named field
               fields.remove( i );
             }
@@ -422,9 +383,7 @@ public class DataFrame implements Cloneable
         }
 
         return add( name, obj );
-      }
-      else
-      {
+      } else {
         return add( obj );
       }
     }
@@ -442,17 +401,13 @@ public class DataFrame implements Cloneable
    * 
    * @return The DataField that was removed.
    */
-  public DataField remove( final String name )
-  {
+  public DataField remove( final String name ) {
     DataField retval = null;
-    if( name != null )
-    {
-      for( int i = 0; i < fields.size(); i++ )
-      {
+    if ( name != null ) {
+      for ( int i = 0; i < fields.size(); i++ ) {
         final DataField field = fields.get( i );
 
-        if( ( field.name != null ) && field.name.equals( name ) )
-        {
+        if ( ( field.name != null ) && field.name.equals( name ) ) {
           retval = fields.remove( i );
 
           modified = true;
@@ -486,8 +441,7 @@ public class DataFrame implements Cloneable
    * @param name Name of the field to replace and then add.
    * @param obj The value of the object to set in the new field.
    */
-  public void replace( final String name, final Object obj )
-  {
+  public void replace( final String name, final Object obj ) {
     remove( name );
     add( name, obj );
   }
@@ -516,8 +470,7 @@ public class DataFrame implements Cloneable
    * @param name Name of the fields to replace and then add.
    * @param obj The value of the object to set in the new field.
    */
-  public void replaceAll( final String name, final Object obj )
-  {
+  public void replaceAll( final String name, final Object obj ) {
     removeAll( name );
     add( name, obj );
   }
@@ -530,18 +483,14 @@ public class DataFrame implements Cloneable
    *
    * @param name name of the DataField to remove.
    */
-  public void removeAll( final String name )
-  {
+  public void removeAll( final String name ) {
     modified = true;
 
-    if( name != null )
-    {
-      for( int i = 0; i < fields.size(); i++ )
-      {
+    if ( name != null ) {
+      for ( int i = 0; i < fields.size(); i++ ) {
         final DataField field = fields.get( i );
 
-        if( ( field.name != null ) && field.name.equals( name ) )
-        {
+        if ( ( field.name != null ) && field.name.equals( name ) ) {
           fields.remove( i-- );
         }
       }
@@ -564,15 +513,11 @@ public class DataFrame implements Cloneable
    *
    * @return the SHA-1 digest for this frame.
    */
-  public byte[] getDigest()
-  {
+  public byte[] getDigest() {
     MessageDigest digest = null;
-    try
-    {
+    try {
       digest = MessageDigest.getInstance( "SHA-1" );
-    }
-    catch( final NoSuchAlgorithmException e )
-    {
+    } catch ( final NoSuchAlgorithmException e ) {
       e.printStackTrace();
       return null;
     }
@@ -595,8 +540,7 @@ public class DataFrame implements Cloneable
    * 
    * @return A String representation of the digest of the payload.
    */
-  public String getDigestString()
-  {
+  public String getDigestString() {
     return ByteUtil.bytesToHex( getDigest() );
   }
 
@@ -612,20 +556,15 @@ public class DataFrame implements Cloneable
    *
    * @return this frame represented in its wire format.
    */
-  public byte[] getBytes()
-  {
+  public byte[] getBytes() {
     final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     final DataOutputStream dos = new DataOutputStream( baos );
 
-    try
-    {
-      for( int i = 0; i < fields.size(); i++ )
-      {
+    try {
+      for ( int i = 0; i < fields.size(); i++ ) {
         dos.write( fields.get( i ).getBytes() );
       }
-    }
-    catch( final IOException e )
-    {
+    } catch ( final IOException e ) {
       e.printStackTrace();
     }
 
@@ -644,12 +583,10 @@ public class DataFrame implements Cloneable
    *
    * @return The bytes[] value or null
    */
-  public byte[] getBytes( final String name )
-  {
+  public byte[] getBytes( final String name ) {
     final Object retval = getObject( name );
 
-    if( ( retval != null ) && ( retval instanceof byte[] ) )
-    {
+    if ( ( retval != null ) && ( retval instanceof byte[] ) ) {
       return (byte[])retval;
     }
 
@@ -668,8 +605,7 @@ public class DataFrame implements Cloneable
    *
    * @return The list of frame fields in this frame.
    */
-  public List<DataField> getFields()
-  {
+  public List<DataField> getFields() {
     return fields;
   }
 
@@ -686,8 +622,7 @@ public class DataFrame implements Cloneable
    * 
    * @param list An ordered list of DataFields.
    */
-  public void setFields( final ArrayList<DataField> list )
-  {
+  public void setFields( final ArrayList<DataField> list ) {
     fields = list;
     modified = true;
   }
@@ -698,8 +633,7 @@ public class DataFrame implements Cloneable
   /**
    * @return Returns true if this frame has been modified, false otherwise.
    */
-  public boolean isModified()
-  {
+  public boolean isModified() {
     return modified;
   }
 
@@ -711,8 +645,7 @@ public class DataFrame implements Cloneable
    * 
    * <p>The frame will be empty after this method is called.</p>
    */
-  public void clear()
-  {
+  public void clear() {
     fields.clear();
   }
 
@@ -722,8 +655,7 @@ public class DataFrame implements Cloneable
   /**
    * @return The number of types supported/
    */
-  public int getTypeCount()
-  {
+  public int getTypeCount() {
     return DataField.typeCount();
   }
 
@@ -747,9 +679,32 @@ public class DataFrame implements Cloneable
     Set<String> names = new HashSet<String>();
     for ( int i = 0; i < fields.size(); names.add( fields.get( i++ ).getName() ) );
 
-    retval.addAll( names);
-    
+    retval.addAll( names );
+
     return retval;
+  }
+
+
+
+
+  /**
+   * This is a very simple string representation of this data frame.
+   * 
+   * @see java.lang.Object#toString()
+   */
+  @Override
+  public String toString() {
+    StringBuffer b = new StringBuffer();
+    b.append( '{' );
+    for ( DataField field : fields ) {
+      b.append( field.getName() );
+      b.append( ':' );
+      b.append( ( field.getObjectValue() == null ? "NULL" : field.getObjectValue().toString() ) );
+      b.append( ", " );
+    }
+    b.delete( b.length() - 2, b.length() );
+    b.append( '}' );
+    return b.toString();
   }
 
 }

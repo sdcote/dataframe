@@ -18,16 +18,13 @@ import org.junit.Test;
  * 
  * @author Stephan D. Cote'
  */
-public class DataFrameTest
-{
+public class DataFrameTest {
 
   /**
    * @throws java.lang.Exception
    */
   @BeforeClass
-  public static void setUpBeforeClass() throws Exception
-  {
-  }
+  public static void setUpBeforeClass() throws Exception {}
 
 
 
@@ -36,9 +33,7 @@ public class DataFrameTest
    * @throws java.lang.Exception
    */
   @AfterClass
-  public static void tearDownAfterClass() throws Exception
-  {
-  }
+  public static void tearDownAfterClass() throws Exception {}
 
 
 
@@ -47,9 +42,7 @@ public class DataFrameTest
    * @throws java.lang.Exception
    */
   @Before
-  public void setUp() throws Exception
-  {
-  }
+  public void setUp() throws Exception {}
 
 
 
@@ -58,9 +51,7 @@ public class DataFrameTest
    * @throws java.lang.Exception
    */
   @After
-  public void tearDown() throws Exception
-  {
-  }
+  public void tearDown() throws Exception {}
 
 
 
@@ -69,8 +60,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#DataFrame()}.
    */
   @Test
-  public void testDataFrame()
-  {
+  public void testDataFrame() {
     DataFrame frame = new DataFrame();
     assertNotNull( frame );
     assertTrue( frame.getTypeCount() == 18 );
@@ -84,8 +74,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#add(java.lang.Object)}.
    */
   @Test
-  public void testAddObject()
-  {
+  public void testAddObject() {
     DataFrame frame = new DataFrame();
     assertNotNull( frame );
     assertTrue( frame.getFieldCount() == 0 );
@@ -102,8 +91,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#add(java.lang.String, java.lang.Object)}.
    */
   @Test
-  public void testAddStringObject()
-  {
+  public void testAddStringObject() {
     DataFrame frame = new DataFrame();
     assertNotNull( frame );
     assertTrue( frame.getFieldCount() == 0 );
@@ -120,8 +108,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#contains(java.lang.String)}.
    */
   @Test
-  public void testContains()
-  {
+  public void testContains() {
     //fail( "Not yet implemented" );
   }
 
@@ -132,8 +119,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getField(int)}.
    */
   @Test
-  public void testGetFieldInt()
-  {
+  public void testGetFieldInt() {
     //fail( "Not yet implemented" );
   }
 
@@ -144,8 +130,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getFieldCount()}.
    */
   @Test
-  public void testGetFieldCount()
-  {
+  public void testGetFieldCount() {
     //fail( "Not yet implemented" );
   }
 
@@ -156,8 +141,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getAsString(java.lang.String)}.
    */
   @Test
-  public void testGetAsStringString()
-  {
+  public void testGetAsStringString() {
     //fail( "Not yet implemented" );
   }
 
@@ -168,8 +152,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#clone()}.
    */
   @Test
-  public void testClone()
-  {
+  public void testClone() {
     //fail( "Not yet implemented" );
   }
 
@@ -180,8 +163,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#DataFrame(java.lang.String, java.lang.Object)}.
    */
   @Test
-  public void testDataFrameStringObject()
-  {
+  public void testDataFrameStringObject() {
     //fail( "Not yet implemented" );
   }
 
@@ -192,8 +174,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, java.lang.Object)}.
    */
   @Test
-  public void testPutStringObject()
-  {
+  public void testPutStringObject() {
     //fail( "Not yet implemented" );
   }
 
@@ -204,8 +185,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, long)}.
    */
   @Test
-  public void testPutStringLong()
-  {
+  public void testPutStringLong() {
     //fail( "Not yet implemented" );
   }
 
@@ -216,8 +196,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, int)}.
    */
   @Test
-  public void testPutStringInt()
-  {
+  public void testPutStringInt() {
     //fail( "Not yet implemented" );
   }
 
@@ -228,8 +207,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, short)}.
    */
   @Test
-  public void testPutStringShort()
-  {
+  public void testPutStringShort() {
     //fail( "Not yet implemented" );
   }
 
@@ -240,8 +218,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, double)}.
    */
   @Test
-  public void testPutStringDouble()
-  {
+  public void testPutStringDouble() {
     //fail( "Not yet implemented" );
   }
 
@@ -252,8 +229,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, float)}.
    */
   @Test
-  public void testPutStringFloat()
-  {
+  public void testPutStringFloat() {
     //fail( "Not yet implemented" );
   }
 
@@ -264,8 +240,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, boolean)}.
    */
   @Test
-  public void testPutStringBoolean()
-  {
+  public void testPutStringBoolean() {
     //fail( "Not yet implemented" );
   }
 
@@ -276,8 +251,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, byte[])}.
    */
   @Test
-  public void testPutStringByteArray()
-  {
+  public void testPutStringByteArray() {
     //fail( "Not yet implemented" );
   }
 
@@ -288,8 +262,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, byte)}.
    */
   @Test
-  public void testPutStringByte()
-  {
+  public void testPutStringByte() {
     //fail( "Not yet implemented" );
   }
 
@@ -300,8 +273,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#put(java.lang.String, char)}.
    */
   @Test
-  public void testPutStringChar()
-  {
+  public void testPutStringChar() {
     //fail( "Not yet implemented" );
   }
 
@@ -312,8 +284,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#remove(java.lang.String)}.
    */
   @Test
-  public void testRemove()
-  {
+  public void testRemove() {
     //fail( "Not yet implemented" );
   }
 
@@ -324,8 +295,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#replace(java.lang.String, java.lang.Object)}.
    */
   @Test
-  public void testReplace()
-  {
+  public void testReplace() {
     //fail( "Not yet implemented" );
   }
 
@@ -336,8 +306,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#replaceAll(java.lang.String, java.lang.Object)}.
    */
   @Test
-  public void testReplaceAll()
-  {
+  public void testReplaceAll() {
     //fail( "Not yet implemented" );
   }
 
@@ -348,8 +317,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#removeAll(java.lang.String)}.
    */
   @Test
-  public void testRemoveAll()
-  {
+  public void testRemoveAll() {
     //fail( "Not yet implemented" );
   }
 
@@ -360,8 +328,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getDigest()}.
    */
   @Test
-  public void testGetDigest()
-  {
+  public void testGetDigest() {
     //fail( "Not yet implemented" );
   }
 
@@ -372,8 +339,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getDigestString()}.
    */
   @Test
-  public void testGetDigestString()
-  {
+  public void testGetDigestString() {
     //fail( "Not yet implemented" );
   }
 
@@ -384,8 +350,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getBytes()}.
    */
   @Test
-  public void testGetBytes()
-  {
+  public void testGetBytes() {
     //fail( "Not yet implemented" );
   }
 
@@ -396,8 +361,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getBytes(java.lang.String)}.
    */
   @Test
-  public void testGetBytesString()
-  {
+  public void testGetBytesString() {
     //fail( "Not yet implemented" );
   }
 
@@ -408,8 +372,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getFields()}.
    */
   @Test
-  public void testGetFields()
-  {
+  public void testGetFields() {
     //fail( "Not yet implemented" );
   }
 
@@ -420,8 +383,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getTimestamp()}.
    */
   @Test
-  public void testGetTimestamp()
-  {
+  public void testGetTimestamp() {
     //fail( "Not yet implemented" );
   }
 
@@ -432,8 +394,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#setFields(java.util.ArrayList)}.
    */
   @Test
-  public void testSetFields()
-  {
+  public void testSetFields() {
     //fail( "Not yet implemented" );
   }
 
@@ -444,8 +405,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#setTimestamp(long)}.
    */
   @Test
-  public void testSetTimestamp()
-  {
+  public void testSetTimestamp() {
     //fail( "Not yet implemented" );
   }
 
@@ -456,8 +416,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#dump()}.
    */
   @Test
-  public void testDump()
-  {
+  public void testDump() {
     //fail( "Not yet implemented" );
   }
 
@@ -468,8 +427,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#toXml()}.
    */
   @Test
-  public void testToXml()
-  {
+  public void testToXml() {
     //fail( "Not yet implemented" );
   }
 
@@ -480,8 +438,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getPriority()}.
    */
   @Test
-  public void testGetPriority()
-  {
+  public void testGetPriority() {
     //fail( "Not yet implemented" );
   }
 
@@ -492,8 +449,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#setPriority(short)}.
    */
   @Test
-  public void testSetPriority()
-  {
+  public void testSetPriority() {
     //fail( "Not yet implemented" );
   }
 
@@ -504,8 +460,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getPriorityString()}.
    */
   @Test
-  public void testGetPriorityString()
-  {
+  public void testGetPriorityString() {
     //fail( "Not yet implemented" );
   }
 
@@ -516,8 +471,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#getPriorityString(short)}.
    */
   @Test
-  public void testGetPriorityStringShort()
-  {
+  public void testGetPriorityStringShort() {
     //fail( "Not yet implemented" );
   }
 
@@ -528,8 +482,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#isModified()}.
    */
   @Test
-  public void testIsModified()
-  {
+  public void testIsModified() {
     //fail( "Not yet implemented" );
   }
 
@@ -540,8 +493,7 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#clear()}.
    */
   @Test
-  public void testClear()
-  {
+  public void testClear() {
     //fail( "Not yet implemented" );
   }
 
@@ -552,9 +504,31 @@ public class DataFrameTest
    * Test method for {@link coyote.dataframe.DataFrame#toString()}.
    */
   @Test
-  public void testToString()
-  {
-    //fail( "Not yet implemented" );
-  }
+  public void testToString() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", 1L );
+    frame1.add( "beta", 2L );
 
+    DataFrame frame2 = new DataFrame();
+    frame2.add( "gamma", 3L );
+    frame2.add( "delta", 4L );
+
+    DataFrame frame3 = new DataFrame();
+    frame3.add( "epsilon", 5L );
+    frame3.add( "zeta", 6L );
+
+    frame2.add( "frame3", frame3 );
+    frame1.add( "frame2", frame2 );
+
+    String text = frame1.toString();
+
+    assertTrue( text.contains( "alpha" ) );
+    assertTrue( text.contains( "beta" ) );
+    assertTrue( text.contains( "gamma" ) );
+    assertTrue( text.contains( "delta" ) );
+    assertTrue( text.contains( "epsilon" ) );
+    assertTrue( text.contains( "zeta" ) );
+    assertTrue( text.contains( "frame3" ) );
+    assertTrue( text.contains( "frame2" ) );
+  }
 }
