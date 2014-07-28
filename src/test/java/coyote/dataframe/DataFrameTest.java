@@ -521,6 +521,7 @@ public class DataFrameTest {
     frame1.add( "frame2", frame2 );
 
     String text = frame1.toString();
+    //System.out.println(text);
 
     assertTrue( text.contains( "alpha" ) );
     assertTrue( text.contains( "beta" ) );
