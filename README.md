@@ -1,4 +1,5 @@
 [![Build Status](https://drone.io/github.com/sdcote/dataframe/status.png)](https://drone.io/github.com/sdcote/dataframe/latest)
+[![Download](https://api.bintray.com/packages/sdcote/maven/DataFrame/images/download.png) ](https://bintray.com/sdcote/maven/DataFrame/_latestVersion)
 
 DataFrame
 =========
