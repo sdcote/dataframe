@@ -40,8 +40,7 @@ import coyote.commons.ByteUtil;
  * <p>This utility class packages up a tagged value pair with a length field so 
  * as to allow for reliable reading of data from various transport streams.</p>
  */
-public class DataField implements Cloneable
-{
+public class DataField implements Cloneable {
 
   /** array of data types supported */
   private static final ArrayList<FieldType> _types = new ArrayList<FieldType>();
@@ -55,19 +54,13 @@ public class DataField implements Cloneable
   protected static String strEnc = DataField.DEFAULT_ENCODING;
 
   // setup the string encoding of field names
-  static
-  {
-    try
-    {
+  static {
+    try {
       DataField.DEFAULT_ENCODING = System.getProperty( "file.encoding", DataField.ENC_UTF8 );
-    }
-    catch( final SecurityException _ex )
-    {
+    } catch ( final SecurityException _ex ) {
       DataField.DEFAULT_ENCODING = DataField.ENC_UTF8;
       System.err.println( "Security settings preclude accessing Java System Property \"file.encoding\" - Using default string encoding of " + DataField.DEFAULT_ENCODING + " instead." );
-    }
-    catch( final Exception _ex )
-    {
+    } catch ( final Exception _ex ) {
       DataField.DEFAULT_ENCODING = DataField.ENC_UTF8;
     }
 
@@ -123,8 +116,7 @@ public class DataField implements Cloneable
    * @param indx where in the array to add the
    * @param type the object handling the type
    */
-  static void addType( int indx, FieldType type )
-  {
+  static void addType( int indx, FieldType type ) {
     _types.add( indx, type );
   }
 
@@ -134,9 +126,7 @@ public class DataField implements Cloneable
   /**
    * Private no-arg constructor used for cloning
    */
-  private DataField()
-  {
-  }
+  private DataField() {}
 
 
 
@@ -149,8 +139,7 @@ public class DataField implements Cloneable
    * @param type the type code representing the type of data held.
    * @param value the encoded value of the field.
    */
-  protected DataField( short type, byte[] value )
-  {
+  protected DataField( short type, byte[] value ) {
     this.type = type;
     this.value = value;
   }
@@ -163,8 +152,7 @@ public class DataField implements Cloneable
    *
    * @param obj THe object to use as the value of the field
    */
-  public DataField( final Object obj )
-  {
+  public DataField( final Object obj ) {
     type = DataField.getType( obj );
     value = DataField.encode( obj, type );
   }
@@ -180,8 +168,7 @@ public class DataField implements Cloneable
    *
    * @throws IllegalArgumentException
    */
-  public DataField( final String name, final Object obj ) throws IllegalArgumentException
-  {
+  public DataField( final String name, final Object obj ) throws IllegalArgumentException {
     this.name = DataField.nameCheck( name );
     type = DataField.getType( obj );
     value = DataField.encode( obj, type );
@@ -198,16 +185,14 @@ public class DataField implements Cloneable
    *
    * @return A mutable copy of this DataField.
    */
-  public Object clone()
-  {
+  public Object clone() {
     final DataField retval = new DataField();
 
     // strings are immutable
     retval.name = name;
     retval.type = type;
 
-    if( value != null )
-    {
+    if ( value != null ) {
       retval.value = new byte[value.length];
 
       System.arraycopy( value, 0, retval.value, 0, value.length );
@@ -231,10 +216,8 @@ public class DataField implements Cloneable
    *
    * @throws IllegalArgumentException
    */
-  private static String nameCheck( final String name ) throws IllegalArgumentException
-  {
-    if( name != null && name.length() > 255 )
-    {
+  private static String nameCheck( final String name ) throws IllegalArgumentException {
+    if ( name != null && name.length() > 255 ) {
       throw new IllegalArgumentException( "Name too long - 255 char limit" );
     }
 
@@ -251,18 +234,15 @@ public class DataField implements Cloneable
    *
    * @throws IOException if there was a problem reading the stream.
    */
-  public DataField( final DataInputStream dis ) throws IOException
-  {
+  public DataField( final DataInputStream dis ) throws IOException {
     // The first octet is the length of the name to read in
     final int nameLength = dis.readUnsignedByte();
 
     // If there is a name of any length, read it in as a String
-    if( nameLength > 0 )
-    {
+    if ( nameLength > 0 ) {
       final int i = dis.available();
 
-      if( i < nameLength )
-      {
+      if ( i < nameLength ) {
         throw new IOException( "value underflow: name length specified as " + nameLength + " but only " + i + " octets are available" );
       }
 
@@ -276,42 +256,33 @@ public class DataField implements Cloneable
     type = dis.readByte();
 
     FieldType datatype = null;
-    try
-    {
+    try {
       // get the proper field type
       datatype = getDataType( type );
-    }
-    catch( Throwable ball )
-    {
+    } catch ( Throwable ball ) {
       throw new IOException( "non supported type: '" + type + "'" );
     }
 
     // if the file type is a variable length (i.e. size < 0), read in the length
-    if( datatype.getSize() < 0 )
-    {
+    if ( datatype.getSize() < 0 ) {
       final int length = dis.readUnsignedShort();
 
-      if( length < 0 )
-      {
+      if ( length < 0 ) {
         throw new IOException( "read length bad value: length = " + length + " type = " + type );
       }
 
       final int i = dis.available();
 
-      if( i < length )
-      {
+      if ( i < length ) {
         throw new IOException( "value underflow: length specified as " + length + " but only " + i + " octets are available" );
       }
 
       value = new byte[length];
 
-      if( length > 0 )
-      {
+      if ( length > 0 ) {
         dis.read( value, 0, length );
       }
-    }
-    else
-    {
+    } else {
       value = new byte[datatype.getSize()];
       dis.read( value );
     }
@@ -329,11 +300,9 @@ public class DataField implements Cloneable
    *
    * @throws IllegalArgumentException if the passed object is an unsupported type.
    */
-  public static short getType( final Object obj ) throws IllegalArgumentException
-  {
-    for( short x = 0; x < _types.size(); x++ )
-    {
-      if( _types.get( x ).checkType( obj ) )
+  public static short getType( final Object obj ) throws IllegalArgumentException {
+    for ( short x = 0; x < _types.size(); x++ ) {
+      if ( _types.get( x ).checkType( obj ) )
         return x;
     }
 
@@ -353,8 +322,7 @@ public class DataField implements Cloneable
    *
    * @throws IllegalArgumentException If the object is not supported.
    */
-  public static byte[] encode( final Object obj ) throws IllegalArgumentException
-  {
+  public static byte[] encode( final Object obj ) throws IllegalArgumentException {
     return DataField.encode( obj, DataField.getType( obj ) );
   }
 
@@ -372,8 +340,7 @@ public class DataField implements Cloneable
    *
    * @throws IllegalArgumentException
    */
-  public static byte[] encode( final Object obj, final short type ) throws IllegalArgumentException
-  {
+  public static byte[] encode( final Object obj, final short type ) throws IllegalArgumentException {
     FieldType datatype = getDataType( type );
     return datatype.encode( obj );
   }
@@ -384,8 +351,7 @@ public class DataField implements Cloneable
   /**
    * @return The numeric type of this field.
    */
-  public short getType()
-  {
+  public short getType() {
     return type;
   }
 
@@ -395,8 +361,7 @@ public class DataField implements Cloneable
   /**
    * @return The number of octets this fields value uses.
    */
-  public int getLength()
-  {
+  public int getLength() {
     return value.length;
   }
 
@@ -406,8 +371,7 @@ public class DataField implements Cloneable
   /**
    * @return The encoded value of this field.
    */
-  public byte[] getValue()
-  {
+  public byte[] getValue() {
     return value;
   }
 
@@ -417,8 +381,7 @@ public class DataField implements Cloneable
   /**
    * @return The value of this field as an object.
    */
-  public Object getObjectValue()
-  {
+  public Object getObjectValue() {
     return getObjectValue( type, value );
   }
 
@@ -430,8 +393,7 @@ public class DataField implements Cloneable
    * 
    * @return the object value of the data encoded in the value attribute.
    */
-  private Object getObjectValue( final short typ, final byte[] val )
-  {
+  private Object getObjectValue( final short typ, final byte[] val ) {
     FieldType datatype = getDataType( typ );
     return datatype.decode( val );
   }
@@ -446,19 +408,15 @@ public class DataField implements Cloneable
    *
    * @throws IOException if there is a problem writing to the output stream.
    */
-  public void write( final DataOutputStream dos ) throws IOException
-  {
+  public void write( final DataOutputStream dos ) throws IOException {
     // If we have a name...
-    if( name != null )
-    {
+    if ( name != null ) {
       // write the length and name fields
       final byte[] nameField = name.getBytes( DataField.strEnc );
       final int nameLength = nameField.length;
       dos.write( ByteUtil.renderShortByte( (short)nameLength ) );
       dos.write( nameField );
-    }
-    else
-    {
+    } else {
       // indicate a name field length of 0
       dos.write( ByteUtil.renderShortByte( (short)0 ) );
     }
@@ -466,23 +424,19 @@ public class DataField implements Cloneable
     // Write the type field
     dos.write( ByteUtil.renderShortByte( type ) );
 
-    if( value != null )
-    {
+    if ( value != null ) {
 
       FieldType datatype = getDataType( type );
 
       // If the value is variable in length
-      if( datatype.getSize() < 0 )
-      {
+      if ( datatype.getSize() < 0 ) {
         // write the length
         dos.writeShort( value.length );
       }
 
       // write the value itself
       dos.write( value );
-    }
-    else
-    {
+    } else {
       dos.writeShort( 0 );
     }
 
@@ -497,18 +451,13 @@ public class DataField implements Cloneable
    *
    * @return binary representation of the field.
    */
-  public byte[] getBytes()
-  {
+  public byte[] getBytes() {
     final ByteArrayOutputStream out = new ByteArrayOutputStream();
     final DataOutputStream dos = new DataOutputStream( out );
 
-    try
-    {
+    try {
       write( dos );
-    }
-    catch( final IOException ioe )
-    {
-    }
+    } catch ( final IOException ioe ) {}
 
     return out.toByteArray();
   }
@@ -521,8 +470,7 @@ public class DataField implements Cloneable
    * 
    * @return The name of this field.
    */
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
@@ -534,8 +482,7 @@ public class DataField implements Cloneable
    * 
    * @param string Then name of this field.
    */
-  public void setName( final String string )
-  {
+  public void setName( final String string ) {
     name = string;
   }
 
@@ -549,8 +496,7 @@ public class DataField implements Cloneable
    *
    * @return The name of the type represented by the code
    */
-  private static String getTypeName( final short code )
-  {
+  private static String getTypeName( final short code ) {
     return getDataType( code ).getTypeName();
   }
 
@@ -565,29 +511,24 @@ public class DataField implements Cloneable
    * @return the number of octets used to represent the data type in its 
    * encoded form.
    */
-  protected static int getTypeSize( final short code )
-  {
+  protected static int getTypeSize( final short code ) {
     return getDataType( code ).getSize();
   }
 
 
 
 
-  protected static FieldType getDataType( short typ )
-  {
+  protected static FieldType getDataType( short typ ) {
     FieldType retval = null;
 
-    try
-    {
+    try {
       // get the proper field type
       retval = _types.get( typ );
-    }
-    catch( Throwable ball )
-    {
+    } catch ( Throwable ball ) {
       throw new IllegalArgumentException( "Unsupported data type of '" + typ + "'" );
     }
 
-    if( retval == null )
+    if ( retval == null )
       throw new IllegalArgumentException( "Null type field for type: '" + typ + "'" );
     else
       return retval;
@@ -601,8 +542,7 @@ public class DataField implements Cloneable
    *
    * @return The name of the data type for this instance
    */
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return DataField.getTypeName( type );
   }
 
@@ -612,8 +552,7 @@ public class DataField implements Cloneable
   /**
    * @return True if the value is numeric, false otherwise.
    */
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return getDataType( type ).isNumeric();
   }
 
@@ -623,8 +562,7 @@ public class DataField implements Cloneable
   /**
    * @return True if the value is a frame, false otherwise.
    */
-  public boolean isFrame()
-  {
+  public boolean isFrame() {
     return type == FRAMETYPE;
   }
 
@@ -637,18 +575,15 @@ public class DataField implements Cloneable
    * @return a string representation of the data field instance
    */
   @Override
-  public String toString()
-  {
+  public String toString() {
     final StringBuffer buf = new StringBuffer( "DataField:" );
     buf.append( " name='" + name + "'" );
     buf.append( " type=" + type );
-    if( value.length > 40 )
-    {
+    if ( value.length > 40 ) {
       byte[] sample = new byte[40];
       System.arraycopy( value, 0, sample, 0, sample.length );
       buf.append( " value=[" + ByteUtil.bytesToHex( sample ) + " ...]" );
-    }
-    else
+    } else
       buf.append( " value=[" + ByteUtil.bytesToHex( value ) + "]" );
 
     return buf.toString();
@@ -660,9 +595,37 @@ public class DataField implements Cloneable
   /**
    * @return the number of types currently supported/
    */
-  static int typeCount()
-  {
+  static int typeCount() {
     return _types.size();
+  }
+
+
+
+
+  /**
+   * @return The value of this field as a String.
+   */
+  public String getStringValue() {
+    return getStringValue( type, value );
+  }
+
+
+
+
+  /**
+   * Decode the field into an string representation.
+   * 
+   * <p>This is useful when using this field as a value and needing to output 
+   * it in human readable form. This is similar to the toString function except
+   * this represents the value carried/encapsulated in this field, not the 
+   * field itself.</p>
+   * 
+   * @return the string representation of the object value of the data encoded 
+   * in the value attribute.
+   */
+  private String getStringValue( final short typ, final byte[] val ) {
+    FieldType datatype = getDataType( typ );
+    return datatype.stringValue( val );
   }
 
 }

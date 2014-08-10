@@ -15,8 +15,7 @@ import coyote.commons.ByteUtil;
 
 
 /** Type representing an unsigned, 8-bit value in the range of 0 to 255 */
-public class U8Type implements FieldType
-{
+public class U8Type implements FieldType {
   private static final int _size = 1;
 
   private final static String _name = "U8";
@@ -24,27 +23,21 @@ public class U8Type implements FieldType
 
 
 
-  public boolean checkType( Object obj )
-  {
-    return ( 
-        ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || 
-        ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 ) 
-        );
+  public boolean checkType( Object obj ) {
+    return ( ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 && ( (Short)obj ).shortValue() <= 255 ) );
   }
 
 
 
 
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
     return new Short( ByteUtil.retrieveUnsignedShortByte( value, 0 ) );
   }
 
 
 
 
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     final byte[] retval = new byte[1];
     retval[0] = ByteUtil.renderShortByte( (Short)obj );
     return retval;
@@ -53,25 +46,37 @@ public class U8Type implements FieldType
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return true;
   }
 
 
 
 
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

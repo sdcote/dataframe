@@ -30,8 +30,7 @@ import coyote.commons.ByteUtil;
  * element.
  * </p>
  */
-public class ArrayType implements FieldType
-{
+public class ArrayType implements FieldType {
 
   private static final Object[] EMPTY_ARRAY = new Object[0];
 
@@ -42,8 +41,7 @@ public class ArrayType implements FieldType
 
 
 
-  public boolean checkType( Object obj )
-  {
+  public boolean checkType( Object obj ) {
     return obj instanceof Object[];
   }
 
@@ -53,8 +51,7 @@ public class ArrayType implements FieldType
   /**
    * 
    */
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
 
     Object[] retval = EMPTY_ARRAY;
     ArrayList<Object> elements = new ArrayList<Object>();
@@ -62,56 +59,44 @@ public class ArrayType implements FieldType
     byte[] data = null;
     FieldType datatype = null;
 
-    if( value != null )
-    {
+    if ( value != null ) {
 
-      try
-      {
+      try {
         // Create a data input stream
         final ByteArrayInputStream bais = new ByteArrayInputStream( value );
         final DataInputStream dis = new DataInputStream( bais );
 
-        while( dis.available() > 0 )
-        {
+        while ( dis.available() > 0 ) {
           // the next field we read is the data type
           type = dis.readByte();
 
-          try
-          {
+          try {
             // get the proper field type
             datatype = DataField.getDataType( type );
-          }
-          catch( Throwable ball )
-          {
+          } catch ( Throwable ball ) {
             throw new IOException( "non supported type: '" + type + "'" );
           }
 
           // if the file type is a variable length (i.e. size < 0), read in the length
-          if( datatype.getSize() < 0 )
-          {
+          if ( datatype.getSize() < 0 ) {
             final int length = dis.readUnsignedShort();
 
-            if( length < 0 )
-            {
+            if ( length < 0 ) {
               throw new IOException( "read length bad value: length = " + length + " type = " + type );
             }
 
             int i = dis.available();
 
-            if( i < length )
-            {
+            if ( i < length ) {
               throw new IOException( "value underflow: length specified as " + length + " but only " + i + " octets are available" );
             }
 
             data = new byte[length];
 
-            if( length > 0 )
-            {
+            if ( length > 0 ) {
               dis.read( data, 0, length );
             }
-          }
-          else
-          {
+          } else {
             data = new byte[datatype.getSize()];
             dis.read( data );
           }
@@ -123,9 +108,7 @@ public class ArrayType implements FieldType
 
         retval = elements.toArray();
 
-      }
-      catch( Exception e )
-      {
+      } catch ( Exception e ) {
         throw new IllegalArgumentException( "Could not decode value", e );
       }
 
@@ -141,17 +124,14 @@ public class ArrayType implements FieldType
   /**
    * Encode the payload portion of the array (i.e., no name or type)
    */
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     final Object[] ary = (Object[])obj;
 
     final ByteArrayOutputStream out = new ByteArrayOutputStream();
     final DataOutputStream dos = new DataOutputStream( out );
 
-    for( int x = 0; x < ary.length; x++ )
-    {
-      try
-      {
+    for ( int x = 0; x < ary.length; x++ ) {
+      try {
         // This will throw an exception for any unsupported data types.
         final short tipe = DataField.getType( ary[x] );
         final byte[] data = DataField.encode( ary[x], tipe );
@@ -160,25 +140,19 @@ public class ArrayType implements FieldType
         // Write the type field
         dos.write( ByteUtil.renderShortByte( tipe ) );
 
-        if( data != null )
-        {
+        if ( data != null ) {
           // If the value is variable in length
-          if( size < 0 )
-          {
+          if ( size < 0 ) {
             // write the length
             dos.writeShort( data.length );
           }
 
           // write the value itself
           dos.write( data );
-        }
-        else
-        {
+        } else {
           dos.writeShort( 0 );// null value
         }
-      }
-      catch( final Throwable t )
-      {
+      } catch ( final Throwable t ) {
         System.err.println( "Array object of type " + ary[x].getClass().getSimpleName() + " is not supported in DataFrames" );
         // just skip the offending object and add the rest.
       }
@@ -190,25 +164,37 @@ public class ArrayType implements FieldType
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return false;
   }
 
 
 
 
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

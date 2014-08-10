@@ -15,8 +15,7 @@ import coyote.commons.ByteUtil;
 
 
 /** signed, 16-bit value in the range of -32,768 to 32,767 */
-public class S16Type implements FieldType
-{
+public class S16Type implements FieldType {
   private static final int _size = 2;
 
   private final static String _name = "S16";
@@ -24,49 +23,58 @@ public class S16Type implements FieldType
 
 
 
-  public boolean checkType( Object obj )
-  {
+  public boolean checkType( Object obj ) {
     return ( obj instanceof java.lang.Short );
   }
 
 
 
 
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
     return new Short( ByteUtil.retrieveShort( value, 0 ) );
   }
 
 
 
 
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     return ByteUtil.renderShort( ( (Short)obj ).shortValue() );
   }
 
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return true;
   }
 
 
 
 
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

@@ -13,9 +13,9 @@ package coyote.dataframe;
 
 import coyote.commons.ByteUtil;
 
+
 /** Type representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
-public class S32Type implements FieldType
-{
+public class S32Type implements FieldType {
   private static final int _size = 4;
 
   private final static String _name = "S32";
@@ -23,49 +23,58 @@ public class S32Type implements FieldType
 
 
 
-  public boolean checkType( Object obj )
-  {
+  public boolean checkType( Object obj ) {
     return obj instanceof Integer;
   }
 
 
 
 
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
     return new Integer( ByteUtil.retrieveInt( value, 0 ) );
   }
 
 
 
 
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     return ByteUtil.renderInt( ( (Integer)obj ).intValue() );
   }
 
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return true;
   }
 
 
 
 
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

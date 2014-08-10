@@ -17,16 +17,14 @@ import coyote.commons.ByteUtil;
 
 
 /** Type representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
-public class U64Type implements FieldType
-{
+public class U64Type implements FieldType {
   private static final int _size = 8;
 
   private final static String _name = "U64";
 
   static final BigInteger MAX_VALUE;
   static final BigInteger MIN_VALUE;
-  static
-  {
+  static {
     byte[] input = { (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff, (byte)0xff };
     MAX_VALUE = new BigInteger( 1, input );
     byte[] input2 = { (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00, (byte)0x00 };
@@ -36,49 +34,58 @@ public class U64Type implements FieldType
 
 
 
-  public boolean checkType( Object obj )
-  {
+  public boolean checkType( Object obj ) {
     return ( ( obj instanceof java.lang.Byte && ( (Byte)obj ).byteValue() >= 0 ) || ( obj instanceof java.lang.Short && ( (Short)obj ).shortValue() >= 0 ) || ( obj instanceof java.lang.Integer && ( (Integer)obj ).intValue() >= 0 ) || ( obj instanceof java.lang.Long && ( (Long)obj ).longValue() >= 0 || ( obj instanceof java.math.BigInteger && ( (BigInteger)obj ).compareTo( MIN_VALUE ) >= 0 && ( (BigInteger)obj ).compareTo( MAX_VALUE ) <= 0 ) ) );
   }
 
 
 
 
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
     return new BigInteger( 1, value );
   }
 
 
 
 
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     return ByteUtil.renderBigInteger( (BigInteger)obj );
   }
 
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return true;
   }
 
 
 
 
-  public int getSize()
-  {
+  public int getSize() {
     return _size;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

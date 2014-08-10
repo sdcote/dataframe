@@ -14,8 +14,7 @@ package coyote.dataframe;
 /**
  * Type representing a null value.
  */
-public class NullType implements FieldType
-{
+public class NullType implements FieldType {
 
   private static final byte[] NULLVALUE = new byte[0];
 
@@ -28,8 +27,7 @@ public class NullType implements FieldType
    * zero size implies null type
    * @see coyote.dataframe.FieldType#getSize()
    */
-  public int getSize()
-  {
+  public int getSize() {
     return 0;
   }
 
@@ -39,9 +37,8 @@ public class NullType implements FieldType
   /**
    * @see coyote.dataframe.FieldType#checkType(java.lang.Object)
    */
-  public boolean checkType( Object obj )
-  {
-    if( obj == null )
+  public boolean checkType( Object obj ) {
+    if ( obj == null )
       return true;
     else
       return false;
@@ -50,33 +47,44 @@ public class NullType implements FieldType
 
 
 
-  public byte[] encode( Object obj )
-  {
+  public byte[] encode( Object obj ) {
     return NULLVALUE;
   }
 
 
 
 
-  public Object decode( byte[] value )
-  {
+  public Object decode( byte[] value ) {
     return null;
   }
 
 
 
 
-  public String getTypeName()
-  {
+  public String getTypeName() {
     return _name;
   }
 
 
 
 
-  public boolean isNumeric()
-  {
+  public boolean isNumeric() {
     return false;
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#stringValue(byte[])
+   */
+  @Override
+  public String stringValue( byte[] val ) {
+    Object obj = decode( val );
+    if ( obj != null )
+      return obj.toString();
+    else
+      return "";
   }
 
 }

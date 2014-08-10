@@ -14,8 +14,7 @@ package coyote.dataframe;
 /**
  * Exception thrown when there is a problem with DataFrame operations.
  */
-public final class DataFrameException extends Exception
-{
+public final class DataFrameException extends Exception {
 
   /**
    * 
@@ -28,8 +27,7 @@ public final class DataFrameException extends Exception
   /**
    * Constructor with no message.
    */
-  public DataFrameException()
-  {
+  public DataFrameException() {
     super();
   }
 
@@ -41,8 +39,7 @@ public final class DataFrameException extends Exception
    *
    * @param message The text of the message.
    */
-  public DataFrameException( final String message )
-  {
+  public DataFrameException( final String message ) {
     super( message );
   }
 
@@ -55,8 +52,7 @@ public final class DataFrameException extends Exception
    * @param message The text of the message.
    * @param excptn The throwable object (exception?) to nest in this exception
    */
-  public DataFrameException( final String message, final Throwable excptn )
-  {
+  public DataFrameException( final String message, final Throwable excptn ) {
     super( message, excptn );
   }
 
@@ -68,8 +64,7 @@ public final class DataFrameException extends Exception
    *
    * @param excptn The throwable object (exception?) to nest in this exception
    */
-  public DataFrameException( final Throwable excptn )
-  {
+  public DataFrameException( final Throwable excptn ) {
     super( excptn );
   }
 }

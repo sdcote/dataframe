@@ -701,9 +701,11 @@ public class DataFrame implements Cloneable {
       b.append( field.getName() );
       b.append( "\" : " );
 
-      if( field.getType() != DataField.FRAMETYPE )  b.append( '"' );
+      if ( field.getType() != DataField.FRAMETYPE )
+        b.append( '"' );
       b.append( ( field.getObjectValue() == null ? "NULL" : field.getObjectValue().toString() ) );
-      if( field.getType() != DataField.FRAMETYPE )  b.append( '"' );
+      if ( field.getType() != DataField.FRAMETYPE )
+        b.append( '"' );
 
       b.append( ", " );
     }

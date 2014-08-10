@@ -80,4 +80,21 @@ public interface FieldType {
    */
   public String getTypeName();
 
+
+
+
+  /**
+   * Get the string value of this data type.
+   * 
+   * <p>This allows each supported type to customize its own string 
+   * representation of the values it supports. Cor example, the string 
+   * representation can be customized to be formatted in ISO 8601 or the Java
+   * standard long date format.</p>
+   * 
+   * @param val the bytes to decode into a string representation of this type.
+   * 
+   * @return The string representation of this type.
+   */
+  public String stringValue( byte[] val );
+
 }
