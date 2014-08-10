@@ -145,8 +145,9 @@ public class CSVMarshaler {
 
 
   /**
-   * @param frameset
-   * @return
+   * Generate the header row for the CSV data
+   * 
+   * @param frameset the set of frames containing the date from which column names are extracted.
    */
   private static void processHeader( final FrameSet frameset, PrintWriter printwriter ) {
     final List<String> names = frameset.getColumns();
@@ -166,19 +167,19 @@ public class CSVMarshaler {
 
 
   /**
-   * @param dataset
+   * Process all the DataFrames as rows in this frameset.
    * 
-   * @return
+   * @param frameset the set of frames containing the rows of data.
    */
-  private static void processRows( final FrameSet dataset, PrintWriter printwriter ) {
+  private static void processRows( final FrameSet frameset, PrintWriter printwriter ) {
 
     // List of column names in order they should be output
-    final List<String> names = dataset.getColumns();
+    final List<String> names = frameset.getColumns();
 
     String token = null;
     // for each one of the frames/rows
-    for ( int index = 0; index < dataset.size(); index++ ) {
-      final DataFrame frame = dataset.get( index );
+    for ( int index = 0; index < frameset.size(); index++ ) {
+      final DataFrame frame = frameset.get( index );
       final StringBuilder retval = new StringBuilder();
 
       // for each of the columns in that row
