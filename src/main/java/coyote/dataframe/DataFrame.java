@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -319,7 +320,6 @@ public class DataFrame implements Cloneable {
     } else {
       fields.add( new DataField( value ) );
     }
-
     return fields.size() - 1;
   }
 
@@ -713,5 +713,154 @@ public class DataFrame implements Cloneable {
     b.append( " }" );
     return b.toString();
   }
+
+
+
+
+  /**
+   * @see java.util.Map#size()
+   */
+  public int size() {
+    return fields.size();
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#isEmpty()
+   */
+  public boolean isEmpty() {
+    return fields.size() == 0;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#containsKey(java.lang.Object)
+   */
+  public boolean containsKey( Object key ) {
+    return key != null && key instanceof String && contains( (String)key );
+  }
+
+
+
+
+  /**
+   * This is not supported
+   * @see java.util.Map#containsValue(java.lang.Object)
+   */
+  public boolean containsValue( Object value ) {
+    return false;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#get(java.lang.Object)
+   */
+  public Object get( Object key ) {
+    if ( key != null && key instanceof String )
+      return this.getObject( (String)key );
+    else
+      return null;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+   */
+  public Object put( Object key, Object value ) {
+    Object retval = null;
+
+    if ( key != null ) {
+
+      if ( key instanceof String ) {
+        String name = (String)key;
+
+        for ( int i = 0; i < fields.size(); i++ ) {
+          final DataField field = fields.get( i );
+
+          if ( ( field.name != null ) && field.name.equals( name ) ) {
+
+            if ( value != null ) {
+              retval = field.getObjectValue();
+              field.type = DataField.getType( value );
+              field.value = DataField.encode( value );
+            } else {
+              // Null object implies remove the named field
+              retval = fields.remove( i );
+            }
+            modified = true;
+
+            return retval;
+          } // found
+        } // for
+
+        // not found, add the value 
+        return add( name, value );
+      } else {
+        // key is not a string
+        throw new IllegalArgumentException( "DataFrame keys must be of type String" );
+      }
+    } else {
+      add( value );
+    }
+    return retval;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#remove(java.lang.Object)
+   */
+  public Object remove( Object key ) {
+    if ( key != null && key instanceof String ) {
+      DataField field = remove( (String)key );
+      if ( field != null )
+        return field.getObjectValue();
+    }
+    return null;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#keySet()
+   */
+  public Set keySet() {
+    // get a list of unique field names
+    Set<String> names = new HashSet<String>();
+    for ( int i = 0; i < fields.size(); names.add( fields.get( i++ ).getName() ) );
+    return names;
+  }
+
+
+
+
+  /**
+   * @see java.util.Map#values()
+   */
+  public Collection values() {
+    List<Object> retval = new ArrayList<Object>();
+    for ( int i = 0; i < fields.size(); retval.add( fields.get( i++ ).getObjectValue() ) );
+    return retval;
+  }
+
+  /**
+   * @see java.util.Map#putAll(java.util.Map)
+   */
+  //public void putAll( Map m ) {}
+
+  /**
+   * @see java.util.Map#entrySet()
+   */
+  //public Set entrySet() { return null; }
 
 }
