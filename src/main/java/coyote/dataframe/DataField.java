@@ -102,9 +102,13 @@ public class DataField implements Cloneable {
     DataField.addType( 17, new ArrayType() );
   }
 
-  /** Field name */
+  /** Name of this field */
   String name = null;
+
+  /** The type of data being held. */
   short type;
+
+  /** The actual value being held */
   byte[] value;
 
 
@@ -124,9 +128,9 @@ public class DataField implements Cloneable {
 
 
   /**
-   * Private no-arg constructor used for cloning
+   * Protected no-arg constructor used for cloning
    */
-  private DataField() {}
+  protected DataField() {}
 
 
 
@@ -305,9 +309,7 @@ public class DataField implements Cloneable {
       if ( _types.get( x ).checkType( obj ) )
         return x;
     }
-
     throw new IllegalArgumentException( "Unsupported Object Type" );
-
   }
 
 
