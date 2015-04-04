@@ -695,22 +695,26 @@ public class DataFrame implements Cloneable {
   @Override
   public String toString() {
     StringBuffer b = new StringBuffer();
-    b.append( "{ " );
-    for ( DataField field : fields ) {
-      b.append( '"' );
-      b.append( field.getName() );
-      b.append( "\" : " );
-
-      if ( field.getType() != DataField.FRAMETYPE )
+    if ( fields.size() > 0 ) {
+      b.append( "{ " );
+      for ( DataField field : fields ) {
         b.append( '"' );
-      b.append( ( field.getObjectValue() == null ? "NULL" : field.getObjectValue().toString() ) );
-      if ( field.getType() != DataField.FRAMETYPE )
-        b.append( '"' );
+        b.append( field.getName() );
+        b.append( "\" : " );
 
-      b.append( ", " );
+        if ( field.getType() != DataField.FRAMETYPE )
+          b.append( '"' );
+        b.append( ( field.getObjectValue() == null ? "NULL" : field.getObjectValue().toString() ) );
+        if ( field.getType() != DataField.FRAMETYPE )
+          b.append( '"' );
+
+        b.append( ", " );
+      }
+      b.delete( b.length() - 2, b.length() );
+      b.append( " }" );
+    } else {
+      b.append( "{}" );
     }
-    b.delete( b.length() - 2, b.length() );
-    b.append( " }" );
     return b.toString();
   }
 

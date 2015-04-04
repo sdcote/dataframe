@@ -59,9 +59,9 @@ public class CSVMarshaler {
    * 
    * @return A set of data frames representing the data in the CSV
    *  
-   * @throws FrameMarshalingException if there were problems marshaling the data
+   * @throws MarshalException if there were problems marshaling the data
    */
-  public static FrameSet read( String filename ) throws FrameMarshalingException {
+  public static FrameSet read( String filename ) throws MarshalException {
     File file = new File( filename );
 
     // perform all the necessary checks, the delegate to
