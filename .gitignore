@@ -8,6 +8,7 @@ bin/
 # Other Projects #
 ##################
 csharp/
+json/
 
 # Compiled Artifacts #
 ######################
