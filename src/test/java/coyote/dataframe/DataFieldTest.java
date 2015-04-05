@@ -742,7 +742,7 @@ public class DataFieldTest
     DataField subject = new DataField( "Test", 32767 );
     String text = subject.toString();
     assertNotNull( text );
-    assertTrue( text.length() == 43 );
+    assertTrue( text.length() == 48 );
 
     // Test truncation of long values
     subject = new DataField( "Test", "01234567890123456789012345678901234567890123456789" );

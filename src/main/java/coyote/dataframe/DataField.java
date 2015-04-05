@@ -45,8 +45,14 @@ public class DataField implements Cloneable {
   /** array of data types supported */
   private static final ArrayList<FieldType> _types = new ArrayList<FieldType>();
 
-  /** (0) Type code representing a byte array */
+  /** (0) Type code representing a nested data frame */
   public static final short FRAMETYPE = 0;
+
+  /** (1) Type code representing a byte array */
+  public static final short NULLTYPE = 1;
+
+  /** (14) Type code representing a boolean */
+  public static final short BOOLEANTYPE = 14;
 
   static final String ENC_UTF8 = "UTF8";
 
@@ -67,7 +73,7 @@ public class DataField implements Cloneable {
     /** (0) Type code representing a nested data frame */
     DataField.addType( FRAMETYPE, new FrameType() );
     /** (1) Type code representing a NULL value - undefined type and a therefore empty value */
-    DataField.addType( 1, new NullType() );
+    DataField.addType( NULLTYPE, new NullType() );
     /** (2) Type code representing a byte array */
     DataField.addType( 2, new ByteArrayType() );
     /** (3) Type code representing a String object */
@@ -93,7 +99,7 @@ public class DataField implements Cloneable {
     /** (13) Type code representing a 64-bit floating point value in the range of +/-4.9406e-324 to +/-1.7977e+308. */
     DataField.addType( 13, new DoubleType() );
     /** (14) Type code representing a boolean value */
-    DataField.addType( 14, new BooleanType() );
+    DataField.addType( BOOLEANTYPE, new BooleanType() );
     /** (15) Type code representing a unsigned 32-bit epoch time in milliseconds */
     DataField.addType( 15, new DateType() );
     /** (16) Type code representing a uniform resource identifier */
@@ -580,9 +586,10 @@ public class DataField implements Cloneable {
   public String toString() {
     final StringBuffer buf = new StringBuffer( "DataField:" );
     buf.append( " name='" + name + "'" );
-    buf.append( " type=" + type );
-    if ( value.length > 40 ) {
-      byte[] sample = new byte[40];
+    buf.append( " type=" + this.getTypeName() );
+    buf.append( "(" + type +")");
+    if ( value.length > 32 ) {
+      byte[] sample = new byte[32];
       System.arraycopy( value, 0, sample, 0, sample.length );
       buf.append( " value=[" + ByteUtil.bytesToHex( sample ) + " ...]" );
     } else

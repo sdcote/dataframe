@@ -74,6 +74,16 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * Convenience constructor for a frame wrapping the given field.
+   */
+  public DataFrame( DataField field ) {
+    fields.add( field );
+  }
+
+
+
+
+  /**
    * Construct the frame with the given bytes.
    *
    * @param data The byte array from which to construct the frame.
@@ -696,22 +706,44 @@ public class DataFrame implements Cloneable {
   public String toString() {
     StringBuffer b = new StringBuffer();
     if ( fields.size() > 0 ) {
-      b.append( "{ " );
-      for ( DataField field : fields ) {
-        b.append( '"' );
-        b.append( field.getName() );
-        b.append( "\" : " );
+      boolean isArray = this.isArray();
+      if ( isArray )
+        b.append( "[ " );
+      else
+        b.append( "{ " );
 
-        if ( field.getType() != DataField.FRAMETYPE )
+      for ( DataField field : fields ) {
+        if ( !isArray ) {
           b.append( '"' );
-        b.append( ( field.getObjectValue() == null ? "NULL" : field.getObjectValue().toString() ) );
-        if ( field.getType() != DataField.FRAMETYPE )
-          b.append( '"' );
+          b.append( field.getName() );
+          b.append( "\" : " );
+        }
+
+        if ( field.getType() == DataField.NULLTYPE ) {
+          b.append( "null" );
+        } else if ( field.getType() == DataField.BOOLEANTYPE ) {
+          b.append( field.getStringValue().toLowerCase() );
+        } else if ( field.isNumeric() ) {
+          b.append( field.getStringValue() );
+        } else if ( field.getType() != DataField.FRAMETYPE ) {
+          if ( field.getObjectValue() != null ) {
+            b.append( '"' );
+            b.append( field.getObjectValue().toString() );
+            b.append( '"' );
+          }
+        } else{
+          b.append( field.getObjectValue().toString() );
+        }
 
         b.append( ", " );
       }
       b.delete( b.length() - 2, b.length() );
-      b.append( " }" );
+
+      if ( isArray )
+        b.append( " ]" );
+      else
+        b.append( " }" );
+
     } else {
       b.append( "{}" );
     }
@@ -736,6 +768,24 @@ public class DataFrame implements Cloneable {
    */
   public boolean isEmpty() {
     return fields.size() == 0;
+  }
+
+
+
+
+  /**
+   * Scans through all the children and if none have a name, then the frame is 
+   * considered an array.
+   * 
+   * @return true if all the children have no (null) name, false otherwise.
+   */
+  public boolean isArray() {
+    boolean retval = true;
+    for ( DataField field : fields ) {
+      if ( field.name != null )
+        return false;
+    }
+    return retval;
   }
 
 

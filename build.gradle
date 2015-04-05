@@ -19,7 +19,7 @@ defaultTasks 'clean', 'build', 'jacocoTestReport', 'uploadArchives'
 
 
 group = 'coyote'
-version = '0.0.5'
+version = '0.2'
 
 
 ext {
