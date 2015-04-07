@@ -48,6 +48,13 @@ public class JSONMarshaler {
 
 
 
+	/**
+	 * Generate a JSON string from the given data frame.
+	 * 
+	 * @param frame The frame to marshal
+	 * 
+	 * @return A JSON formatted string which can be marshaled back into a frame
+	 */
 	public static String marshal(final DataFrame frame) {
 		return writeFrame(frame, WriterConfig.MINIMAL);
 	}
@@ -56,7 +63,7 @@ public class JSONMarshaler {
 
 
 	/**
-	 * Use the JSON Writer to output a nicely formatted JSON string.
+	 * Generate a nicely formatted (and indented) JSON string from the given data frame.
 	 * 
 	 * @param frame The frame to marshal
 	 * 
