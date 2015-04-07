@@ -19,4 +19,4 @@ Prerequisites:
 --------
   * JDK 1.6 or later installed
   * Ability to run bash scripts
-  * Assumes you do not have cradle installed (if you do, you can replace gradlew with gradle)
+  * Assumes you do not have gradle installed (if you do, you can replace gradlew with gradle)
