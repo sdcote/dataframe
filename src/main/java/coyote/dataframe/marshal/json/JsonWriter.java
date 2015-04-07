@@ -1,4 +1,4 @@
-package coyote.commons.json;
+package coyote.dataframe.marshal.json;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -13,8 +13,6 @@ class JsonWriter {
   private static final char[] LF_CHARS = { '\\', 'n' };
   private static final char[] CR_CHARS = { '\\', 'r' };
   private static final char[] TAB_CHARS = { '\\', 't' };
-  // In JavaScript, U+2028 and U+2029 characters count as line endings and must be encoded.
-  // http://stackoverflow.com/questions/2965293/javascript-parse-error-on-u2028-unicode-character
   private static final char[] UNICODE_2028_CHARS = { '\\', 'u',  '2', '0', '2', '8' };
   private static final char[] UNICODE_2029_CHARS = { '\\', 'u',  '2', '0', '2', '9' };
   private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',

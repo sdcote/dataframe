@@ -1,11 +1,16 @@
-package coyote.commons.json;
+package coyote.dataframe.marshal.json;
 
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
+
+import coyote.dataframe.DataField;
+import coyote.dataframe.DataFrame;
 
 
-public class JsonParser {
+public class JsonFrameParser {
 
   private static final int MIN_BUFFER_SIZE = 10;
   private static final int DEFAULT_BUFFER_SIZE = 1024;
@@ -13,50 +18,41 @@ public class JsonParser {
   private final Reader reader;
   private final char[] buffer;
   private int bufferOffset;
-  
+
   private int fill;
   private int line;
   private int lineOffset;
-  
+
   // where we are in the current buffer
   private int index;
 
   // The current character under consideration
   private int current;
-  
+
   // What has been captured so far
   private StringBuilder captureBuffer;
-  
+
   // index into the current buffer where we start capturing our value
   private int captureStart;
 
 
 
 
-  /*
-   * |                      bufferOffset
-   *                        v
-   * [a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t]        < input
-   *                       [l|m|n|o|p|q|r|s|t|?|?]    < buffer
-   *                          ^               ^
-   *                       |  index           fill
-   */
-
-  public JsonParser( String string ) {
+  public JsonFrameParser( String string ) {
     this( new StringReader( string ), Math.max( MIN_BUFFER_SIZE, Math.min( DEFAULT_BUFFER_SIZE, string.length() ) ) );
   }
 
 
 
 
-  public JsonParser( Reader reader ) {
+  public JsonFrameParser( Reader reader ) {
     this( reader, DEFAULT_BUFFER_SIZE );
   }
 
 
 
 
-  public JsonParser( Reader reader, int buffersize ) {
+  public JsonFrameParser( Reader reader, int buffersize ) {
     this.reader = reader;
     buffer = new char[buffersize];
     line = 1;
@@ -67,32 +63,45 @@ public class JsonParser {
 
 
   /**
+   * Parse the data and return a list of DataFrames containing the data.
    * 
+   * <p>Normally, there will only be one root value, but some applications may 
+   * have data which represents multiple arrays or objects. This method will 
+   * continue parsing until all objects (or arrays) are consumed.</p>
+   * 
+   * @return the data represented by the currently set string as one or more 
+   * DataFrames
    */
-  public JsonValue parse() throws IOException {
+  public List<DataFrame> parse() throws IOException {
+    List<DataFrame> retval = new ArrayList<DataFrame>();
     read();
     skipWhiteSpace();
-    JsonValue result = readValue();
-    skipWhiteSpace();
+
+    while ( current == '{' || current == '[' ) {
+      retval.add( readRootValue() );
+      skipWhiteSpace();
+    }
+
     if ( !isEndOfText() ) {
       throw error( "Unexpected character" );
     }
-    return result;
+    return retval;
+
   }
 
 
 
 
-  private JsonValue readValue() throws IOException {
+  private DataFrame readRootValue() throws IOException {
     switch ( current ) {
       case 'n':
-        return readNull();
+        return new DataFrame( new DataField( readNull() ) );
       case 't':
-        return readTrue();
+        return new DataFrame( new DataField( readTrue() ) );
       case 'f':
-        return readFalse();
+        return new DataFrame( new DataField( readFalse() ) );
       case '"':
-        return readString();
+        return new DataFrame( new DataField( readString() ) );
       case '[':
         return readArray();
       case '{':
@@ -108,7 +117,7 @@ public class JsonParser {
       case '7':
       case '8':
       case '9':
-        return readNumber();
+        return new DataFrame( new DataField( readNumber() ) );
       default:
         throw expected( "value" );
     }
@@ -117,16 +126,54 @@ public class JsonParser {
 
 
 
-  private JsonArray readArray() throws IOException {
+  private DataField readFieldValue( String name ) throws IOException {
+    switch ( current ) {
+      case 'n':
+        return readNull();
+      case 't':
+        return readTrue();
+      case 'f':
+        return readFalse();
+      case '"':
+        return new DataField( name, readString() );
+      case '[':
+        return new DataField( name, readArray() );
+      case '{':
+        return new DataField( name, readObject() );
+      case ']':
+      case ',':
+        return new DataField( name, null );
+      case '-':
+      case '0':
+      case '1':
+      case '2':
+      case '3':
+      case '4':
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+        return new DataField( name, readNumber() );
+      default:
+        throw expected( "value" );
+    }
+  }
+
+
+
+
+  private DataFrame readArray() throws IOException {
     read();
-    JsonArray array = new JsonArray();
+    DataFrame array = new DataFrame();
     skipWhiteSpace();
     if ( readChar( ']' ) ) {
       return array;
     }
     do {
       skipWhiteSpace();
-      array.add( readValue() );
+      DataField field = readFieldValue( null );
+      array.add( field );
       skipWhiteSpace();
     }
     while ( readChar( ',' ) );
@@ -139,22 +186,31 @@ public class JsonParser {
 
 
 
-  private JsonObject readObject() throws IOException {
+  /**
+   * Read the JSON object into a dataFrame
+   * @return
+   * @throws IOException
+   */
+  private DataFrame readObject() throws IOException {
     read();
-    JsonObject object = new JsonObject();
+    DataFrame object = new DataFrame();
     skipWhiteSpace();
     if ( readChar( '}' ) ) {
-      return object;
+      return object; // return an empty frame
     }
+
     do {
+      // try to read the name
       skipWhiteSpace();
       String name = readName();
       skipWhiteSpace();
       if ( !readChar( ':' ) ) {
         throw expected( "':'" );
       }
+      // next, read the value for this named field
       skipWhiteSpace();
-      object.add( name, readValue() );
+      DataField value = readFieldValue( name );
+      object.add( value );
       skipWhiteSpace();
     }
     while ( readChar( ',' ) );
@@ -167,6 +223,11 @@ public class JsonParser {
 
 
 
+  /**
+   * Read a quoted string.
+   * @return
+   * @throws IOException if not quoted
+   */
   private String readName() throws IOException {
     if ( current != '"' ) {
       throw expected( "name" );
@@ -177,35 +238,35 @@ public class JsonParser {
 
 
 
-  private JsonValue readNull() throws IOException {
+  private DataField readNull() throws IOException {
     read();
     readRequiredChar( 'u' );
     readRequiredChar( 'l' );
     readRequiredChar( 'l' );
-    return JsonValue.NULL;
+    return new DataField( null, null );
   }
 
 
 
 
-  private JsonValue readTrue() throws IOException {
+  private DataField readTrue() throws IOException {
     read();
     readRequiredChar( 'r' );
     readRequiredChar( 'u' );
     readRequiredChar( 'e' );
-    return JsonValue.TRUE;
+    return new DataField( null, true );
   }
 
 
 
 
-  private JsonValue readFalse() throws IOException {
+  private DataField readFalse() throws IOException {
     read();
     readRequiredChar( 'a' );
     readRequiredChar( 'l' );
     readRequiredChar( 's' );
     readRequiredChar( 'e' );
-    return JsonValue.FALSE;
+    return new DataField( null, false );
   }
 
 
@@ -220,8 +281,8 @@ public class JsonParser {
 
 
 
-  private JsonValue readString() throws IOException {
-    return new JsonString( readStringInternal() );
+  private String readString() throws IOException {
+    return readStringInternal();
   }
 
 
@@ -292,7 +353,7 @@ public class JsonParser {
 
 
 
-  private JsonValue readNumber() throws IOException {
+  private Object readNumber() throws IOException {
     startCapture();
     readChar( '-' );
     int firstDigit = current;
@@ -304,7 +365,14 @@ public class JsonParser {
     }
     readFraction();
     readExponent();
-    return new JsonNumber( endCapture() );
+    String value = endCapture();
+    // TODO: support more types like exponents and fractions
+    try {
+      return Long.parseLong( value );
+    } catch ( NumberFormatException e ) {
+      // Ignore...just return the string if all else fails
+    }
+    return value; // for now, just return it as a string
   }
 
 
@@ -465,7 +533,7 @@ public class JsonParser {
     int absIndex = bufferOffset + index;
     int column = absIndex - lineOffset;
     int offset = isEndOfText() ? absIndex : absIndex - 1;
-    return new ParseException( message, offset, line, column - 1,current );
+    return new ParseException( message, offset, line, column, current );
   }
 
 

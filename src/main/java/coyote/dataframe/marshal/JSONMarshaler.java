@@ -14,6 +14,7 @@ package coyote.dataframe.marshal;
 import java.util.List;
 
 import coyote.dataframe.DataFrame;
+import coyote.dataframe.marshal.json.JsonFrameParser;
 
 
 /**

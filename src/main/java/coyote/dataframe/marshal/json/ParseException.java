@@ -1,4 +1,4 @@
-package coyote.commons.json;
+package coyote.dataframe.marshal.json;
 
 /**
  * An unchecked exception to indicate that an input does not qualify as valid JSON.
@@ -69,7 +69,7 @@ public class ParseException extends RuntimeException {
    * 
    * <p>This is usually the 'current' character the parser is considering.</p>
    * 
-   * @return the integar value of the character which caused the error.
+   * @return the integer value of the character which caused the error.
    */
   public int getCharacter() {
     return character;
