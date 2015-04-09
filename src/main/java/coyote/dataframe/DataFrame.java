@@ -190,7 +190,7 @@ public class DataFrame implements Cloneable {
    * 
    * @param name The name of the field to retrieve.
    * 
-   * @return The string value of the first file with the given name or null if 
+   * @return The string value of the first field with the given name or null if 
    *         the field could not be found.
    */
   public String getAsString( final String name ) {
@@ -221,6 +221,59 @@ public class DataFrame implements Cloneable {
       return val.toString();
     }
     throw new DataFrameException( "Indexed field does not exist" );
+  }
+
+
+
+
+  /**
+   * Return the value of the named field as a string.
+   * 
+   * @param name The name of the field to retrieve.
+   * 
+   * @return The value of the first field with the given name or null if the 
+   * field with the given name could not be found.
+   * 
+   * @throws DataFrameException if the type of the found field is not a DataFrame.
+   */
+  public DataFrame getAsFrame( final String name ) throws DataFrameException {
+    final Object val = getObject( name );
+    if ( val != null ) {
+      if ( val instanceof DataFrame ) {
+        return (DataFrame)val;
+      } else {
+        throw new DataFrameException( "Named field is not a frame" );
+      }
+    } else {
+      return null;
+    }
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a DataFrame 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field or null if not found
+   * 
+   * @throws DataFrameException if the type of the found field is not a DataFrame.
+   */
+  public DataFrame getAsFrame( final int indx ) throws DataFrameException {
+    final Object val = getObject( indx );
+    if ( val != null ) {
+      if ( val instanceof DataFrame ) {
+        return (DataFrame)val;
+      } else {
+        throw new DataFrameException( "Indexed field is not a frame" );
+      }
+    } else {
+      return null;
+    }
+
   }
 
 
@@ -731,7 +784,7 @@ public class DataFrame implements Cloneable {
             b.append( field.getObjectValue().toString() );
             b.append( '"' );
           }
-        } else{
+        } else {
           b.append( field.getObjectValue().toString() );
         }
 
