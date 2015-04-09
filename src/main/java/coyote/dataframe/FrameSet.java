@@ -22,9 +22,9 @@ import java.util.Set;
 /**
  * This class models a set of rows and allows for their uniform treatment.
  * 
- * <This class was created in response to using DataFrames as Value Objects in
- * a project which queried a variety of objects from data base tables. Using a
- * Frame Set made it easy to collect the objects in one large set and parse
+ * <p>This class was created in response to using DataFrames as Value Objects 
+ * in a project which queried a variety of objects from data base tables. Using 
+ * a Frame Set made it easy to collect the objects in one large set and parse
  * through them for easy output to files and displays.</p>
  */
 public class FrameSet {
