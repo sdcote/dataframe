@@ -325,9 +325,6 @@ public class DataFrame implements Cloneable {
   /**
    * Create a deep-copy of this frame.
    * 
-   * <p>The sequence, source and digest are NOT cloned, as they are generated 
-   * as a part of the transmission process.</p>
-   *
    * @return a clone of this DataFrame
    */
   public Object clone() {

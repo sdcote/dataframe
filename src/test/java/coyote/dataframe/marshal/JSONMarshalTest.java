@@ -9,7 +9,7 @@
  *   Stephan D. Cote 
  *      - Initial concept and initial implementation
  */
-package coyote.dataframe.marshal.json;
+package coyote.dataframe.marshal;
 
 //import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
