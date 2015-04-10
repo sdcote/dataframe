@@ -72,7 +72,7 @@ public class JSONMarshaler {
    * 
    * @return A JSON formatted string which can be marshaled back into a frame
    */
-  public static String prettyPrint( final DataFrame frame ) {
+  public static String toFormattedString( final DataFrame frame ) {
     return write( frame, WriterConfig.PRETTY_PRINT );
   }
 
