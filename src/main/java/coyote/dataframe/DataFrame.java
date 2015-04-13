@@ -285,7 +285,7 @@ public class DataFrame implements Cloneable {
    * @param name The name of the field containing the object to retrieve.
    *
    * @return The object value of the first occurrence of the named field or null 
-   *         if the filed with the given name was not found.
+   *         if the field with the given name was not found.
    */
   public Object getObject( final String name ) {
     for ( int i = 0; i < fields.size(); i++ ) {
