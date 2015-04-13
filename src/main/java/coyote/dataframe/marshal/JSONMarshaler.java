@@ -113,6 +113,10 @@ public class JSONMarshaler {
    */
   private static void writeFrame( final DataFrame frame, final JsonWriter writer ) throws IOException {
 
+    if( frame == null || writer == null){
+      return;
+    }
+	  
     if ( frame.size() > 0 ) {
       boolean isArray = frame.isArray();
       if ( isArray )
