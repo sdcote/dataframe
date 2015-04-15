@@ -333,6 +333,134 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * Convert the given object into a double
+   *  
+   * @param val the object to convert
+   * 
+   * @return the long value of the object
+   * 
+   * @throws DataFrameException if the object was null or not able to be parsed 
+   *         into a double value
+   */
+  private double asDouble( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Double ) {
+        return ( (Double)val ).doubleValue();
+      } else {
+        try {
+          return Double.parseDouble( val.toString() );
+        } catch ( Exception e ) {
+          throw new DataFrameException( "Value of could not be converted into a double" );
+        }
+      }
+    }
+    throw new DataFrameException( "Value of could not be found" );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as a double
+   * value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a double value.
+   */
+  public double getAsDouble( String name ) throws DataFrameException {
+    return asDouble( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a double 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a double value.
+   */
+  public double getAsDouble( final int indx ) throws DataFrameException {
+    return asDouble( getObject( indx ) );
+  }
+
+
+
+
+  /**
+   * Convert the given object into a float
+   *  
+   * @param val the object to convert
+   * 
+   * @return the long value of the object
+   * 
+   * @throws DataFrameException if the object was null or not able to be parsed 
+   *         into a float value
+   */
+  private float asFloat( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Float ) {
+        return ( (Float)val ).longValue();
+      } else {
+        try {
+          return Float.parseFloat( val.toString() );
+        } catch ( Exception e ) {
+          throw new DataFrameException( "Value of could not be converted into a float" );
+        }
+      }
+    }
+    throw new DataFrameException( "Value of could not be found" );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as a float
+   * value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a float value.
+   */
+  public float getAsFloat( String name ) throws DataFrameException {
+    return asFloat( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a float 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a float value.
+   */
+  public float getAsFloat( final int indx ) throws DataFrameException {
+    return asFloat( getObject( indx ) );
+  }
+
+
+
+
+  /**
    * Convenience method to return the value of the indexed field as a String 
    * value.
    * 
