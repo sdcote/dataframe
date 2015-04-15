@@ -205,6 +205,134 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * Convert the given object into a integer
+   *  
+   * @param val the object to convert
+   * 
+   * @return the integer value of the object
+   * 
+   * @throws DataFrameException if the object was null or not able to be parsed 
+   *         into an integer value
+   */
+  private int asInt( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Integer ) {
+        return ( (Integer)val ).intValue();
+      } else {
+        try {
+          return Integer.parseInt( val.toString() );
+        } catch ( Exception e ) {
+          throw new DataFrameException( "Value of could not be converted into an integer" );
+        }
+      }
+    }
+    throw new DataFrameException( "Value of could not be found" );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as an integer
+   * value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to an integer value.
+   */
+  public int getAsInt( String name ) throws DataFrameException {
+    return asInt( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as an integer 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to an integer value.
+   */
+  public int getAsInt( final int indx ) throws DataFrameException {
+    return asInt( getObject( indx ) );
+  }
+
+
+
+
+  /**
+   * Convert the given object into a long
+   *  
+   * @param val the object to convert
+   * 
+   * @return the long value of the object
+   * 
+   * @throws DataFrameException if the object was null or not able to be parsed 
+   *         into a long value
+   */
+  private long asLong( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Long ) {
+        return ( (Long)val ).longValue();
+      } else {
+        try {
+          return Long.parseLong( val.toString() );
+        } catch ( Exception e ) {
+          throw new DataFrameException( "Value of could not be converted into a long" );
+        }
+      }
+    }
+    throw new DataFrameException( "Value of could not be found" );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as a long
+   * value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a long value.
+   */
+  public long getAsLong( String name ) throws DataFrameException {
+    return asLong( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a long 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a long value.
+   */
+  public long getAsLong( final int indx ) throws DataFrameException {
+    return asLong( getObject( indx ) );
+  }
+
+
+
+
+  /**
    * Convenience method to return the value of the indexed field as a String 
    * value.
    * 
