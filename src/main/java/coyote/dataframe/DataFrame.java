@@ -205,6 +205,93 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * Convert the given object into a boolean
+   *  
+   * @param val the object to convert
+   * 
+   * @return the boolean value of the object
+   * 
+   * @throws DataFrameException if the object was null or not able to be parsed 
+   *         into a long value
+   */
+  private boolean asBoolean( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Boolean ) {
+        return ( (Boolean)val ).booleanValue();
+      } else if ( val instanceof String ) {
+        String str = ( (String)val ).toLowerCase();
+        if ( "true".equals( val ) || "1".equals( val ) || "yes".equals( val ) ) {
+          return true;
+        } else if ( "false".equals( val ) || "0".equals( val ) || "no".equals( val ) ) {
+          return false;
+        } else {
+          try {
+            return Long.parseLong( val.toString() ) > 0;
+          } catch ( Exception e ) {
+            return Double.parseDouble( val.toString() ) > 0;
+          }
+        }
+      } else if ( val instanceof Number ) {
+        if ( val instanceof Integer ) {
+          return Integer.parseInt( val.toString() ) > 0;
+        } else if ( val instanceof Long ) {
+          return Long.parseLong( val.toString() ) > 0;
+        } else if ( val instanceof Float ) {
+          return Float.parseFloat( val.toString() ) > 0;
+        } else if ( val instanceof Double ) {
+          return Double.parseDouble( val.toString() ) > 0;
+        } else if ( val instanceof Short ) {
+          return Short.parseShort( val.toString() ) > 0;
+        } else {
+          throw new DataFrameException( "Could not convert numeric type'" + val.getClass().getSimpleName() + "' to a boolean" );
+        }
+      } else {
+        throw new DataFrameException( "Could not convert type'" + val.getClass().getSimpleName() + "' to a boolean" );
+      }
+    }
+    throw new DataFrameException( "Value could not be found" );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as a boolean
+   * value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a boolean value.
+   */
+  public boolean getBoolean( String name ) throws DataFrameException {
+    return asBoolean( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a boolean 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of the 
+   *         found field could not be parsed or converted to a boolean value.
+   */
+  public boolean getAsBoolean( final int indx ) throws DataFrameException {
+    return asBoolean( getObject( indx ) );
+  }
+
+
+
+
+  /**
    * Convert the given object into a integer
    *  
    * @param val the object to convert
@@ -222,11 +309,11 @@ public class DataFrame implements Cloneable {
         try {
           return Integer.parseInt( val.toString() );
         } catch ( Exception e ) {
-          throw new DataFrameException( "Value of could not be converted into an integer" );
+          throw new DataFrameException( "Value could not be converted into an integer" );
         }
       }
     }
-    throw new DataFrameException( "Value of could not be found" );
+    throw new DataFrameException( "Value could not be found" );
   }
 
 
@@ -286,11 +373,11 @@ public class DataFrame implements Cloneable {
         try {
           return Long.parseLong( val.toString() );
         } catch ( Exception e ) {
-          throw new DataFrameException( "Value of could not be converted into a long" );
+          throw new DataFrameException( "Value could not be converted into a long" );
         }
       }
     }
-    throw new DataFrameException( "Value of could not be found" );
+    throw new DataFrameException( "Value could not be found" );
   }
 
 
@@ -350,11 +437,11 @@ public class DataFrame implements Cloneable {
         try {
           return Double.parseDouble( val.toString() );
         } catch ( Exception e ) {
-          throw new DataFrameException( "Value of could not be converted into a double" );
+          throw new DataFrameException( "Value could not be converted into a double" );
         }
       }
     }
-    throw new DataFrameException( "Value of could not be found" );
+    throw new DataFrameException( "Value could not be found" );
   }
 
 
@@ -414,11 +501,11 @@ public class DataFrame implements Cloneable {
         try {
           return Float.parseFloat( val.toString() );
         } catch ( Exception e ) {
-          throw new DataFrameException( "Value of could not be converted into a float" );
+          throw new DataFrameException( "Value could not be converted into a float" );
         }
       }
     }
-    throw new DataFrameException( "Value of could not be found" );
+    throw new DataFrameException( "Value could not be found" );
   }
 
 
