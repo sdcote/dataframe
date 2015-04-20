@@ -266,7 +266,7 @@ public class DataFrame implements Cloneable {
    * @throws DataFrameException if the field does not exist or if the value of the 
    *         found field could not be parsed or converted to a boolean value.
    */
-  public boolean getBoolean( String name ) throws DataFrameException {
+  public boolean getAsBoolean( String name ) throws DataFrameException {
     return asBoolean( getObject( name ) );
   }
 

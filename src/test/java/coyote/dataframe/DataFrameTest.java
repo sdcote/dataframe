@@ -3,8 +3,11 @@
  */
 package coyote.dataframe;
 
+//import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -531,5 +534,62 @@ public class DataFrameTest {
     assertTrue( text.contains( "zeta" ) );
     assertTrue( text.contains( "frame3" ) );
     assertTrue( text.contains( "frame2" ) );
+  }
+
+
+
+
+  @Test
+  public void testToBoolean() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", 1L );
+    frame1.add( "beta", 0L );
+    frame1.add( "gamma", -1L );
+
+    try {
+      assertTrue( frame1.getAsBoolean( "alpha" ) );
+      assertFalse( frame1.getAsBoolean( "beta" ) );
+      assertFalse( frame1.getAsBoolean( "gamma" ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+
+    frame1 = new DataFrame();
+    frame1.add( "alpha", true );
+    frame1.add( "beta", "true" );
+    frame1.add( "gamma", "1" );
+
+    try {
+      assertTrue( frame1.getAsBoolean( "alpha" ) );
+      assertTrue( frame1.getAsBoolean( "beta" ) );
+      assertTrue( frame1.getAsBoolean( "gamma" ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+    frame1 = new DataFrame();
+    frame1.add( "alpha", true );
+    frame1.add( "beta", "true" );
+    frame1.add( "gamma", "1" );
+
+    try {
+      assertTrue( frame1.getAsBoolean( "alpha" ) );
+      assertTrue( frame1.getAsBoolean( "beta" ) );
+      assertTrue( frame1.getAsBoolean( "gamma" ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+    frame1 = new DataFrame();
+    frame1.add( "alpha", false );
+    frame1.add( "beta", "false" );
+    frame1.add( "gamma", "0" );
+
+    try {
+      assertFalse( frame1.getAsBoolean( "alpha" ) );
+      assertFalse( frame1.getAsBoolean( "beta" ) );
+      assertFalse( frame1.getAsBoolean( "gamma" ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+
   }
 }
