@@ -590,6 +590,58 @@ public class DataFrameTest {
     } catch ( Exception e ) {
       fail( e.getMessage() );
     }
+  }
 
+
+
+
+  @Test
+  public void testToDouble() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", 0L );
+    frame1.add( "beta", "0" );
+    frame1.add( "gamma", "0.0" );
+
+    try {
+      assertNotNull( frame1.getAsDouble( "alpha" ) );
+      assertNotNull( frame1.getAsDouble( "beta" ) );
+      assertNotNull( frame1.getAsDouble( "gamma" ) );
+
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+  }
+
+  @Test
+  public void testToInt() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", 0L );
+    frame1.add( "beta", "0" );
+    frame1.add( "gamma", Integer.MAX_VALUE );
+
+    try {
+      assertNotNull( frame1.getAsInt( "alpha" ) );
+      assertNotNull( frame1.getAsInt( "beta" ) );
+      assertNotNull( frame1.getAsInt( "gamma" ) );
+
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+  }
+  @Test
+  public void testToLong() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", Short.MAX_VALUE );
+    frame1.add( "beta", "0" );
+    frame1.add( "gamma", Long.MAX_VALUE );
+
+    try {
+      assertNotNull( frame1.getAsLong( "alpha" ) );
+      assertNotNull( frame1.getAsLong( "beta" ) );
+      assertNotNull( frame1.getAsLong( "gamma" ) );
+
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
   }
 }
