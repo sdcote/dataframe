@@ -82,7 +82,8 @@ public class JSONMarshaler {
   /**
    * @param frame
    * @param config
-   * @return
+   * 
+   * @return the string containing the marshaled data 
    */
   private static String write( final DataFrame frame, final WriterConfig config ) {
 
@@ -108,15 +109,14 @@ public class JSONMarshaler {
    * @param frame
    * @param config
    * 
-   * @return
    * @throws IOException 
    */
   private static void writeFrame( final DataFrame frame, final JsonWriter writer ) throws IOException {
 
-    if( frame == null || writer == null){
+    if ( frame == null || writer == null ) {
       return;
     }
-	  
+
     if ( frame.size() > 0 ) {
       boolean isArray = frame.isArray();
       if ( isArray )

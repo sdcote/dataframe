@@ -75,7 +75,7 @@ public class CSVMarshaler {
   /**
    * @param tempFile
    * 
-   * @return
+   * @return the frameset read in from the file
    */
   public static FrameSet read( File tempFile ) {
     FrameSet retval = new FrameSet();

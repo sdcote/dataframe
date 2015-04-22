@@ -91,6 +91,7 @@ public class JsonWriter {
    * Write the string replacing any non-standard characters as necessary.
    * 
    * @param string
+   * 
    * @throws IOException
    */
   public void writeJsonString( final String string ) throws IOException {
@@ -150,8 +151,8 @@ public class JsonWriter {
    * 
    * @throws IOException if writing encountered an error
    */
-  public void writeNumber( final String string ) throws IOException {
-    writer.write( string );
+  public void writeNumber( final String value ) throws IOException {
+    writer.write( value );
   }
 
 

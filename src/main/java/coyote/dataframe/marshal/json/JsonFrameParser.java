@@ -93,8 +93,10 @@ public class JsonFrameParser {
 
   /**
    * generate a parse exception with the given message.
+   * 
    * @param message
-   * @return
+   * 
+   * @return a parse exception with the given message.
    */
   private ParseException error( final String message ) {
     final int absIndex = bufferOffset + index;
@@ -377,7 +379,9 @@ public class JsonFrameParser {
 
   /**
    * Read a quoted string.
-   * @return
+   * 
+   * @return the value within the quotes
+   * 
    * @throws IOException if not quoted
    */
   private String readName() throws IOException {
@@ -437,7 +441,9 @@ public class JsonFrameParser {
 
   /**
    * Read the JSON object into a dataFrame
-   * @return
+   * 
+   * @return a dataframe containing the JSON object
+   * 
    * @throws IOException
    */
   private DataFrame readObject() throws IOException {
