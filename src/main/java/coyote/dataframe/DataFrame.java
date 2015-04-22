@@ -220,9 +220,9 @@ public class DataFrame implements Cloneable {
         return ( (Boolean)val ).booleanValue();
       } else if ( val instanceof String ) {
         String str = ( (String)val ).toLowerCase();
-        if ( "true".equals( val ) || "1".equals( val ) || "yes".equals( val ) ) {
+        if ( "true".equals( str ) || "1".equals( str ) || "yes".equals( str ) ) {
           return true;
-        } else if ( "false".equals( val ) || "0".equals( val ) || "no".equals( val ) ) {
+        } else if ( "false".equals( str ) || "0".equals( str ) || "no".equals( str ) ) {
           return false;
         } else {
           try {
