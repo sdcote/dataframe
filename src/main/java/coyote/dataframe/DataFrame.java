@@ -1185,6 +1185,24 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * Places all of the fields in the given frame in this frame, overwriting the 
+   * values with the same name.
+   * 
+   * <p>This is essentially a {@code put} operation for all the fields in the 
+   * given frame.</p>
+   * 
+   * @param frame The frame from which the fields are read.
+   */
+  public void merge( DataFrame frame ) {
+    for ( DataField field : frame.fields ) {
+      this.put( field.getName(), field.getObjectValue() );
+    }
+  }
+
+
+
+
+  /**
    * @see java.util.Map#containsKey(java.lang.Object)
    */
   public boolean containsKey( Object key ) {
