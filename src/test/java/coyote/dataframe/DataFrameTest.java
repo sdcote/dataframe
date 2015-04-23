@@ -612,6 +612,29 @@ public class DataFrameTest {
     }
   }
 
+
+
+
+  @Test
+  public void testToFloat() {
+    DataFrame frame1 = new DataFrame();
+    frame1.add( "alpha", 0L );
+    frame1.add( "beta", "0" );
+    frame1.add( "gamma", "0.0" );
+
+    try {
+      assertNotNull( frame1.getAsFloat( "alpha" ) );
+      assertNotNull( frame1.getAsFloat( "beta" ) );
+      assertNotNull( frame1.getAsFloat( "gamma" ) );
+
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+  }
+
+
+
+
   @Test
   public void testToInt() {
     DataFrame frame1 = new DataFrame();
@@ -628,6 +651,10 @@ public class DataFrameTest {
       fail( e.getMessage() );
     }
   }
+
+
+
+
   @Test
   public void testToLong() {
     DataFrame frame1 = new DataFrame();
