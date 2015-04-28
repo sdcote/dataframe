@@ -82,10 +82,8 @@ publishing {
 		}
 	}
 	repositories {
-        maven {
-			url "../local-maven-repo"
-        }
-    }
+		mavenLocal()
+	}
 }
 
 
