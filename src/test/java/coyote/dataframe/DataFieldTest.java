@@ -18,6 +18,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import coyote.commons.ByteUtil;
+
 
 /**
  * This class models...DataFieldTest
@@ -338,10 +340,16 @@ public class DataFieldTest
    * Test method for {@link coyote.dataframe.DataField#DataField(boolean)}.
    */
   @Test
-  public void testDataFieldBoolean()
-  {
-    //fail( "Not yet implemented" );
-  }
+  public void testDataFieldBoolean() {
+    DataField field = new DataField( true );
+    byte[] data = field.getBytes();
+    //System.out.println(ByteUtil.dump( data ));
+    assertTrue( data.length==3);
+    assertTrue( data[0]==0);
+    assertTrue( data[1]==14);
+    assertTrue( data[2]==1);
+    
+ }
 
 
 
@@ -350,9 +358,30 @@ public class DataFieldTest
    * Test method for {@link coyote.dataframe.DataField#DataField(java.lang.String, boolean)}.
    */
   @Test
-  public void testDataFieldStringBoolean()
-  {
-    //fail( "Not yet implemented" );
+  public void testDataFieldStringBoolean() {
+    DataField field = new DataField( "Test", true );
+    byte[] data = field.getBytes();
+    //System.out.println(ByteUtil.dump( data ));
+    assertTrue( data.length==7);
+    assertTrue( data[0]==4);
+    assertTrue( data[1]==84);
+    assertTrue( data[2]==101);
+    assertTrue( data[3]==115);
+    assertTrue( data[4]==116);
+    assertTrue( data[5]==14);
+    assertTrue( data[6]==1);
+    
+    field = new DataField( "Test", false );
+    data = field.getBytes();
+    //System.out.println(ByteUtil.dump( data ));
+    assertTrue( data.length==7);
+    assertTrue( data[0]==4);
+    assertTrue( data[1]==84);
+    assertTrue( data[2]==101);
+    assertTrue( data[3]==115);
+    assertTrue( data[4]==116);
+    assertTrue( data[5]==14);
+    assertTrue( data[6]==0);
   }
 
 
