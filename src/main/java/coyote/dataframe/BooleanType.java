@@ -16,7 +16,7 @@ import coyote.commons.ByteUtil;
 
 /** Type representing a boolean value */
 public class BooleanType implements FieldType {
-  private static final int _size = 8;
+  private static final int _size = 1;
 
   private final static String _name = "BOL";
 

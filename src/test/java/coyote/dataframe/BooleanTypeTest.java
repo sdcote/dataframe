@@ -47,7 +47,7 @@ public class BooleanTypeTest
   @Test
   public void testGetSize()
   {
-    assertTrue( datatype.getSize() == 8 );
+    assertTrue( datatype.getSize() == 1 );
   }
 
 
