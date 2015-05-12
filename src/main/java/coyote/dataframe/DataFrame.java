@@ -730,7 +730,7 @@ public class DataFrame implements Cloneable {
 
 
   /**
-   * Add an frame field with the given name and value.
+   * Add a frame field with the given name and value.
    * 
    * <p>The resulting frame field will be added to the frame with its type 
    * being determined by the DataField class.</p>
@@ -747,6 +747,29 @@ public class DataFrame implements Cloneable {
     modified = true;
     fields.add( new DataField( name, value ) );
     return fields.size() - 1;
+  }
+
+
+
+
+  /**
+   * Add a frame field to the existing array of fields.
+   * 
+   * <p>Null fields will not be added to the list and will retun a negative 
+   * index.</p>
+   * 
+   * @param field The field to place in the frames array of fields
+   * 
+   * @return the index of the placed value or -1 if the given frame is null.
+   */
+  public int add( final DataField field ) {
+    if ( field != null ) {
+      modified = true;
+      fields.add( field );
+      return fields.size() - 1;
+    } else {
+      return -1;
+    }
   }
 
 
