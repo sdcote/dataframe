@@ -578,6 +578,16 @@ public class DataField implements Cloneable {
 
 
   /**
+   * @return True if the value represents a null value, false otherwise.
+   */
+  public boolean isNull() {
+    return type == NULLTYPE;
+  }
+
+
+
+
+  /**
    * Human readable format of the data field.
    *
    * @return a string representation of the data field instance
@@ -587,7 +597,7 @@ public class DataField implements Cloneable {
     final StringBuffer buf = new StringBuffer( "DataField:" );
     buf.append( " name='" + name + "'" );
     buf.append( " type=" + this.getTypeName() );
-    buf.append( "(" + type +")");
+    buf.append( "(" + type + ")" );
     if ( value.length > 32 ) {
       byte[] sample = new byte[32];
       System.arraycopy( value, 0, sample, 0, sample.length );
