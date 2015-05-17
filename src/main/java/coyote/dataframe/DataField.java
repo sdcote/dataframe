@@ -51,8 +51,25 @@ public class DataField implements Cloneable {
   /** (1) Type code representing a byte array */
   public static final short NULLTYPE = 1;
 
+  public static final short BYTEARRAY = 2;
+  public static final short STRING = 3;
+  public static final short S8 = 4;
+  public static final short U8 = 5;
+  public static final short S16 = 6;
+  public static final short U16 = 7;
+  public static final short S32 = 8;
+  public static final short U32 = 9;
+  public static final short S64 = 10;
+  public static final short U64 = 11;
+  public static final short FLOAT = 12;
+  public static final short DOUBLE = 13;
+
   /** (14) Type code representing a boolean */
   public static final short BOOLEANTYPE = 14;
+
+  public static final short DATE = 15;
+  public static final short URI = 16;
+  public static final short ARRAY = 17;
 
   static final String ENC_UTF8 = "UTF8";
 
@@ -75,37 +92,37 @@ public class DataField implements Cloneable {
     /** (1) Type code representing a NULL value - undefined type and a therefore empty value */
     DataField.addType( NULLTYPE, new NullType() );
     /** (2) Type code representing a byte array */
-    DataField.addType( 2, new ByteArrayType() );
+    DataField.addType( BYTEARRAY, new ByteArrayType() );
     /** (3) Type code representing a String object */
-    DataField.addType( 3, new StringType() );
+    DataField.addType( STRING, new StringType() );
     /** (4) Type code representing an signed, 8-bit value in the range of -128 to 127 */
-    DataField.addType( 4, new S8Type() );
+    DataField.addType( S8, new S8Type() );
     /** (5) Type code representing an unsigned, 8-bit value in the range of 0 to 255 */
-    DataField.addType( 5, new U8Type() );
+    DataField.addType( U8, new U8Type() );
     /** (6) Type code representing an signed, 16-bit value in the range of -32,768 to 32,767 */
-    DataField.addType( 6, new S16Type() );
+    DataField.addType( S16, new S16Type() );
     /** (7) Type code representing an unsigned, 16-bit value in the range of 0 to 65,535 */
-    DataField.addType( 7, new U16Type() );
+    DataField.addType( U16, new U16Type() );
     /** (8) Type code representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
-    DataField.addType( 8, new S32Type() );
+    DataField.addType( S32, new S32Type() );
     /** (9) Type code representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */
-    DataField.addType( 9, new U32Type() );
+    DataField.addType( U32, new U32Type() );
     /** (10) Type code representing an signed, 64-bit value in the range of -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 */
-    DataField.addType( 10, new S64Type() );
+    DataField.addType( S64, new S64Type() );
     /** (11) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
-    DataField.addType( 11, new U64Type() );
+    DataField.addType( U64, new U64Type() );
     /** (12) Type code representing a 32-bit floating point value in the range of +/-1.4013e-45 to +/-3.4028e+38. */
-    DataField.addType( 12, new FloatType() );
+    DataField.addType( FLOAT, new FloatType() );
     /** (13) Type code representing a 64-bit floating point value in the range of +/-4.9406e-324 to +/-1.7977e+308. */
-    DataField.addType( 13, new DoubleType() );
+    DataField.addType( DOUBLE, new DoubleType() );
     /** (14) Type code representing a boolean value */
     DataField.addType( BOOLEANTYPE, new BooleanType() );
     /** (15) Type code representing a unsigned 32-bit epoch time in milliseconds */
-    DataField.addType( 15, new DateType() );
+    DataField.addType( DATE, new DateType() );
     /** (16) Type code representing a uniform resource identifier */
-    DataField.addType( 16, new UriType() );
+    DataField.addType( URI, new UriType() );
     /** (17) Type code representing an ordered array of values (DataFields) */
-    DataField.addType( 17, new ArrayType() );
+    DataField.addType( ARRAY, new ArrayType() );
   }
 
   /** Name of this field */
