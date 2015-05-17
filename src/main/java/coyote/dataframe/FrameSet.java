@@ -175,4 +175,19 @@ public class FrameSet {
     }
     return retval;
   }
+
+
+
+
+  public List<DataFrame> getRows() {
+    return rows;
+  }
+
+
+
+
+  public void clearRows() {
+    rows.clear();
+  }
+
 }
