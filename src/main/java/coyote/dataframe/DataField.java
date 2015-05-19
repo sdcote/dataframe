@@ -16,6 +16,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import coyote.commons.ByteUtil;
 
@@ -339,6 +340,20 @@ public class DataField implements Cloneable {
 
 
   /**
+   * @return the list of supported type names
+   */
+  public static List<String> getTypeNames() {
+    List<String> retval = new ArrayList<String>();
+    for ( short x = 0; x < _types.size(); x++ ) {
+      retval.add( _types.get( x ).getTypeName() );
+    }
+    return retval;
+  }
+
+
+
+
+  /**
    * Convert the object into a binary representation of a DataField
    *
    * @param obj The object to encode.
@@ -517,7 +532,7 @@ public class DataField implements Cloneable {
   /**
    * Get the name of the type for the given code
    *
-   * @param code THe code representing the data field type
+   * @param code The code representing the data field type
    *
    * @return The name of the type represented by the code
    */
