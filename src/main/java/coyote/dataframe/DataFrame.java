@@ -139,14 +139,41 @@ public class DataFrame implements Cloneable {
    * <pre><code>( getField("NAME") != null )</code></pre>
    * when checking for a field named "NAME", only it reads nicer.</p>
    *  
-   * @param name The name of the field to retrieve.
+   * @param name The name of the field for which to search.
    * 
-   * @return True if the field with the given name exists, false otherwise.
+   * @return True if the field with the exact given name exists, false 
+   *         otherwise.
+   * 
+   * @see #containsIgnoreCase(String)
    */
   public boolean contains( final String name ) {
     for ( int i = 0; i < fields.size(); i++ ) {
       final DataField field = fields.get( i );
       if ( ( field.getName() != null ) && field.getName().equals( name ) ) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+
+
+  /**
+   * Convenience method that allows for the checking of the existence of a 
+   * named field ignoring differences in case.
+   * 
+   * @param name The name of the field for which to search.
+   * 
+   * @return True if the field with the given name exists (ignoring differences 
+   *         in case), false otherwise.
+   * 
+   * @see #contains(String)
+   */
+  public boolean containsIgnoreCase( final String name ) {
+    for ( int i = 0; i < fields.size(); i++ ) {
+      final DataField field = fields.get( i );
+      if ( ( field.getName() != null ) && field.getName().equalsIgnoreCase( name ) ) {
         return true;
       }
     }
