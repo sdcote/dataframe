@@ -14,7 +14,7 @@ package coyote.dataframe;
 /**
  * Type representing an undefined value.
  */
-public class NullType implements FieldType {
+public class UndefinedType implements FieldType {
 
   private static final byte[] NULLVALUE = new byte[0];
 

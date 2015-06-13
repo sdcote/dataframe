@@ -13,7 +13,7 @@ import org.junit.Test;
 public class NullTypeTest
 {
   /** The data type under test. */
-  static NullType datatype = null;
+  static UndefinedType datatype = null;
 
 
 
@@ -24,7 +24,7 @@ public class NullTypeTest
   @BeforeClass
   public static void setUpBeforeClass() throws Exception
   {
-    datatype = new NullType();
+    datatype = new UndefinedType();
   }
 
 
