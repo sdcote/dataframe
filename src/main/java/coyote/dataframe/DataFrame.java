@@ -48,7 +48,7 @@ import coyote.commons.ByteUtil;
  * out of the data model.</p>
  * 
  * <p>More recently, this class ha proven to be an effective implementation of 
- * the Value Object pattern and has made representing data base rows and object 
+ * the Value Object pattern and has made representing database rows and objects 
  * relatively easy to code. It has several features which make this class more 
  * feature rich than implementing VOs with Maps or other map-based structures 
  * such as properties. Most of the recent upgrades have been directly related 
