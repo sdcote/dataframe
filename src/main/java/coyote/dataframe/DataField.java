@@ -612,7 +612,7 @@ public class DataField implements Cloneable {
   /**
    * @return True if the value represents a null value, false otherwise.
    */
-  public boolean isNull() {
+  public boolean isUndefined() {
     return type == NULLTYPE;
   }
 

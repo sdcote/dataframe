@@ -12,7 +12,7 @@
 package coyote.dataframe;
 
 /**
- * Type representing a null value.
+ * Type representing an undefined value.
  */
 public class NullType implements FieldType {
 
