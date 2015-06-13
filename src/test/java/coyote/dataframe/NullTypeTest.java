@@ -86,7 +86,7 @@ public class NullTypeTest
   @Test
   public void testGetTypeName()
   {
-    assertTrue( datatype.getTypeName().equals( "NUL" ) );
+    assertTrue( datatype.getTypeName().equals( "UDEF" ) );
   }
 
 

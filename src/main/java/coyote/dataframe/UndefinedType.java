@@ -18,7 +18,7 @@ public class UndefinedType implements FieldType {
 
   private static final byte[] NULLVALUE = new byte[0];
 
-  private final static String _name = "NUL";
+  private final static String _name = "UDEF";
 
 
 
