@@ -50,7 +50,7 @@ public class DataField implements Cloneable {
   public static final short FRAMETYPE = 0;
 
   /** (1) Type code representing an undefined type */
-  public static final short UDEFTYPE = 1;
+  public static final short UDEF = 1;
 
   public static final short BYTEARRAY = 2;
   public static final short STRING = 3;
@@ -91,7 +91,7 @@ public class DataField implements Cloneable {
     /** (0) Type code representing a nested data frame */
     DataField.addType( FRAMETYPE, new FrameType() );
     /** (1) Type code representing a NULL value - undefined type and a therefore empty value */
-    DataField.addType( UDEFTYPE, new UndefinedType() );
+    DataField.addType( UDEF, new UndefinedType() );
     /** (2) Type code representing a byte array */
     DataField.addType( BYTEARRAY, new ByteArrayType() );
     /** (3) Type code representing a String object */
@@ -613,7 +613,7 @@ public class DataField implements Cloneable {
    * @return True if the value represents a null value, false otherwise.
    */
   public boolean isUndefined() {
-    return type == UDEFTYPE;
+    return type == UDEF;
   }
 
 

@@ -137,7 +137,7 @@ public class JSONMarshaler {
           writer.writeMemberSeparator();
         }
 
-        if ( field.getType() == DataField.UDEFTYPE ) {
+        if ( field.getType() == DataField.UDEF ) {
           writer.writeLiteral( "null" );
         } else if ( field.getType() == DataField.BOOLEANTYPE ) {
           if ( "true".equalsIgnoreCase( field.getStringValue() ) ) {

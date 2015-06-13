@@ -1162,7 +1162,7 @@ public class DataFrame implements Cloneable {
           b.append( "\" : " );
         }
 
-        if ( field.getType() == DataField.UDEFTYPE ) {
+        if ( field.getType() == DataField.UDEF ) {
           b.append( "null" );
         } else if ( field.getType() == DataField.BOOLEANTYPE ) {
           b.append( field.getStringValue().toLowerCase() );
