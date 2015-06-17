@@ -70,11 +70,15 @@ public class S64Type implements FieldType {
    */
   @Override
   public String stringValue( byte[] val ) {
-    Object obj = decode( val );
-    if ( obj != null )
-      return obj.toString();
-    else
+    if ( val == null ) {
       return "";
+    } else {
+      Object obj = decode( val );
+      if ( obj != null )
+        return obj.toString();
+      else
+        return "";
+    }
   }
 
 }

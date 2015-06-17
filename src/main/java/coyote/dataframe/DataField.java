@@ -456,8 +456,12 @@ public class DataField implements Cloneable {
    * @return the object value of the data encoded in the value attribute.
    */
   private Object getObjectValue( final short typ, final byte[] val ) {
-    FieldType datatype = getDataType( typ );
-    return datatype.decode( val );
+    if ( val == null || val.length == 0 ) {
+      return null;
+    } else {
+      FieldType datatype = getDataType( typ );
+      return datatype.decode( val );
+    }
   }
 
 
@@ -707,10 +711,10 @@ public class DataField implements Cloneable {
   /**
    * Test to see if this field has a value.
    * 
-   * @return true if there is no value, fales if there is data in this field
+   * @return true if there is no value, false if there is data in this field
    */
   public boolean isNull() {
-    return value.length == 0;
+    return ( value == null );
   }
 
 }

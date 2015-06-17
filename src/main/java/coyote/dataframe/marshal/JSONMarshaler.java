@@ -27,6 +27,10 @@ import coyote.dataframe.marshal.json.WriterConfig;
  * 
  */
 public class JSONMarshaler {
+  private static final String NULL = "null";
+  private static final String TRUE = "true";
+  private static final String FALSE = "false";
+
 
   /**
    * Marshal the given JSON into a dataframe.
@@ -138,12 +142,12 @@ public class JSONMarshaler {
         }
 
         if ( field.getType() == DataField.UDEF ) {
-          writer.writeLiteral( "null" );
+          writer.writeLiteral( NULL );
         } else if ( field.getType() == DataField.BOOLEANTYPE ) {
-          if ( "true".equalsIgnoreCase( field.getStringValue() ) ) {
-            writer.writeLiteral( "true" );
+          if ( TRUE.equalsIgnoreCase( field.getStringValue() ) ) {
+            writer.writeLiteral( TRUE );
           } else {
-            writer.writeLiteral( "false" );
+            writer.writeLiteral( FALSE );
           }
         } else if ( field.isNumeric() ) {
           writer.writeNumber( field.getStringValue() );
@@ -151,7 +155,12 @@ public class JSONMarshaler {
           writeFrame( (DataFrame)field.getObjectValue(), writer );
         } else {
 
-          writer.writeString( field.getObjectValue().toString() );
+          Object obj = field.getObjectValue();
+          if(obj!= null)
+          writer.writeString( obj.toString() );
+          else
+            writer.writeString( NULL );
+            
         }
         if ( i + 1 < frame.size() ) {
           writer.writeObjectSeparator();
