@@ -714,7 +714,7 @@ public class DataField implements Cloneable {
    * @return true if there is no value, false if there is data in this field
    */
   public boolean isNull() {
-    return ( value == null );
+    return ( value == null || value.length == 0 );
   }
 
 }
