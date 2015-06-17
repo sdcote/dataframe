@@ -162,7 +162,7 @@ public class DataField implements Cloneable {
   /**
    * Create a DataField with a specified type and value.
    * 
-   * Used by the ArrayType in decoding arrays of values.
+   * <p>Used by the ArrayType in decoding arrays of values.</p>
    * 
    * @param type the type code representing the type of data held.
    * @param value the encoded value of the field.
@@ -176,9 +176,31 @@ public class DataField implements Cloneable {
 
 
   /**
+   * Create a DataField with a specified name, type and value.
+   * 
+   * <p>It is possible to use this to force a data field into a specific type 
+   * even if the value is null.</p>
+   * 
+   * @param name The name of this DataField
+   * @param type the type code representing the type of data held.
+   * @param value the encoded value of the field. An empty array is equivalent 
+   *        to a null value.
+   *
+   * @throws IllegalArgumentException if the name exceeds 255 characters   
+   */
+  public DataField( String name, short type, byte[] value ) {
+    this.name = DataField.nameCheck( name );
+    this.type = type;
+    this.value = value;
+  }
+
+
+
+
+  /**
    * Create a DataField for the specific object.
    *
-   * @param obj THe object to use as the value of the field
+   * @param obj The object to use as the value of the field
    */
   public DataField( final Object obj ) {
     type = DataField.getType( obj );
@@ -322,7 +344,7 @@ public class DataField implements Cloneable {
   /**
    * Get the numeric code representing the type of the passed object
    *
-   * @param obj THe object to check
+   * @param obj The object to check
    *
    * @return the numeric type as it would be encoded in the field
    *
@@ -690,5 +712,5 @@ public class DataField implements Cloneable {
   public boolean isNull() {
     return value.length == 0;
   }
-  
+
 }
