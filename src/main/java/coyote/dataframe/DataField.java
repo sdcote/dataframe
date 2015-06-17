@@ -132,7 +132,7 @@ public class DataField implements Cloneable {
   /** The type of data being held. */
   short type;
 
-  /** The actual value being held */
+  /** The actual value being held. Empty arrays are equivalent to a null value. */
   byte[] value;
 
 
