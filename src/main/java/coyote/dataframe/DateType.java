@@ -72,7 +72,7 @@ public class DateType implements FieldType {
    */
   @Override
   public String stringValue( byte[] val ) {
-    if ( val == null ) {
+    if ( val == null || val.length == 0 ) {
       return "";
     } else {
       Object obj = decode( val );
