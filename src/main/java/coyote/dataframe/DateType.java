@@ -11,6 +11,7 @@
  */
 package coyote.dataframe;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import coyote.commons.ByteUtil;
@@ -21,6 +22,8 @@ public class DateType implements FieldType {
   private static final int _size = 8;
 
   private final static String _name = "DAT";
+
+  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "yyyy/MM/dd-HH:mm:ssz" );
 
 
 
@@ -77,7 +80,7 @@ public class DateType implements FieldType {
     } else {
       Object obj = decode( val );
       if ( obj != null )
-        return obj.toString();
+        return FORMATTER.format( (Date)obj );
       else
         return "";
     }
