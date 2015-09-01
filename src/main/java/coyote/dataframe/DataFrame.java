@@ -1243,13 +1243,34 @@ public class DataFrame implements Cloneable {
    * values with the same name.
    * 
    * <p>This is essentially a {@code put} operation for all the fields in the 
-   * given frame.</p>
+   * given frame. Contrast this to {@link #populate(DataFrame)}.</p>
    * 
    * @param frame The frame from which the fields are read.
    */
   public void merge( DataFrame frame ) {
     for ( DataField field : frame.fields ) {
       this.put( field.getName(), field.getObjectValue() );
+    }
+  }
+
+
+
+
+  /**
+   * Places all of the fields in the given frame in this frame.
+   * 
+   * <p>Overwriting does not occur. This is a straight addition of fields. It 
+   * is possible that multiple fields with the same name may exist after this 
+   * operation. Contrast this to {@link #merge(DataFrame)}.</p>
+   * 
+   * <p>This is essentially an {@code add} operation for all the fields in the 
+   * given frame.</p>
+   * 
+   * @param frame The frame from which the fields are read.
+   */
+  public void populate( DataFrame frame ) {
+    for ( DataField field : frame.getFields() ) {
+      add( field );
     }
   }
 
