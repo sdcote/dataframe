@@ -22,6 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -231,6 +232,26 @@ public class DataFrame implements Cloneable {
 
 
 
+  private Date asDate( Object val ) throws DataFrameException {
+    if ( val != null ) {
+      if ( val instanceof Date ) {
+        return ( (Date)val );
+      } else if ( val instanceof Long ) {
+        try {
+          return new Date( Long.parseLong( val.toString() ) );
+        } catch ( Exception e ) {
+          throw new DataFrameException( "Could not convert long type'" + val.getClass().getSimpleName() + "' to a date" );
+        }
+      } else {
+        throw new DataFrameException( "Could not convert type'" + val.getClass().getSimpleName() + "' to a date" );
+      }
+    }
+    throw new DataFrameException( "Value could not be found" );
+  }
+
+
+
+
   /**
    * Convert the given object into a boolean
    *  
@@ -290,8 +311,9 @@ public class DataFrame implements Cloneable {
    * 
    * @return the value of the field
    * 
-   * @throws DataFrameException if the field does not exist or if the value of the 
-   *         found field could not be parsed or converted to a boolean value.
+   * @throws DataFrameException if the field does not exist or if the value of 
+   *         the found field could not be parsed or converted to a boolean 
+   *         value.
    */
   public boolean getAsBoolean( String name ) throws DataFrameException {
     return asBoolean( getObject( name ) );
@@ -308,11 +330,47 @@ public class DataFrame implements Cloneable {
    * 
    * @return the value of the field
    * 
-   * @throws DataFrameException if the field does not exist or if the value of the 
-   *         found field could not be parsed or converted to a boolean value.
+   * @throws DataFrameException if the field does not exist or if the value of 
+   *         the found field could not be parsed or converted to a boolean 
+   *         value.
    */
   public boolean getAsBoolean( final int indx ) throws DataFrameException {
     return asBoolean( getObject( indx ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the named field as a Date value.
+   * 
+   * @param name name of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of 
+   *         the found field could not be parsed or converted to a date value.
+   */
+  public Date getAsDate( String name ) throws DataFrameException {
+    return asDate( getObject( name ) );
+  }
+
+
+
+
+  /**
+   * Convenience method to return the value of the indexed field as a Date 
+   * value.
+   * 
+   * @param indx Index of the field value to return.
+   * 
+   * @return the value of the field
+   * 
+   * @throws DataFrameException if the field does not exist or if the value of 
+   *         the found field could not be parsed or converted to a Date value.
+   */
+  public Date getAsDate( final int indx ) throws DataFrameException {
+    return asDate( getObject( indx ) );
   }
 
 
