@@ -32,6 +32,8 @@ public class JSONMarshaler {
   private static final String FALSE = "false";
 
 
+
+
   /**
    * Marshal the given JSON into a dataframe.
    * 
@@ -45,8 +47,7 @@ public class JSONMarshaler {
     try {
       retval = new JsonFrameParser( json ).parse();
     } catch ( final Exception e ) {
-      System.out.println( "oops: " + e.getMessage() );
-      throw new MarshalException( "Could not marshal JSON to DataFrame", e );
+      throw new MarshalException( "Could not marshal JSON to DataFrame: " + e.getMessage(), e );
     }
 
     return retval;
@@ -156,11 +157,11 @@ public class JSONMarshaler {
         } else {
 
           Object obj = field.getObjectValue();
-          if(obj!= null)
-          writer.writeString( obj.toString() );
+          if ( obj != null )
+            writer.writeString( obj.toString() );
           else
             writer.writeString( NULL );
-            
+
         }
         if ( i + 1 < frame.size() ) {
           writer.writeObjectSeparator();
