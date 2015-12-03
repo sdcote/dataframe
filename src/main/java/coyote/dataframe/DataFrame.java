@@ -114,8 +114,10 @@ public class DataFrame implements Cloneable {
    *
    * @param name The name of the field to return.
    *
-   * @return The first occurrence of the named frame Field or null if an frame 
+   * @return The first occurrence of the named frame field or null if a frame 
    *         Field with the given name was not found.
+   *
+   * @see #getFieldIgnoreCase(String)
    */
   public DataField getField( final String name ) {
     for ( int i = 0; i < fields.size(); i++ ) {
@@ -126,6 +128,30 @@ public class DataFrame implements Cloneable {
       }
     }
 
+    return null;
+  }
+
+
+
+
+  /**
+   * Convenience method that allows for retrieving the first field with the 
+   * given name ignoring differences in case.
+   * 
+   * @param name The name of the field for which to search.
+   * 
+   * @return the first field with the given name (ignoring differences in case) 
+   *         or null if a field was not found with that name.
+   * 
+   * @see #getField(String)
+   */
+  public DataField getFieldIgnoreCase( final String name ) {
+    for ( int i = 0; i < fields.size(); i++ ) {
+      final DataField field = fields.get( i );
+      if ( ( field.getName() != null ) && field.getName().equalsIgnoreCase( name ) ) {
+        return field;
+      }
+    }
     return null;
   }
 
