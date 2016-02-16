@@ -1,7 +1,7 @@
-package coyote.dataframe.marshal.json;
+package coyote.dataframe.marshal;
 
 /**
- * An unchecked exception to indicate that an input does not qualify as valid JSON.
+ * An unchecked exception to indicate that an input does not qualify as valid.
  */
 public class ParseException extends RuntimeException {
 

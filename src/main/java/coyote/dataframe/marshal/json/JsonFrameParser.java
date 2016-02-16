@@ -8,6 +8,7 @@ import java.util.List;
 
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
+import coyote.dataframe.marshal.ParseException;
 
 
 /**

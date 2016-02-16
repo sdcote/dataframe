@@ -1,4 +1,4 @@
-package coyote.dataframe.marshal.json;
+package coyote.dataframe.marshal;
 
 import java.io.IOException;
 import java.io.Writer;
