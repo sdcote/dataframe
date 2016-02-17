@@ -9,8 +9,6 @@ import coyote.dataframe.DataField;
 public class XmlWriter {
   private static final String FIELD = "field";
 
-  private static final String NULL = "null";
-
   private static final int CONTROL_CHARACTERS_END = 0x001f;
 
   private static final char[] QUOT_CHARS = { '\\', '"' };
@@ -71,6 +69,100 @@ public class XmlWriter {
 
 
 
+  public void writeEquals() throws IOException {
+    writer.write( '=' );
+  }
+
+
+
+
+  public void writeFieldClose() throws IOException {}
+
+
+
+
+  public void writeFieldName( final DataField field ) throws IOException {
+    if ( field.getName() != null ) {
+      writeLiteral( field.getName() );
+    } else {
+      writeLiteral( FIELD );
+    }
+  }
+
+
+
+
+  public void writeFieldOpen() throws IOException {}
+
+
+
+
+  public void writeFieldType( final DataField field ) throws IOException {}
+
+
+
+
+  public void writeForwardSlash() throws IOException {
+    writer.write( '/' );
+  }
+
+
+
+
+  public void writeFrameClose() throws IOException {}
+
+
+
+
+  public void writeFrameOpen() throws IOException {}
+
+
+
+
+  /**
+   * Writes the string to the underlying writer with no additional formatting.
+   * 
+   * @param value the value to write
+   * 
+   * @throws IOException if writing encountered an error
+   */
+  public void writeLiteral( final String value ) throws IOException {
+    writer.write( value );
+  }
+
+
+
+
+  public void writeSpace() throws IOException {
+    writer.write( ' ' );
+  }
+
+
+
+
+  public void writeString( final String string ) throws IOException {
+    writer.write( '"' );
+    writeXmlString( string );
+    writer.write( '"' );
+  }
+
+
+
+
+  public void writeTagClose() throws IOException {
+    writer.write( '>' );
+  }
+
+
+
+
+  public void writeTagOpen() throws IOException {
+    writer.write( '<' );
+  }
+
+
+
+
   /**
    * Write the string replacing any non-standard characters as necessary.
    * 
@@ -91,92 +183,5 @@ public class XmlWriter {
     }
     writer.write( string, start, length - start );
   }
-
-
-
-
-  /**
-   * Writes the string to the underlying writer with no additional formatting.
-   * 
-   * @param value the value to write
-   * 
-   * @throws IOException if writing encountered an error
-   */
-  public void writeLiteral( final String value ) throws IOException {
-    writer.write( value );
-  }
-
-
-
-
-  public void writeForwardSlash() throws IOException {
-    writer.write( '/' );
-  }
-
-
-
-
-  public void writeTagClose() throws IOException {
-    writer.write( '>' );
-  }
-
-
-
-
-  public void writeTagOpen() throws IOException {
-    writer.write( '<' );
-  }
-
-
-
-
-  public void writeEquals() throws IOException {
-    writer.write( '=' );
-  }
-
-
-
-
-  public void writeString( final String string ) throws IOException {
-    writer.write( '"' );
-    writeXmlString( string );
-    writer.write( '"' );
-  }
-
-
-
-
-  public void writeFrameOpen() throws IOException {}
-
-
-
-
-  public void writeFrameClose() throws IOException {}
-
-
-
-
-  public void writeFieldOpen() throws IOException {}
-
-
-  public void writeFieldClose() throws IOException {}
-
-
-  public void writeFieldName( DataField field ) throws IOException {
-    if ( field.getName() != null ) {
-      writeLiteral( field.getName() );
-    } else {
-      writeLiteral( FIELD );
-    }
-  }
-
-
-
-
-  public void writeFieldType( DataField field ) {}
-
-
-
-
 
 }

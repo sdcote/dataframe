@@ -19,32 +19,17 @@ class FormattedXmlWriter extends XmlWriter {
 
 
 
-  public void writeIndent() throws IOException {
-    for ( int i = 0; i < indent; i++ ) {
-      writer.write( indentChars );
-    }
-  }
-
-
-
-
-  public void writeFieldOpen() throws IOException {
-    writeIndent();
-  }
-
-
-
-
-  private void writeNewLine() throws IOException {
-    writer.write( '\n' );
+  @Override
+  public void writeFieldClose() throws IOException {
+    writeNewLine();
   }
 
 
 
 
   @Override
-  public void writeFieldClose() throws IOException {
-    writeNewLine();
+  public void writeFieldOpen() throws IOException {
+    writeIndent();
   }
 
 
@@ -63,6 +48,22 @@ class FormattedXmlWriter extends XmlWriter {
   public void writeFrameOpen() throws IOException {
     indent++;
     writeNewLine();
+  }
+
+
+
+
+  public void writeIndent() throws IOException {
+    for ( int i = 0; i < indent; i++ ) {
+      writer.write( indentChars );
+    }
+  }
+
+
+
+
+  private void writeNewLine() throws IOException {
+    writer.write( '\n' );
   }
 
 }

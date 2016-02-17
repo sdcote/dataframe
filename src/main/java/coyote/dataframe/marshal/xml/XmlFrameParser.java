@@ -133,16 +133,13 @@ public class XmlFrameParser extends StringParser {
     final List<DataFrame> retval = new ArrayList<DataFrame>();
     try {
       skipWhitespace();
-      
-      
+
     } catch ( IOException e ) {
       e.printStackTrace();
     }
-    
 
     // do stuff
     return retval;
   }
 
- 
 }

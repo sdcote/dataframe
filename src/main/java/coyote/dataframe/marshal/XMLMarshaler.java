@@ -73,7 +73,37 @@ public class XMLMarshaler {
    * @return A XML formatted string which can be marshaled back into a frame
    */
   public static String toFormattedString( final DataFrame frame ) {
-    return write( frame, XmlWriterConfig.PRETTY_PRINT );
+    return write( frame, XmlWriterConfig.FORMATTED );
+  }
+
+
+
+
+  /**
+   * Generate minimal XML (single line, no witespace) with datatype information 
+   * for each field.
+   * 
+   * @param frame The frame to marshal
+   * 
+   * @return A XML string with minimal formating and data type information which can be marshaled back into a frame preserving data types
+   */
+  public static String toTypedString( final DataFrame frame ) {
+    return write( frame, XmlWriterConfig.TYPED );
+  }
+
+
+
+
+  /**
+   * Generate a nicely formatted (and indented) XML string with datatype 
+   * information for each field.
+   * 
+   * @param frame The frame to marshal
+   * 
+   * @return A formatted XML string with  data type information which can be marshaled back into a frame preserving data types
+   */
+  public static String toFormattedTypedString( final DataFrame frame ) {
+    return write( frame, XmlWriterConfig.TYPED_FORMATTED );
   }
 
 
@@ -130,7 +160,7 @@ public class XMLMarshaler {
         writer.writeTagOpen();
         writer.writeFieldName( field );
         writer.writeFieldType( field );
-        
+
         // if there is a value
         if ( field.getValue().length > 0 ) {
           writer.writeTagClose();

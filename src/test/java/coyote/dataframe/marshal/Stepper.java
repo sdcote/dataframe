@@ -32,10 +32,7 @@ public class Stepper {
 
 
   static void xml() {
-    
-    
-    
-    
+
     DataFrame frame = new DataFrame();
     frame.put( "test", "This is a test" );
     frame.put( "another", "This is another" );
@@ -44,9 +41,8 @@ public class Stepper {
     nested.put( "inner", "This is some inner data" );
     frame.put( "nested", nested );
 
-    
     frame.put( "more", "Some more data" );
-    
+
     DataFrame frame1 = new DataFrame();
     frame1.put( "number", 123 );
     frame1.put( "bool", true );
@@ -58,22 +54,29 @@ public class Stepper {
     DataFrame frame3 = new DataFrame();
     frame3.put( "date", new Date() );
 
-    frame2.put( "Frame3",frame3 );
+    frame2.put( "Frame3", frame3 );
     frame1.put( "Frame2", frame2 );
     frame.put( "Frame1", frame1 );
-    
+
     frame.put( "LAST", "The End" );
-        
 
-
-    
-    
-    
+    // All valid XML has one root, put our data in that root
+    DataFrame root = new DataFrame();
+    root.put( "root", frame );
 
     //String xml = XMLMarshaler.marshal( frame );
-    String xml = XMLMarshaler.toFormattedString( frame );
+    String xml = XMLMarshaler.toFormattedString( root );
     System.out.println( xml );
 
+    System.out.println( XMLMarshaler.marshal( frame2 ) );
+    
+    System.out.println();
+    xml = XMLMarshaler.toTypedString( root );
+    System.out.println( xml );
+
+    System.out.println();
+    xml = XMLMarshaler.toFormattedTypedString( root );
+    System.out.println( xml );
   }
 
 
