@@ -11,6 +11,9 @@
  */
 package coyote.dataframe.marshal.xml;
 
+import java.util.HashMap;
+
+
 /**
  * 
  */
@@ -19,6 +22,105 @@ public class Tag {
   private String namespace = null;
   private boolean closetag = false;
   private boolean emptytag = false;
+  private boolean commentFlag = true;
+  private HashMap<String, String> attributes = new HashMap<String, String>();
+  private boolean preambleFlag = true;
+
+
+
+
+  // tags must be parsed
+  Tag() {}
+
+
+
+
+  /**
+   * @param token
+   */
+  public Tag( String token ) {
+
+    // Empty tag check
+    if ( token.endsWith( "/" ) ) {
+      setEmptyTag( true );
+      token = token.substring( 0, token.length() - 1 );
+    }
+
+    // end tag check
+    if ( token.startsWith( "/" ) ) {
+      setEndTag( true );
+      token = token.substring( 1 );
+    }
+
+    // Preamble identification
+    if ( token.startsWith( "?" ) ) {
+      setPreamble( true );
+      token = token.substring( 1 );
+    }
+    if ( token.endsWith( "?" ) ) {
+      token = token.substring( 0, token.length() - 1 );
+    }
+
+    // Comment check
+    if ( token.startsWith( "!--" ) ) {
+      setComment( true );
+      token = token.substring( 3 );
+    }
+    if ( token.endsWith( "--" ) ) {
+      token = token.substring( 0, token.length() - 2 );
+    }
+
+    // See if there are attributes
+    if ( token.indexOf( ' ' ) > -1 ) {
+      setName( token.substring( 0, token.indexOf( ' ' ) ) );
+      processAttributes( token.substring( token.indexOf( ' ' ) ) );
+    } else {
+      setName( token );
+    }
+
+    // split the name into namespace and name
+    if ( name.indexOf( ':' ) > -1 ) {
+      setNamespace( name.substring( 0, token.indexOf( ':' ) ) );
+      setName( name.substring( token.indexOf( ':' ) + 1 ) );
+    } else {
+      setName( name );
+    }
+
+  }
+
+
+
+
+  /**
+   * @param substring
+   */
+  private void processAttributes( String substring ) {
+
+    // TODO now look for attributes
+    // scan for '=' everything up to the '=' is the name
+    // scan for quoted string or the next ' '
+
+  }
+
+
+
+
+  /**
+   * @param flag
+   */
+  private void setComment( boolean flag ) {
+    commentFlag = flag;
+  }
+
+
+
+
+  /**
+   * @param flag
+   */
+  private void setPreamble( boolean flag ) {
+    preambleFlag = flag;
+  }
 
 
 
@@ -109,6 +211,27 @@ public class Tag {
    */
   public void setEmptyTag( boolean flag ) {
     emptytag = flag;
+  }
+
+
+
+
+  /**
+   * @return
+   */
+  public boolean isComment() {
+    return commentFlag;
+  }
+
+
+
+
+  /**
+   * @return
+   */
+  public boolean isPreamble() {
+    return preambleFlag;
+
   }
 
 }

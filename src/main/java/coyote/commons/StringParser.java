@@ -537,7 +537,7 @@ public class StringParser {
       // character...
       if ( c == -1 ) {
         // ...complain
-        throw new IOException( "could not find stop char " + stop + "('" + (char)stop + "') before EOF" );
+        throw new IOException( "Could not find stop char " + stop + "('" + (char)stop + "') before EOF" );
       } else {
         // If we found the stop character...
         if ( c == stop ) {

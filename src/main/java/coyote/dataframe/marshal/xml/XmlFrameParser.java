@@ -19,6 +19,7 @@ import java.util.List;
 import coyote.commons.SimpleReader;
 import coyote.commons.StringParser;
 import coyote.dataframe.DataFrame;
+import coyote.dataframe.marshal.ParseException;
 
 
 /**
@@ -85,32 +86,8 @@ public class XmlFrameParser extends StringParser {
         token = token.trim();
 
         if ( token.length() > 0 ) {
-          retval = new Tag();
+          retval = new Tag( token );
           String name = null;
-
-          if ( token.endsWith( "/" ) ) {
-            retval.setEmptyTag( true );
-            token = token.substring( 0, token.length() - 1 );
-          }
-          if ( token.startsWith( "/" ) ) {
-            retval.setEndTag( true );
-            token = token.substring( 1 );
-          }
-
-          // See if there are attributes
-          if ( token.indexOf( ' ' ) > -1 ) {
-            name = token.substring( 0, token.indexOf( ' ' ) );
-          } else {
-            name = token;
-          }
-
-          // split the name into namespace and name
-          if ( name.indexOf( ':' ) > -1 ) {
-            retval.setNamespace( name.substring( 0, token.indexOf( ':' ) ) );
-            retval.setName( name.substring( token.indexOf( ':' ) + 1 ) );
-          } else {
-            retval.setName( name );
-          }
 
         }
       }
@@ -128,17 +105,49 @@ public class XmlFrameParser extends StringParser {
    * Parse the reader into data frames
    * 
    * @return a list of data frames parsed from the data set in this parser.
+   * 
+   * @throws ParseException if there are problems parsing the XML
    */
-  public List<DataFrame> parse() {
+  public List<DataFrame> parse() throws ParseException {
     final List<DataFrame> retval = new ArrayList<DataFrame>();
-    try {
-      skipWhitespace();
 
-    } catch ( IOException e ) {
-      e.printStackTrace();
+    DataFrame frame = null;
+
+    Tag tag = null;
+
+    // Start reading tags until we reach the envelope
+    do {
+      tag = readTag();
+      if ( tag == null )
+        break;
+      
+      System.out.println(tag.getName());
+
+    }
+    while ( tag.isComment() || tag.isPreamble() );
+
+    //
+    frame = readFrame();
+    while ( frame != null ) {
+      retval.add( frame );
     }
 
-    // do stuff
+    return retval;
+  }
+
+
+
+
+  /**
+   * Start reading fields of a frame and return all the retrieved fields inside 
+   * a frame.
+   * 
+   * <p>This is a recursive call allowing for fields containing frames.</p>
+   * @return
+   */
+  private DataFrame readFrame() {
+    DataFrame retval = null;
+
     return retval;
   }
 
