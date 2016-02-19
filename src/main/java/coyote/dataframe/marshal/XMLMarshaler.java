@@ -41,7 +41,6 @@ public class XMLMarshaler {
     try {
       retval = new XmlFrameParser( xml ).parse();
     } catch ( final Exception e ) {
-      System.out.println( "oops: " + e.getMessage() );
       throw new MarshalException( "Could not marshal XML to DataFrame", e );
     }
 

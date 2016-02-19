@@ -69,15 +69,50 @@ public class XmlFrameParser extends StringParser {
 
 
 
+  /**
+   * Generate a parse exception with the given message.
+   * 
+   * <p>All the position information is populated in the exception based on the 
+   * readers current counters.</p>
+   * 
+   * @param message The text message to include in the exception 
+   * 
+   * @return a parse exception with the given message.
+   */
+  private ParseException error( final String message ) {
+    return new ParseException( message, getOffset(), getCurrentLineNumber(), getColumnNumber(), getLastCharacterRead() );
+  }
+
+
+
+
+  private ParseException expected( final String expected ) {
+    if ( isEndOfText() ) {
+      return error( "Unexpected input" );
+    }
+    return error( "Expected " + expected );
+  }
+
+
+  private boolean isEndOfText() {
+    return getLastCharacterRead() == -1;
+  }
+
+
 
   private Tag readTag() {
     Tag retval = null;
     String token = null;
 
+    // read to the next open character
     try {
-      // read to the next open character
       readTo( OPEN );
+    } catch ( Exception e ) {
+      // assume there are no more tags
+      return null;
+    }
 
+    try {
       // read everything up to the closing character into the token
       token = readTo( CLOSE );
       //log.debug( "Read tag of '{}'", token );
@@ -87,12 +122,10 @@ public class XmlFrameParser extends StringParser {
 
         if ( token.length() > 0 ) {
           retval = new Tag( token );
-          String name = null;
-
         }
       }
     } catch ( IOException e ) {
-      e.printStackTrace();
+      throw error("Could not read a complete tag: IO error");
     }
 
     return retval;
@@ -120,8 +153,8 @@ public class XmlFrameParser extends StringParser {
       tag = readTag();
       if ( tag == null )
         break;
-      
-      System.out.println(tag.getName());
+
+      System.out.println( tag.getName() );
 
     }
     while ( tag.isComment() || tag.isPreamble() );

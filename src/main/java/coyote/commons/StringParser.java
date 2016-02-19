@@ -32,6 +32,9 @@ public class StringParser {
   /** The current character of the current line. */
   private int charNumber = 0;
 
+  /** The current offset into the buffer/stream */
+  private int offset = 0;
+
   /** The last character we read */
   private int lastChar = 0;
 
@@ -212,6 +215,9 @@ public class StringParser {
     // Increment the current lines character pointer
     ++charNumber;
 
+    // Increment the offset into the stream
+    ++offset;
+
     // store the character we just read as the last character we just read
     lastChar = ch;
 
@@ -264,7 +270,7 @@ public class StringParser {
 
     // move past any whitespace
     skipWhitespace();
-    
+
     // read to the next delimiter
     String retval = readToDelimiter( defaultDelimiters );
 
@@ -815,6 +821,62 @@ public class StringParser {
         break;
       }
     }
+  }
+
+
+
+
+  /**
+   * @return the last character read with {@code read()}, a.k.a. the current character
+   */
+  public int getLastCharacterRead() {
+    return lastChar;
+  }
+
+
+
+
+  /**
+   * Return the current line number in the string the {@code read()} is reading.
+   *  
+   * <p>The count begins at 1 and is incremented every time the {@code read()} 
+   * comes across the new line character.</p>
+   * 
+   * @return return the current line in the buffer (starts with 1)
+   */
+  public int getCurrentLineNumber() {
+    return lineNumber;
+  }
+
+
+
+
+  /**
+   * Return the column position of the last read in character.
+   * 
+   * <p>Each time the {@code read()} method reads a character, this value is 
+   * incremented. It is reset when a new line character is read in.</p>
+   * 
+   * @return the o-based position of the last read in character in relation to the current line.
+   */
+  public int getColumnNumber() {
+    return charNumber;
+  }
+
+
+
+
+  /**
+   * Return the current characters position relative to the beginning of the 
+   * stream.
+   * 
+   * <p>Each time the {@code read()} method reads a character, this value is 
+   * incremented. It is never reset.</p>
+   * 
+   * @return the the current position in the stream
+   */
+  public int getOffset() {
+    return offset;
   }
 
 }

@@ -16,7 +16,7 @@ public class ParseException extends RuntimeException {
 
   public ParseException( final String message, final int offset, final int line, final int column, final int character ) {
 
-    super( message + " at line:" + line + " column:" + column + " offset:" + offset + " char: '" + (char)character + "' val(" + character + ")" );
+    super( message + " at line:" + line + " column:" + column + " offset:" + offset + " char: '" + (char)character + "' (" + character + ")" );
     this.offset = offset;
     this.line = line;
     this.column = column;
