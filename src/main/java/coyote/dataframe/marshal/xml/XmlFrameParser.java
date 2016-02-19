@@ -168,7 +168,25 @@ public class XmlFrameParser extends StringParser {
 
       if ( tag.isOpenTag() ) {
 
-        field = readField( tag.getName(), tag.getAttribute( TYPE_ATTRIBUTE_NAME ) );
+        if ( tag.isEmptyTag() ) {
+          // empty tag, empty field
+          field = new DataField( tag.getName(), null );
+        } else {
+          // read the field from the data stream
+          field = readField( tag.getName(), tag.getAttribute( TYPE_ATTRIBUTE_NAME ) );
+
+          // read the closing tag
+          gat = readTag();
+
+          if ( gat != null && gat.isCloseTag() ) {
+            // make sure it matches
+            if ( !tag.getName().equals( gat.getName() ) ) {
+              throw error( "Malformed XML detected: wrong closing tag '" + gat.getName() + "'" );
+            }
+          } else {
+            throw error( "Malformed XML detected: EOF before close of tag '" + tag.getName() + "'" );
+          }
+        }
 
         // add the parsed field into the dataframe
         if ( field != null ) {
@@ -177,18 +195,6 @@ public class XmlFrameParser extends StringParser {
             retval = new DataFrame();
           }
           retval.add( field );
-        }
-
-        // read the closing tag
-        gat = readTag();
-
-        if ( gat != null && gat.isCloseTag() ) {
-          // make sure it matches
-          if ( !tag.getName().equals( gat.getName() ) ) {
-            throw error( "Malformed XML detected: wrong closing tag '" + gat.getName() + "'" );
-          }
-        } else {
-          throw error( "Malformed XML detected: EOF before close of tag '" + tag.getName() + "'" );
         }
 
         // read the next opening tag
