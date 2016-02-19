@@ -376,6 +376,25 @@ public class DataField implements Cloneable {
 
 
   /**
+   * Return the field type with the given name
+   * 
+   * @param name The name of the type to retrieve
+   * 
+   * @return the ViledType with the given name or null if not found
+   */
+  public static FieldType getFieldType( String name ) {
+    for ( short x = 0; x < _types.size(); x++ ) {
+      if ( _types.get( x ).getTypeName().equals( name ) ) {
+        return _types.get( x );
+      }
+    }
+    return null;
+  }
+
+
+
+
+  /**
    * Convert the object into a binary representation of a DataField
    *
    * @param obj The object to encode.

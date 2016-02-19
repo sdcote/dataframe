@@ -13,12 +13,12 @@ package coyote.dataframe.marshal.xml;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 
 import coyote.commons.SimpleReader;
 import coyote.commons.StringParser;
+import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
+import coyote.dataframe.FieldType;
 import coyote.dataframe.marshal.ParseException;
 
 
@@ -32,6 +32,7 @@ public class XmlFrameParser extends StringParser {
   private static final int CLOSE = (int)'>';
   private static final int QM = (int)'?';
   private static final int SLASH = (int)'/';
+  public static final String TYPE_ATTRIBUTE_NAME = "type";
 
 
 
@@ -69,6 +70,7 @@ public class XmlFrameParser extends StringParser {
 
 
 
+
   /**
    * Generate a parse exception with the given message.
    * 
@@ -94,9 +96,12 @@ public class XmlFrameParser extends StringParser {
   }
 
 
+
+
   private boolean isEndOfText() {
     return getLastCharacterRead() == -1;
   }
+
 
 
 
@@ -125,7 +130,7 @@ public class XmlFrameParser extends StringParser {
         }
       }
     } catch ( IOException e ) {
-      throw error("Could not read a complete tag: IO error");
+      throw error( "Could not read a complete tag: IO error" );
     }
 
     return retval;
@@ -135,34 +140,96 @@ public class XmlFrameParser extends StringParser {
 
 
   /**
-   * Parse the reader into data frames
+   * Parse the reader into a dataframe
    * 
-   * @return a list of data frames parsed from the data set in this parser.
+   * @return a dataframe parsed from the data set in this parser.
    * 
    * @throws ParseException if there are problems parsing the XML
    */
-  public List<DataFrame> parse() throws ParseException {
-    final List<DataFrame> retval = new ArrayList<DataFrame>();
+  public DataFrame parse() throws ParseException {
 
-    DataFrame frame = null;
+    DataFrame retval = null;
+    DataField field = null;
 
     Tag tag = null;
+    Tag gat = null;
 
-    // Start reading tags until we reach the envelope
+    // Start reading tags until we pass the preamble and comments
     do {
       tag = readTag();
-      if ( tag == null )
+      if ( tag == null ) {
         break;
-
-      System.out.println( tag.getName() );
-
+      }
     }
     while ( tag.isComment() || tag.isPreamble() );
 
-    //
-    frame = readFrame();
-    while ( frame != null ) {
-      retval.add( frame );
+    // We have a tag which is not a preamble or comment; start looping through the tags 
+    while ( tag != null ) {
+
+      if ( tag.isOpenTag() ) {
+
+        field = readField( tag.getName(), tag.getAttribute( TYPE_ATTRIBUTE_NAME ) );
+
+        // add the parsed field into the dataframe
+        if ( field != null ) {
+          // create it if this is the first field
+          if ( retval == null ) {
+            retval = new DataFrame();
+          }
+          retval.add( field );
+        }
+
+        // read the closing tag
+        gat = readTag();
+
+        if ( gat != null && gat.isCloseTag() ) {
+          // make sure it matches
+          if ( !tag.getName().equals( gat.getName() ) ) {
+            throw error( "Malformed XML detected: wrong closing tag '" + gat.getName() + "'" );
+          }
+        } else {
+          throw error( "Malformed XML detected: EOF before close of tag '" + tag.getName() + "'" );
+        }
+
+        // read the next opening tag
+        tag = readTag();
+
+      } else {
+        throw error( "Expected opening tag but read in a closing tag" );
+      }
+
+    } // while we have tags
+
+    return retval;
+  }
+
+
+
+
+  /**
+   * Read in the value of a tag creating a data field containing the value as 
+   * of the requested data type.
+   * 
+   * @param name Name of the data field to create
+   * @param type the type of data it is supposed to be defaults to String (STR) if null, empty or invalid.
+   * 
+   * @return a data field constructed from the XML value at the current position in the reader's stream
+   */
+  private DataField readField( String name, String type ) {
+    DataField retval = null;
+    FieldType fieldType = DataField.getFieldType( type );
+
+    Object value = readValue();
+
+    if ( value != null ) {
+      if ( fieldType != null ) {
+        // TODO try to convert the string data into an object
+
+        retval = new DataField( name, value ); // string for now
+      } else {
+        // not valid field type, just use string (or DataFrame depending on what readValue returned)
+        retval = new DataField( name, value );
+      }
     }
 
     return retval;

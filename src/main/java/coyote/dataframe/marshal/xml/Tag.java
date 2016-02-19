@@ -22,9 +22,9 @@ public class Tag {
   private String namespace = null;
   private boolean closetag = false;
   private boolean emptytag = false;
-  private boolean commentFlag = true;
+  private boolean commentFlag = false;
   private HashMap<String, String> attributes = new HashMap<String, String>();
-  private boolean preambleFlag = true;
+  private boolean preambleFlag = false;
 
 
 
@@ -56,9 +56,12 @@ public class Tag {
     if ( token.startsWith( "?" ) ) {
       setPreamble( true );
       token = token.substring( 1 );
-    }
-    if ( token.endsWith( "?" ) ) {
-      token = token.substring( 0, token.length() - 1 );
+
+      if ( token.endsWith( "?" ) ) {
+        token = token.substring( 0, token.length() - 1 );
+      }
+    } else {
+      setPreamble( false );
     }
 
     // Comment check
@@ -232,6 +235,20 @@ public class Tag {
   public boolean isPreamble() {
     return preambleFlag;
 
+  }
+
+
+
+
+  /**
+   * Return the attribute with the given (case sensitive) name.
+   * 
+   * @param name The name of the attribute to retrieve.
+   * 
+   * @return the value of the attribute or null if the attribute with the given name was not found.
+   */
+  public String getAttribute( String name ) {
+    return attributes.get( name );
   }
 
 }

@@ -14,6 +14,7 @@ package coyote.dataframe.marshal;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.List;
 
 import coyote.dataframe.DataField;
@@ -36,10 +37,10 @@ public class XMLMarshaler {
    * @return Data frame containing the XML represented data
    */
   public static List<DataFrame> marshal( final String xml ) throws MarshalException {
-    List<DataFrame> retval = null;
+    List<DataFrame> retval = new ArrayList<DataFrame>();
 
     try {
-      retval = new XmlFrameParser( xml ).parse();
+      retval.add( new XmlFrameParser( xml ).parse() );
     } catch ( final Exception e ) {
       throw new MarshalException( "Could not marshal XML to DataFrame", e );
     }
