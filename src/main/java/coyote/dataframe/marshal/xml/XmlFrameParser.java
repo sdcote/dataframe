@@ -149,10 +149,8 @@ public class XmlFrameParser extends StringParser {
   public DataFrame parse() throws ParseException {
 
     DataFrame retval = null;
-    DataField field = null;
 
     Tag tag = null;
-    Tag gat = null;
 
     // Start reading tags until we pass the preamble and comments
     do {
@@ -163,48 +161,11 @@ public class XmlFrameParser extends StringParser {
     }
     while ( tag.isComment() || tag.isPreamble() );
 
-    // We have a tag which is not a preamble or comment; start looping through the tags 
-    while ( tag != null ) {
-
-      if ( tag.isOpenTag() ) {
-
-        if ( tag.isEmptyTag() ) {
-          // empty tag, empty field
-          field = new DataField( tag.getName(), null );
-        } else {
-          // read the field from the data stream
-          field = readField( tag.getName(), tag.getAttribute( TYPE_ATTRIBUTE_NAME ) );
-
-          // read the closing tag
-          gat = readTag();
-
-          if ( gat != null && gat.isCloseTag() ) {
-            // make sure it matches
-            if ( !tag.getName().equals( gat.getName() ) ) {
-              throw error( "Malformed XML detected: wrong closing tag '" + gat.getName() + "'" );
-            }
-          } else {
-            throw error( "Malformed XML detected: EOF before close of tag '" + tag.getName() + "'" );
-          }
-        }
-
-        // add the parsed field into the dataframe
-        if ( field != null ) {
-          // create it if this is the first field
-          if ( retval == null ) {
-            retval = new DataFrame();
-          }
-          retval.add( field );
-        }
-
-        // read the next opening tag
-        tag = readTag();
-
-      } else {
-        throw error( "Expected opening tag but read in a closing tag" );
-      }
-
-    } // while we have tags
+    // We have a tag which is not a preamble or comment, if it is an open 
+    // tag then we have data that goes into a data frame  
+    if ( tag != null && tag.isOpenTag() ) {
+      retval = readFrame( tag );
+    }
 
     return retval;
   }
@@ -216,21 +177,50 @@ public class XmlFrameParser extends StringParser {
    * Read in the value of a tag creating a data field containing the value as 
    * of the requested data type.
    * 
-   * @param name Name of the data field to create
-   * @param type the type of data it is supposed to be defaults to String (STR) if null, empty or invalid.
+   * <p>Thoe opsition of the reader will be immediately behind the closing tag 
+   * of the read-in field.</p>
+   * 
+   * @param openTag The opening tag read in for this field
    * 
    * @return a data field constructed from the XML value at the current position in the reader's stream
    */
-  private DataField readField( String name, String type ) {
+  private DataField readField( Tag openTag ) {
     DataField retval = null;
+
+    // This will be the name of the field
+    String name = openTag.getName();
+
+    // This will be the type into which the string data is converted   
+    String type = openTag.getAttribute( TYPE_ATTRIBUTE_NAME );
+
     FieldType fieldType = DataField.getFieldType( type );
 
-    Object value = readValue();
+    String value = readValue();
 
-    if ( value != null ) {
+    // read what should be the closing tag
+    Tag closeTag = readTag();
+
+    if ( closeTag != null ) {
+      if ( closeTag.isCloseTag() ) {
+        if ( !closeTag.getName().equals( openTag.getName() ) ) {
+          throw error( "Malformed XML: expected closing tag for '" + openTag.getName() + "' not '" + closeTag.getName() + "'" );
+        }
+      } else {
+        // this appears to be a nested field, get a frame for the tag we just read in
+        DataFrame frame = readFrame( closeTag );
+        retval = new DataField( name, frame );
+      } // close tag check
+    } else {
+      throw error( "Malformed XML: unexpected end of data" );
+    }
+
+    // If we don't have a nexted data field as a return value, try to use the 
+    // value we read in  
+    if ( retval == null ) {
+
+      // TODO try to convert the string data of "value" into an object of the requested type
       if ( fieldType != null ) {
-        // TODO try to convert the string data into an object
-
+        // TODO all manner of data type parsing goes here
         retval = new DataField( name, value ); // string for now
       } else {
         // not valid field type, just use string (or DataFrame depending on what readValue returned)
@@ -245,14 +235,76 @@ public class XmlFrameParser extends StringParser {
 
 
   /**
-   * Start reading fields of a frame and return all the retrieved fields inside 
-   * a frame.
-   * 
-   * <p>This is a recursive call allowing for fields containing frames.</p>
    * @return
    */
-  private DataFrame readFrame() {
+  private Tag peekNextTag() {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+
+
+
+  /**
+   * Return the data as a frame.
+   * 
+   * <p>This method is called when the value of a field is another open tag 
+   * which indicates a new field. These nested fields are placed in a frame and 
+   * returned to the caller.</p>
+   * 
+   * @param openTag The open tag read in signaling a nested field.
+   * 
+   * @return a data frame containing the nested field and any other peer field encountered
+   */
+  private DataFrame readFrame( Tag openTag ) {
+
+    if ( openTag == null )
+      throw new IllegalArgumentException( "ReadFrame called will null OpenTag" );
+
+    Tag currentTag = openTag;
+
+    String name = currentTag.getName();
     DataFrame retval = null;
+    DataField field = null;
+
+    // We have a tag which is not a preamble or comment; start looping through the tags 
+    while ( currentTag != null ) {
+
+      // Skip preamble and comments
+      if ( !currentTag.isComment() && !currentTag.isPreamble() ) {
+        if ( currentTag.isOpenTag() ) {
+
+          if ( currentTag.isEmptyTag() ) {
+            // empty tag, empty field
+            field = new DataField( currentTag.getName(), null );
+          } else {
+            // read the field from the data stream this will consume the close tag for this field
+            field = readField( currentTag );
+          }
+
+          // add the parsed field into the dataframe
+          if ( field != null ) {
+            // create the dataframe if this is the first field
+            if ( retval == null ) {
+              retval = new DataFrame();
+            }
+
+            // add the new field to the dataframe we will return
+            retval.add( field );
+          } else {
+            throw error( "Problems reading field: null value" );
+          }
+
+          // read the next opening tag
+          currentTag = readTag();
+
+        } else {
+          break;
+        }
+
+      } // not comment or preample
+
+    } // while we have tags
 
     return retval;
   }

@@ -31,12 +31,17 @@ import coyote.dataframe.DataFrame;
 public class XMLMarshalerTest {
 
   static final String XML0 = "<date/>";
-  static final String XML1 = "<text>hello</text>";
-  static final String XML2 = "<text>hello</text>\r\n<data>world</data>";
-  static final String XML3 = "<text>hello</text>\r\n<data>world</data>\r\n<extra>This is fun!</extra>";
+  static final String XML1 = "<text></text>";
+  static final String XML2 = "<text>hello</text>";
+  static final String XML3 = "<text>hello</text>\r\n<data>world</data>";
+  static final String XML4 = "<text>hello</text>\r\n<data>world</data>\r\n<extra>This is fun!</extra>";
+  static final String XML5 = "<parent>\r\n<child>inner</child>\r\n</parent>";
+  static final String XML6 = "<peer>text</peer>\r\n<peer>\r\n<inner>Child</inner>\r\n</peer>";
 
   static final String XMLA = "<date>2016-02-01</date>";
   static final String XMLB = "<?xml version=\"1.0\"?>\r\n" + "<doc>\r\n   <assembly>\r\n       <name>Linkage</name>\r\n   </assembly>\r\n   <members>\r\n       <member name=\"T:Linkage.Logging.IFormatter\">\r\n           <summary> Class IFormatter</summary>\r\n       </member>\r\n       <member name=\"M:Linkage.Logging.IFormatter.Initialize\">\r\n           <summary></summary>\r\n       </member>\r\n       <!-- Comments can occur anywhere -->\r\n       <member name=\"M:Linkage.Logging.IFormatter.Format(System.Object,System.String)\">\r\n           <summary> Format the given object into a string based upon the given category.</summary>\r\n           <param name=\"obj\">The object to format into a string.</param>\r\n           <param name=\"category\">The category of the event to be used in optional condition\r\n           formatting.</param>\r\n            <returns> String representation of the event as it will be written to the log</returns>\r\n       </member>\r\n   </members>\r\n" + "</doc>\r\n";
+
+  static final String XML01 = "<?xml version=\"1.0\"?>"; // preamble=true, comment=false, empty=true, open=true, close=false
 
 
 
@@ -60,7 +65,7 @@ public class XMLMarshalerTest {
     assertNotNull( field );
     assertEquals( "date", field.getName() );
 
-    frames = XMLMarshaler.marshal( XML1 ); // single field
+    frames = XMLMarshaler.marshal( XML1 ); // single empty field
     assertNotNull( frames );
     assertTrue( frames.size() == 1 );
     frame = frames.get( 0 );
@@ -70,12 +75,12 @@ public class XMLMarshalerTest {
     assertNotNull( field );
     assertEquals( "text", field.getName() );
 
-    frames = XMLMarshaler.marshal( XML2 ); // multiple fields
+    frames = XMLMarshaler.marshal( XML2 ); // single field
     assertNotNull( frames );
     assertTrue( frames.size() == 1 );
     frame = frames.get( 0 );
     assertNotNull( frame );
-    assertTrue( frame.size() == 2 );
+    assertTrue( frame.size() == 1 );
     field = frame.getField( 0 );
     assertNotNull( field );
     assertEquals( "text", field.getName() );
@@ -85,10 +90,44 @@ public class XMLMarshalerTest {
     assertTrue( frames.size() == 1 );
     frame = frames.get( 0 );
     assertNotNull( frame );
+    assertTrue( frame.size() == 2 );
+    field = frame.getField( 0 );
+    assertNotNull( field );
+    assertEquals( "text", field.getName() );
+
+    frames = XMLMarshaler.marshal( XML4 ); // multiple fields
+    assertNotNull( frames );
+    assertTrue( frames.size() == 1 );
+    frame = frames.get( 0 );
+    assertNotNull( frame );
     assertTrue( frame.size() == 3 );
     field = frame.getField( 0 );
     assertNotNull( field );
     assertEquals( "text", field.getName() );
+
+    frames = XMLMarshaler.marshal( XML5 ); // nested fields
+    assertNotNull( frames );
+    assertTrue( frames.size() == 1 );
+    frame = frames.get( 0 );
+    assertNotNull( frame );
+    assertTrue( frame.size() == 1 );
+    field = frame.getField( 0 );
+    assertNotNull( field );
+    assertEquals( "parent", field.getName() );
+
+    frames = XMLMarshaler.marshal( XML6 ); // nested fields
+    assertNotNull( frames );
+    assertTrue( frames.size() == 1 );
+    frame = frames.get( 0 );
+    assertNotNull( frame );
+    assertTrue( frame.size() == 2 );
+    field = frame.getField( 0 );
+    assertNotNull( field );
+    assertEquals( "peer", field.getName() );
+    field = frame.getField( 1 );
+    assertNotNull( field );
+    assertEquals( "peer", field.getName() );
+
     System.out.println( JSONMarshaler.toFormattedString( frame ) );
   }
 
