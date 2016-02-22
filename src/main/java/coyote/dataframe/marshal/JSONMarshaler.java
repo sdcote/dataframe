@@ -20,7 +20,7 @@ import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
 import coyote.dataframe.marshal.json.JsonFrameParser;
 import coyote.dataframe.marshal.json.JsonWriter;
-import coyote.dataframe.marshal.json.WriterConfig;
+import coyote.dataframe.marshal.json.JsonWriterConfig;
 
 
 /**
@@ -64,7 +64,7 @@ public class JSONMarshaler {
    * @return A JSON formatted string which can be marshaled back into a frame
    */
   public static String marshal( final DataFrame frame ) {
-    return write( frame, WriterConfig.MINIMAL );
+    return write( frame, JsonWriterConfig.MINIMAL );
   }
 
 
@@ -78,7 +78,7 @@ public class JSONMarshaler {
    * @return A JSON formatted string which can be marshaled back into a frame
    */
   public static String toFormattedString( final DataFrame frame ) {
-    return write( frame, WriterConfig.PRETTY_PRINT );
+    return write( frame, JsonWriterConfig.FORMATTED );
   }
 
 
@@ -90,7 +90,7 @@ public class JSONMarshaler {
    * 
    * @return the string containing the marshaled data 
    */
-  private static String write( final DataFrame frame, final WriterConfig config ) {
+  private static String write( final DataFrame frame, final JsonWriterConfig config ) {
 
     // create string writer
     final StringWriter sw = new StringWriter();

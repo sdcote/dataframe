@@ -6,12 +6,12 @@ import java.io.Writer;
 /**
  * Controls the formatting of the JSON output. Use one of the available constants.
  */
-public abstract class WriterConfig {
+public abstract class JsonWriterConfig {
 
   /**
    * Write JSON in its minimal form, without any additional whitespace. This is the default.
    */
-  public static WriterConfig MINIMAL = new WriterConfig() {
+  public static JsonWriterConfig MINIMAL = new JsonWriterConfig() {
     @Override
     public JsonWriter createWriter( final Writer writer ) {
       return new JsonWriter( writer );
@@ -19,13 +19,13 @@ public abstract class WriterConfig {
   };
 
   /**
-   * Write JSON in pretty-print, with each value on a separate line and an indentation of two
-   * spaces.
+   * Generate a nicely formatted (and indented) JSON string from the given data 
+   * frame.
    */
-  public static WriterConfig PRETTY_PRINT = new WriterConfig() {
+  public static JsonWriterConfig FORMATTED = new JsonWriterConfig() {
     @Override
     public JsonWriter createWriter( final Writer writer ) {
-      return new PrettyPrinter( writer );
+      return new FormattedJsonWriter( writer );
     }
   };
 

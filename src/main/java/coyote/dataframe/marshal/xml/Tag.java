@@ -210,7 +210,8 @@ public class Tag {
 
 
   /**
-   * @param flag true, the tag is empty, false, the tag is followed by a value and an end tag.
+   * @param flag true, the tag is empty, false, the tag is followed by a value 
+   *        and an end tag.
    */
   public void setEmptyTag( boolean flag ) {
     emptytag = flag;
@@ -220,7 +221,7 @@ public class Tag {
 
 
   /**
-   * @return
+   * @return true if the tag represents a comment, false otherwise.
    */
   public boolean isComment() {
     return commentFlag;
@@ -230,7 +231,8 @@ public class Tag {
 
 
   /**
-   * @return
+   * @return true if the tag represents a preamble or processing instruction, 
+   *         false otherwise.
    */
   public boolean isPreamble() {
     return preambleFlag;
