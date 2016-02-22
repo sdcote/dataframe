@@ -38,9 +38,12 @@ public class XMLMarshaler {
    */
   public static List<DataFrame> marshal( final String xml ) throws MarshalException {
     List<DataFrame> retval = new ArrayList<DataFrame>();
-
+    DataFrame frame = null;
     try {
-      retval.add( new XmlFrameParser( xml ).parse() );
+      frame = new XmlFrameParser( xml ).parse();
+      if ( frame != null ) {
+        retval.add( frame );
+      }
     } catch ( final Exception e ) {
       throw new MarshalException( "Could not marshal XML to DataFrame", e );
     }

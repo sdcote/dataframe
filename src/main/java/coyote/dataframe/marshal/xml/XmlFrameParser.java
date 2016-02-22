@@ -23,49 +23,43 @@ import coyote.dataframe.marshal.ParseException;
 
 
 /**
+ * This is a SAX style parser which reads from a stream and builds a DOM style
+ * model of the XML data with DataFrames.
  * 
+ * <p>Attributes are larglely ignored as they do not map to the fields concept. 
+ * The notable exception is the use of the {@code type} attribute to indicate 
+ * the type fhe field value contains.</p>
  */
 public class XmlFrameParser extends StringParser {
   private static final String XML_DELIMS = " \t\n><";
 
-  private static final int OPEN = (int)'<';
-  private static final int CLOSE = (int)'>';
-  private static final int QM = (int)'?';
-  private static final int SLASH = (int)'/';
+  private static final int OPEN = '<';
+  private static final int CLOSE = '>';
   public static final String TYPE_ATTRIBUTE_NAME = "type";
 
 
 
 
-  public XmlFrameParser( String string ) {
-    super( new SimpleReader( string ), XML_DELIMS );
-  }
-
-
-
-
-  public XmlFrameParser( Reader reader ) {
+  /**
+   * Create a parser using the given reader from which to read characters.
+   * 
+   * @param reader the stream reader to use
+   */
+  public XmlFrameParser( final Reader reader ) {
     super( reader, XML_DELIMS );
   }
 
 
 
 
-  private String readValue() {
-    StringBuffer b = new StringBuffer();
-    try {
-      if ( OPEN == peek() )
-        return null;
-
-      // keep reading characters until the next character is an open marker
-      while ( OPEN != peek() ) {
-        b.append( (char)read() );
-      }
-
-    } catch ( IOException e ) {
-      e.printStackTrace();
-    }
-    return b.toString();
+  /**
+   * The most common use case constructor which wraps the given string in a 
+   * reader.
+   * 
+   * @param string the string data to parse
+   */
+  public XmlFrameParser( final String string ) {
+    super( new SimpleReader( string ), XML_DELIMS );
   }
 
 
@@ -83,57 +77,6 @@ public class XmlFrameParser extends StringParser {
    */
   private ParseException error( final String message ) {
     return new ParseException( message, getOffset(), getCurrentLineNumber(), getColumnNumber(), getLastCharacterRead() );
-  }
-
-
-
-
-  private ParseException expected( final String expected ) {
-    if ( isEndOfText() ) {
-      return error( "Unexpected input" );
-    }
-    return error( "Expected " + expected );
-  }
-
-
-
-
-  private boolean isEndOfText() {
-    return getLastCharacterRead() == -1;
-  }
-
-
-
-
-  private Tag readTag() {
-    Tag retval = null;
-    String token = null;
-
-    // read to the next open character
-    try {
-      readTo( OPEN );
-    } catch ( Exception e ) {
-      // assume there are no more tags
-      return null;
-    }
-
-    try {
-      // read everything up to the closing character into the token
-      token = readTo( CLOSE );
-      //log.debug( "Read tag of '{}'", token );
-
-      if ( token != null ) {
-        token = token.trim();
-
-        if ( token.length() > 0 ) {
-          retval = new Tag( token );
-        }
-      }
-    } catch ( IOException e ) {
-      throw error( "Could not read a complete tag: IO error" );
-    }
-
-    return retval;
   }
 
 
@@ -163,7 +106,7 @@ public class XmlFrameParser extends StringParser {
 
     // We have a tag which is not a preamble or comment, if it is an open 
     // tag then we have data that goes into a data frame  
-    if ( tag != null && tag.isOpenTag() ) {
+    if ( ( tag != null ) && tag.isOpenTag() ) {
       retval = readFrame( tag );
     }
 
@@ -182,23 +125,24 @@ public class XmlFrameParser extends StringParser {
    * 
    * @param openTag The opening tag read in for this field
    * 
-   * @return a data field constructed from the XML value at the current position in the reader's stream
+   * @return a data field constructed from the XML value at the current 
+   *         position in the reader's stream
    */
-  private DataField readField( Tag openTag ) {
+  private DataField readField( final Tag openTag ) {
     DataField retval = null;
 
     // This will be the name of the field
-    String name = openTag.getName();
+    final String name = openTag.getName();
 
     // This will be the type into which the string data is converted   
-    String type = openTag.getAttribute( TYPE_ATTRIBUTE_NAME );
+    final String type = openTag.getAttribute( TYPE_ATTRIBUTE_NAME );
 
-    FieldType fieldType = DataField.getFieldType( type );
+    final FieldType fieldType = DataField.getFieldType( type );
 
-    String value = readValue();
+    final String value = readValue();
 
     // read what should be the closing tag
-    Tag closeTag = readTag();
+    final Tag closeTag = readTag();
 
     if ( closeTag != null ) {
       if ( closeTag.isCloseTag() ) {
@@ -207,7 +151,7 @@ public class XmlFrameParser extends StringParser {
         }
       } else {
         // this appears to be a nested field, get a frame for the tag we just read in
-        DataFrame frame = readFrame( closeTag );
+        final DataFrame frame = readFrame( closeTag );
         retval = new DataField( name, frame );
       } // close tag check
     } else {
@@ -235,17 +179,6 @@ public class XmlFrameParser extends StringParser {
 
 
   /**
-   * @return
-   */
-  private Tag peekNextTag() {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-
-
-
-  /**
    * Return the data as a frame.
    * 
    * <p>This method is called when the value of a field is another open tag 
@@ -254,16 +187,17 @@ public class XmlFrameParser extends StringParser {
    * 
    * @param openTag The open tag read in signaling a nested field.
    * 
-   * @return a data frame containing the nested field and any other peer field encountered
+   * @return a data frame containing the nested field and any other peer field 
+   *         encountered
    */
-  private DataFrame readFrame( Tag openTag ) {
+  private DataFrame readFrame( final Tag openTag ) {
 
-    if ( openTag == null )
+    if ( openTag == null ) {
       throw new IllegalArgumentException( "ReadFrame called will null OpenTag" );
+    }
 
     Tag currentTag = openTag;
 
-    String name = currentTag.getName();
     DataFrame retval = null;
     DataField field = null;
 
@@ -302,11 +236,87 @@ public class XmlFrameParser extends StringParser {
           break;
         }
 
-      } // not comment or preample
+      } else {
+        // read past the comment or preamble
+        currentTag = readTag();
+      }// not comment or preample
 
     } // while we have tags
 
     return retval;
+  }
+
+
+
+
+  /**
+   * Read in a tag from the current position in the buffer.
+   * 
+   * <p>The reader is positioned immediatly after the closing ('&gt;') 
+   * character.</p>
+   * 
+   * @return the next tag in the buffer or null if there are no tags left
+   */
+  private Tag readTag() {
+    Tag retval = null;
+    String token = null;
+
+    // read to the next open character
+    try {
+      readTo( OPEN );
+    } catch ( final Exception e ) {
+      // assume there are no more tags
+      return null;
+    }
+
+    try {
+      // read everything up to the closing character into the token
+      token = readTo( CLOSE );
+      //log.debug( "Read tag of '{}'", token );
+
+      if ( token != null ) {
+        token = token.trim();
+
+        if ( token.length() > 0 ) {
+          retval = new Tag( token );
+        }
+      }
+    } catch ( final IOException e ) {
+      throw error( "Could not read a complete tag: IO error" );
+    }
+
+    return retval;
+  }
+
+
+
+
+  /**
+   * Read up to and return everything prior to the next the opening ('&lt;') 
+   * character.
+   * 
+   * <p>The reader is positioned just before the opening character of the next 
+   * tag.</p>
+   *  
+   * @return everything up to the next opening ('&lt;') character or an empty 
+   *         string ("") if there are no characters read. Will never be null. 
+   */
+  private String readValue() {
+    final StringBuffer b = new StringBuffer();
+    try {
+      if ( OPEN == peek() ) {
+        return null;
+      }
+
+      // keep reading characters until the next character is an open marker
+      while ( OPEN != peek() ) {
+        b.append( (char)read() );
+      }
+
+    } catch ( final IOException e ) {
+      e.printStackTrace();
+    }
+    return b.toString();
   }
 
 }
