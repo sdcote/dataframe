@@ -138,7 +138,7 @@ public class XMLMarshalerTest {
     frame = frames.get( 0 );
     assertNotNull( frame );
 
-    System.out.println( JSONMarshaler.toFormattedString( frame ) );
+    // System.out.println( JSONMarshaler.toFormattedString( frame ) );
   }
 
 
