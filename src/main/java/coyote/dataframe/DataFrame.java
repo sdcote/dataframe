@@ -101,7 +101,7 @@ public class DataFrame implements Cloneable {
       } catch ( final EOFException eof ) {
         throw new IllegalArgumentException( "Data underflow adding field #" + ( fields.size() + 1 ) );
       } catch ( final IOException ioe ) {
-        throw new IllegalArgumentException( ioe.getMessage() );
+        throw new IllegalArgumentException( ioe.getMessage() + " field #" + ( fields.size() + 1 ) + " last:" + fields.get( fields.size() - 1 ).getName() );
       }
     }
   }
