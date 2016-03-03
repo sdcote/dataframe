@@ -94,17 +94,23 @@ public class DataFrame implements Cloneable {
    */
   public DataFrame( final byte[] data ) {
     if ( data != null ) {
+      int loc = 0;
+      int ploc = 0;
       try {
         final ByteArrayInputStream bais = new ByteArrayInputStream( data );
         final DataInputStream in = new DataInputStream( bais );
 
         while ( in.available() > 0 ) {
+          ploc = loc;
+          loc = data.length - in.available();
           add( new DataField( in ) );
         }
       } catch ( final EOFException eof ) {
-        throw new IllegalArgumentException( "Data underflow adding field #" + ( fields.size() + 1 ) );
+        throw new DecodeException( "Data underflow adding field", eof, loc, ploc, ( fields.size() + 1 ), ( fields.size() > 0 ) ? fields.get( fields.size() - 1 ) : null );
       } catch ( final IOException ioe ) {
-        throw new IllegalArgumentException( ioe.getMessage() + " field #" + ( fields.size() + 1 ) + " last:" + fields.get( fields.size() - 1 ).getName() );
+        throw new DecodeException( "Problems decoding field", ioe, loc, ploc, ( fields.size() + 1 ), ( fields.size() > 0 ) ? fields.get( fields.size() - 1 ) : null );
+      } catch ( final DecodeException de ) {
+        throw new DecodeException( "DF:" + de.getMessage(), de.getCause(), loc, ploc, de.getFieldIndex(), de.getField() );
       }
     }
   }
@@ -1134,13 +1140,13 @@ public class DataFrame implements Cloneable {
         if ( CHECK ) {
           String error = check( bytes );
           if ( error != null )
-            throw new IOException( error );
+            throw new DecodeException( error, bytes );
         }
 
         dos.write( bytes );
       }
     } catch ( final IOException e ) {
-      e.printStackTrace();
+      throw new DecodeException( "IO Error", e );
     }
 
     return baos.toByteArray();
@@ -1164,19 +1170,25 @@ public class DataFrame implements Cloneable {
    */
   public String check( final byte[] data ) {
     if ( data != null ) {
+      DataField field = null;
+      DataField lastfield = null;
+      int offset = 0;
+
       try {
         final ByteArrayInputStream bais = new ByteArrayInputStream( data );
         final DataInputStream in = new DataInputStream( bais );
-        if ( in.available() > 0 ) {
-          new DataField( in );
-          if ( in.available() > 0 ) {
-            return new String( "CHECK: extra " + in.available() + " bytes remaining in data:\r\n" + ByteUtil.dump( data ) );
-          }
+        while ( in.available() > 0 ) {
+          offset = data.length - in.available();
+          field = new DataField( in );
+          if ( field != null )
+            lastfield = field;
         }
       } catch ( final EOFException eof ) {
-        return new String( "CHECK: Data underflow for field:\r\n" + ByteUtil.dump( data ) );
+        return new String( "CHECK: Data underflow for field, offset:" + offset + " LastField:" + lastfield + "\r\n" + ByteUtil.dump( data ) );
       } catch ( final IOException ioe ) {
-        return new String( "CHECK: " + ioe.getMessage() + ":\r\n" + ByteUtil.dump( data ) );
+        return new String( "CHECK: " + ioe.getMessage() + ", offset:" + offset + " LastField:" + lastfield + "\r\n" + ByteUtil.dump( data ) );
+      } catch ( final DecodeException de ) {
+        return new String( "CHECK: " + de.getMessage() + ", offset:" + offset + " LastField:" + lastfield + "\r\n" + ByteUtil.dump( data ) );
       }
     }
     return null;

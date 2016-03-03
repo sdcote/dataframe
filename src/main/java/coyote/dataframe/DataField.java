@@ -90,38 +90,55 @@ public class DataField implements Cloneable {
 
     /** (0) Type code representing a nested data frame */
     DataField.addType( FRAMETYPE, new FrameType() );
+
     /** (1) Type code representing a NULL value - undefined type and a therefore empty value */
     DataField.addType( UDEF, new UndefinedType() );
+
     /** (2) Type code representing a byte array */
     DataField.addType( BYTEARRAY, new ByteArrayType() );
+
     /** (3) Type code representing a String object */
     DataField.addType( STRING, new StringType() );
+
     /** (4) Type code representing an signed, 8-bit value in the range of -128 to 127 */
     DataField.addType( S8, new S8Type() );
+
     /** (5) Type code representing an unsigned, 8-bit value in the range of 0 to 255 */
     DataField.addType( U8, new U8Type() );
+
     /** (6) Type code representing an signed, 16-bit value in the range of -32,768 to 32,767 */
     DataField.addType( S16, new S16Type() );
+
     /** (7) Type code representing an unsigned, 16-bit value in the range of 0 to 65,535 */
     DataField.addType( U16, new U16Type() );
+
     /** (8) Type code representing a signed, 32-bit value in the range of -2,147,483,648 to 2,147,483,647 */
     DataField.addType( S32, new S32Type() );
+
     /** (9) Type code representing an unsigned, 32-bit value in the range of 0 to 4,294,967,295 */
     DataField.addType( U32, new U32Type() );
+
     /** (10) Type code representing an signed, 64-bit value in the range of -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 */
     DataField.addType( S64, new S64Type() );
+
     /** (11) Type code representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 */
     DataField.addType( U64, new U64Type() );
+
     /** (12) Type code representing a 32-bit floating point value in the range of +/-1.4013e-45 to +/-3.4028e+38. */
     DataField.addType( FLOAT, new FloatType() );
+
     /** (13) Type code representing a 64-bit floating point value in the range of +/-4.9406e-324 to +/-1.7977e+308. */
     DataField.addType( DOUBLE, new DoubleType() );
+
     /** (14) Type code representing a boolean value */
     DataField.addType( BOOLEANTYPE, new BooleanType() );
+
     /** (15) Type code representing a unsigned 32-bit epoch time in milliseconds */
     DataField.addType( DATE, new DateType() );
+
     /** (16) Type code representing a uniform resource identifier */
     DataField.addType( URI, new UriType() );
+
     /** (17) Type code representing an ordered array of values (DataFields) */
     DataField.addType( ARRAY, new ArrayType() );
   }
@@ -284,7 +301,7 @@ public class DataField implements Cloneable {
    *
    * @throws IOException if there was a problem reading the stream.
    */
-  public DataField( final DataInputStream dis ) throws IOException {
+  public DataField( final DataInputStream dis ) throws IOException, DecodeException {
     // The first octet is the length of the name to read in
     final int nameLength = dis.readUnsignedByte();
 
@@ -293,7 +310,7 @@ public class DataField implements Cloneable {
       final int i = dis.available();
 
       if ( i < nameLength ) {
-        throw new IOException( "value underflow: name length specified as " + nameLength + " but only " + i + " octets are available" );
+        throw new DecodeException( "value underflow: name length specified as " + nameLength + " but only " + i + " octets are available" );
       }
 
       final byte[] nameData = new byte[nameLength];
@@ -304,31 +321,30 @@ public class DataField implements Cloneable {
 
     // the next field we read is the data type
     type = dis.readByte();
-
     FieldType datatype = null;
     try {
       // get the proper field type
       datatype = getDataType( type );
     } catch ( Throwable ball ) {
       if ( nameLength > 0 ) {
-        throw new IOException( "non supported type: '" + type + "' for field: '" + name + "'" );
+        throw new DecodeException( "non supported type: '" + type + "' for field: '" + name + "'" );
       } else {
-        throw new IOException( "non supported type: '" + type + "'" );
+        throw new DecodeException( "non supported type: '" + type + "'" );
       }
     }
 
     // if the file type is a variable length (i.e. size < 0), read in the length
     if ( datatype.getSize() < 0 ) {
-      final int length = dis.readUnsignedShort();
+      final int length = dis.readInt();
 
       if ( length < 0 ) {
-        throw new IOException( "read length bad value: length = " + length + " type = " + type );
+        throw new DecodeException( "read length bad value: length = " + length + " type = " + type );
       }
 
       final int i = dis.available();
 
       if ( i < length ) {
-        throw new IOException( "value underflow: length specified as " + length + " but only " + i + " octets are available" );
+        throw new DecodeException( "value underflow: length specified as " + length + " but only " + i + " octets are available" );
       }
 
       value = new byte[length];
@@ -520,7 +536,7 @@ public class DataField implements Cloneable {
       // If the value is variable in length
       if ( datatype.getSize() < 0 ) {
         // write the length
-        dos.writeShort( value.length );
+        dos.writeInt( value.length );
       }
 
       // write the value itself
@@ -607,6 +623,13 @@ public class DataField implements Cloneable {
 
 
 
+  /**
+   * Return the appropriate FieldType for the given type identifier.
+   * 
+   * @param typ the identifier of the type to retrieve
+   * 
+   * @return The FieldType object which handles the data of the identified type
+   */
   protected static FieldType getDataType( short typ ) {
     FieldType retval = null;
 
@@ -649,10 +672,30 @@ public class DataField implements Cloneable {
 
 
   /**
+   * @return True if the value is not numeric, false if it is numeric.
+   */
+  public boolean isNotNumeric() {
+    return !isNumeric();
+  }
+
+
+
+
+  /**
    * @return True if the value is a frame, false otherwise.
    */
   public boolean isFrame() {
     return type == FRAMETYPE;
+  }
+
+
+
+
+  /**
+   * @return True if the value is not a frame, false if it is a frame.
+   */
+  public boolean isNotFrame() {
+    return type != FRAMETYPE;
   }
 
 

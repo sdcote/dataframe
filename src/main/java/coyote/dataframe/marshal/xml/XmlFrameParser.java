@@ -26,9 +26,9 @@ import coyote.dataframe.marshal.ParseException;
  * This is a SAX style parser which reads from a stream and builds a DOM style
  * model of the XML data with DataFrames.
  * 
- * <p>Attributes are larglely ignored as they do not map to the fields concept. 
+ * <p>Attributes are largely ignored as they do not map to the fields concept. 
  * The notable exception is the use of the {@code type} attribute to indicate 
- * the type fhe field value contains.</p>
+ * the type the field value contains.</p>
  */
 public class XmlFrameParser extends StringParser {
   private static final String XML_DELIMS = " \t\n><";
@@ -98,6 +98,7 @@ public class XmlFrameParser extends StringParser {
     // Start reading tags until we pass the preamble and comments
     do {
       tag = readTag();
+      // TODO: check for preamble to get version and encoding to instruct how to parse the rest
       if ( tag == null ) {
         break;
       }
@@ -120,7 +121,7 @@ public class XmlFrameParser extends StringParser {
    * Read in the value of a tag creating a data field containing the value as 
    * of the requested data type.
    * 
-   * <p>Thoe opsition of the reader will be immediately behind the closing tag 
+   * <p>The position of the reader will be immediately behind the closing tag 
    * of the read-in field.</p>
    * 
    * @param openTag The opening tag read in for this field
@@ -139,26 +140,34 @@ public class XmlFrameParser extends StringParser {
 
     final FieldType fieldType = DataField.getFieldType( type );
 
-    final String value = readValue();
+    String value = readValue();
 
     // read what should be the closing tag
     final Tag closeTag = readTag();
 
     if ( closeTag != null ) {
+
       if ( closeTag.isCloseTag() ) {
         if ( !closeTag.getName().equals( openTag.getName() ) ) {
           throw error( "Malformed XML: expected closing tag for '" + openTag.getName() + "' not '" + closeTag.getName() + "'" );
         }
       } else {
-        // this appears to be a nested field, get a frame for the tag we just read in
+        // We read in an opening tag indicating a nested field, get a frame for 
+        // the tag we just read in
         final DataFrame frame = readFrame( closeTag );
+
+        DataFrame.setCheckFlag( true );
         retval = new DataField( name, frame );
+        DataFrame.setCheckFlag( false );
+
+        value = null; // forget about the value
       } // close tag check
+
     } else {
-      throw error( "Malformed XML: unexpected end of data" );
+      throw error( "Malformed XML: unexpected end of data reading close tag for '" + name + "'" );
     }
 
-    // If we don't have a nexted data field as a return value, try to use the 
+    // If we don't have a nested data field as a return value, try to use the 
     // value we read in  
     if ( retval == null ) {
 
@@ -167,11 +176,10 @@ public class XmlFrameParser extends StringParser {
         // TODO all manner of data type parsing goes here
         retval = new DataField( name, value ); // string for now
       } else {
-        // not valid field type, just use string (or DataFrame depending on what readValue returned)
+        // not valid field type, just use string
         retval = new DataField( name, value );
       }
     }
-
     return retval;
   }
 
@@ -225,6 +233,7 @@ public class XmlFrameParser extends StringParser {
 
             // add the new field to the dataframe we will return
             retval.add( field );
+
           } else {
             throw error( "Problems reading field: null value" );
           }
@@ -252,7 +261,7 @@ public class XmlFrameParser extends StringParser {
   /**
    * Read in a tag from the current position in the buffer.
    * 
-   * <p>The reader is positioned immediatly after the closing ('&gt;') 
+   * <p>The reader is positioned immediately after the closing ('&gt;') 
    * character.</p>
    * 
    * @return the next tag in the buffer or null if there are no tags left
@@ -272,7 +281,6 @@ public class XmlFrameParser extends StringParser {
     try {
       // read everything up to the closing character into the token
       token = readTo( CLOSE );
-      //log.debug( "Read tag of '{}'", token );
 
       if ( token != null ) {
         token = token.trim();
