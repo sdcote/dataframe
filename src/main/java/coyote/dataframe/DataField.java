@@ -310,7 +310,11 @@ public class DataField implements Cloneable {
       // get the proper field type
       datatype = getDataType( type );
     } catch ( Throwable ball ) {
-      throw new IOException( "non supported type: '" + type + "'" );
+      if ( nameLength > 0 ) {
+        throw new IOException( "non supported type: '" + type + "' for field: '" + name + "'" );
+      } else {
+        throw new IOException( "non supported type: '" + type + "'" );
+      }
     }
 
     // if the file type is a variable length (i.e. size < 0), read in the length
