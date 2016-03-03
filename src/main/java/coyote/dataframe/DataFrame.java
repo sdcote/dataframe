@@ -63,6 +63,9 @@ public class DataFrame implements Cloneable {
   /** Flag indicating the top-level elements of this frame has been changed. */
   protected volatile boolean modified = false;
 
+  /** Static flag indicating encoded fields should be checked. */
+  private static boolean CHECK = false;
+
 
 
 
@@ -1093,7 +1096,7 @@ public class DataFrame implements Cloneable {
    *
    * @return this frame represented in its wire format.
    */
-  public byte[] getBytes() {
+  public byte[] getBytesOrig() {
     final ByteArrayOutputStream baos = new ByteArrayOutputStream();
     final DataOutputStream dos = new DataOutputStream( baos );
 
@@ -1106,6 +1109,77 @@ public class DataFrame implements Cloneable {
     }
 
     return baos.toByteArray();
+  }
+
+
+
+
+  /**
+   * Get a copy of the frame in its wire format.
+   * 
+   * <p>This is a way to serialize the frame for any medium that supports binary
+   * data. The resultant byte array may then be used to the 
+   * <code>DataFrame(byte[])</code> constructor to reconstitute the frame.</p>
+   *
+   * @return this frame represented in its wire format.
+   */
+  public byte[] getBytes() {
+    final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    final DataOutputStream dos = new DataOutputStream( baos );
+    byte[] bytes = null;
+
+    try {
+      for ( int i = 0; i < fields.size(); i++ ) {
+        bytes = fields.get( i ).getBytes();
+        if ( CHECK ) {
+          String error = check( bytes );
+          if ( error != null )
+            throw new IOException( error );
+        }
+
+        dos.write( bytes );
+      }
+    } catch ( final IOException e ) {
+      e.printStackTrace();
+    }
+
+    return baos.toByteArray();
+  }
+
+
+
+
+  /**
+   * Perform a decode of the field data returning any problems in a diagnostic 
+   * error string.
+   * 
+   * <p>During development, it is useful to check the encoding of data fields 
+   * when new data types are added to the library and when new applications of 
+   * the library start generating errors. This allow each encoded data field to 
+   * be decoded with a byte dump performed when exceptions are thrown.</p>
+   *  
+   * @param data byte array containing the encoded data field
+   * 
+   * @return diagnostic text if there were problems, null if the check succeeded.
+   */
+  public String check( final byte[] data ) {
+    if ( data != null ) {
+      try {
+        final ByteArrayInputStream bais = new ByteArrayInputStream( data );
+        final DataInputStream in = new DataInputStream( bais );
+        if ( in.available() > 0 ) {
+          new DataField( in );
+          if ( in.available() > 0 ) {
+            return new String( "CHECK: extra " + in.available() + " bytes remaining in data:\r\n" + ByteUtil.dump( data ) );
+          }
+        }
+      } catch ( final EOFException eof ) {
+        return new String( "CHECK: Data underflow for field:\r\n" + ByteUtil.dump( data ) );
+      } catch ( final IOException ioe ) {
+        return new String( "CHECK: " + ioe.getMessage() + ":\r\n" + ByteUtil.dump( data ) );
+      }
+    }
+    return null;
   }
 
 
@@ -1475,6 +1549,17 @@ public class DataFrame implements Cloneable {
     List<Object> retval = new ArrayList<Object>();
     for ( int i = 0; i < fields.size(); retval.add( fields.get( i++ ).getObjectValue() ) );
     return retval;
+  }
+
+
+
+
+  /**
+   * @param flag true to check encoded fields by decoding them afterwards, 
+   * false to just encode fields.
+   */
+  public static void setCheckFlag( boolean flag ) {
+    CHECK = flag;
   }
 
   /**
