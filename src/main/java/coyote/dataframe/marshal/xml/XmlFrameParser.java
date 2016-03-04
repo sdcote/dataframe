@@ -155,11 +155,7 @@ public class XmlFrameParser extends StringParser {
         // We read in an opening tag indicating a nested field, get a frame for 
         // the tag we just read in
         final DataFrame frame = readFrame( closeTag );
-
-        DataFrame.setCheckFlag( true );
         retval = new DataField( name, frame );
-        DataFrame.setCheckFlag( false );
-
         value = null; // forget about the value
       } // close tag check
 

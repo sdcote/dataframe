@@ -35,8 +35,9 @@ import coyote.commons.ByteUtil;
  * <p>Next, another byte representing an unsigned integer (0-255) is read in 
  * and used to indicate the type of the field. If it is a numeric or other 
  * fixed type, the appropriate number of bytes are read in. If a variable type 
- * is indicated then the next U16 integer (2-bytes) is read as the length of 
- * the data.</p>
+ * is indicated then the next S32 integer (4-bytes) is read as the length of 
+ * the data. S32 is used to support nesting of frames within frames which can 
+ * quickly exceed U16 values of 32767 bytes in length.</p>
  * 
  * <p>This utility class packages up a tagged value pair with a length field so 
  * as to allow for reliable reading of data from various transport streams.</p>
