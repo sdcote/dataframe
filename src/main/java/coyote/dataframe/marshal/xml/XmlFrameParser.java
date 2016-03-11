@@ -279,6 +279,14 @@ public class XmlFrameParser extends StringParser {
       token = readTo( CLOSE );
 
       if ( token != null ) {
+
+        // TODO: check for <![CDATA[ ]]>
+        // check if the token starts with <![CDATA[
+        // if it does, check to see if it ends with ]]> (it probably wont)
+        // if it does, then we might be a complete tag, problem is <![CDATA[ can be nested so...
+        // if not then read to the next ]]>, but nesting means I could have read in another <![CDATA[ so...
+        // ...so maybe we should treat <![CDATA[  as its own open tag and ]]> as a close tag...
+
         token = token.trim();
 
         if ( token.length() > 0 ) {
