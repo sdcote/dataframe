@@ -157,11 +157,11 @@ public class JSONMarshaler {
         } else {
 
           Object obj = field.getObjectValue();
-          if ( obj != null )
+          if ( obj != null ) {
             writer.writeString( obj.toString() );
-          else
-            writer.writeString( NULL );
-
+          } else {
+            writer.writeLiteral( NULL );
+          }
         }
         if ( i + 1 < frame.size() ) {
           writer.writeObjectSeparator();
