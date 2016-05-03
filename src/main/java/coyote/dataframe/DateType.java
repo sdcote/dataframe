@@ -23,7 +23,7 @@ public class DateType implements FieldType {
 
   private final static String _name = "DAT";
 
-  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "yyyy/MM/dd-HH:mm:ssz" );
+  private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSX" );
 
 
 
