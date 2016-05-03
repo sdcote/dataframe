@@ -1321,15 +1321,15 @@ public class DataFrame implements Cloneable {
     if ( fields.size() > 0 ) {
       boolean isArray = this.isArray();
       if ( isArray )
-        b.append( "[ " );
+        b.append( "[" );
       else
-        b.append( "{ " );
+        b.append( "{" );
 
       for ( DataField field : fields ) {
         if ( !isArray ) {
           b.append( '"' );
           b.append( field.getName() );
-          b.append( "\" : " );
+          b.append( "\":" );
         }
 
         if ( field.getType() == DataField.UDEF ) {
@@ -1360,14 +1360,14 @@ public class DataFrame implements Cloneable {
           }
         }
 
-        b.append( ", " );
+        b.append( "," );
       }
-      b.delete( b.length() - 2, b.length() );
+      b.delete( b.length() - 1, b.length() );
 
       if ( isArray )
-        b.append( " ]" );
+        b.append( "]" );
       else
-        b.append( " }" );
+        b.append( "}" );
 
     } else {
       b.append( "{}" );
