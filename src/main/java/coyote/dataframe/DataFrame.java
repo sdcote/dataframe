@@ -1338,6 +1338,14 @@ public class DataFrame implements Cloneable {
           b.append( field.getStringValue().toLowerCase() );
         } else if ( field.isNumeric() ) {
           b.append( field.getStringValue() );
+        } else if ( field.getType() == DataField.STRING ) {
+          b.append( '"' );
+          b.append( field.getStringValue() );
+          b.append( '"' );
+        } else if ( field.getType() == DataField.DATE ) {
+          b.append( '"' );
+          b.append( field.getStringValue() );
+          b.append( '"' );
         } else if ( field.getType() != DataField.FRAMETYPE ) {
           if ( field.getObjectValue() != null ) {
             b.append( '"' );
