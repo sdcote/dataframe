@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import coyote.commons.SegmentFilter;
-import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
 
 
@@ -23,14 +22,14 @@ import coyote.dataframe.DataFrame;
  * Field Selectors allow for the quick retrieval of data from the hierarchy of
  * DataFrames.
  */
-public class FieldSelector extends AbstractSelector {
+public class FrameSelector extends AbstractSelector {
 
   /**
    * Create a selector with the given expression.
    * 
    * @param expression The segment filter expression to use for all selections
    */
-  public FieldSelector( final String expression ) {
+  public FrameSelector( final String expression ) {
     filter = new SegmentFilter( expression );
   }
 
@@ -38,16 +37,16 @@ public class FieldSelector extends AbstractSelector {
 
 
   /**
-   * Count how many field matches there are.
+   * Count how many frame matches there are.
    * 
    * @param frame The dataframe containing the source of the data
    * 
-   * @return the number of fields matching the current expression
+   * @return the number of frames matching the current expression
    */
   public int count( final DataFrame frame ) {
-    final List<DataField> retval = new ArrayList<DataField>();
+    final List<DataFrame> retval = new ArrayList<DataFrame>();
     if ( frame != null ) {
-      recurseFields( frame, null, retval );
+      recurseFrames( frame, null, retval );
     }
     return retval.size();
   }
@@ -56,17 +55,17 @@ public class FieldSelector extends AbstractSelector {
 
 
   /**
-   * Return a list of DataFields  from the given DataFrame matching the 
+   * Return a list of DataFrames from the given DataFrame matching the 
    * currently set expression.
    * 
    * @param frame The dataframe containing the source of the data
    * 
-   * @return a non-null list of DataFields which match the currently set expression
+   * @return a non-null list of DataFrames which match the currently set expression
    */
-  public List<DataField> select( final DataFrame frame ) {
-    final List<DataField> retval = new ArrayList<DataField>();
+  public List<DataFrame> select( final DataFrame frame ) {
+    final List<DataFrame> retval = new ArrayList<DataFrame>();
     if ( frame != null ) {
-      recurseFields( frame, null, retval );
+      recurseFrames( frame, null, retval );
     }
     return retval;
   }
