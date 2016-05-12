@@ -40,27 +40,30 @@ public abstract class AbstractSelector {
    * @param results The current set of fields found to have matched the filter
    */
   protected void recurseFields( final DataFrame frame, final String token, final List<DataField> results ) {
-    for ( int x = 0; x < frame.getFieldCount(); x++ ) {
-      final DataField field = frame.getField( x );
-      String fname = field.getName();
+    if ( frame != null ) {
+      for ( int x = 0; x < frame.getFieldCount(); x++ ) {
+        final DataField field = frame.getField( x );
+        String fname = field.getName();
 
-      if ( fname == null ) {
-        fname = "field" + x;
-      }
-
-      if ( token != null ) {
-        fname = token + "." + fname;
-      }
-
-      if ( field.isFrame() ) {
-        recurseFields( (DataFrame)field.getObjectValue(), fname, results );
-      } else {
-        if ( filter.matches( fname ) ) {
-          results.add( field );
+        if ( fname == null ) {
+          fname = "field" + x;
         }
-      }
 
-    } // for each frame
+        if ( token != null ) {
+          fname = token + "." + fname;
+        }
+
+        if ( field.isFrame() ) {
+          recurseFields( (DataFrame)field.getObjectValue(), fname, results );
+        } else {
+          if ( filter.matches( fname ) ) {
+            results.add( field );
+          }
+        }
+
+      } // for each frame
+
+    } // frame !null
 
   }
 
@@ -78,27 +81,30 @@ public abstract class AbstractSelector {
    * @param results The current set of frames found to have matched the filter
    */
   protected void recurseFrames( final DataFrame frame, final String token, final List<DataFrame> results ) {
-    for ( int x = 0; x < frame.getFieldCount(); x++ ) {
-      final DataField field = frame.getField( x );
-      String fname = field.getName();
+    if ( frame != null ) {
+      for ( int x = 0; x < frame.getFieldCount(); x++ ) {
+        final DataField field = frame.getField( x );
+        String fname = field.getName();
 
-      if ( fname == null ) {
-        fname = "frame" + x;
-      }
-
-      if ( token != null ) {
-        fname = token + "." + fname;
-      }
-
-      if ( field.isFrame() ) {
-        if ( filter.matches( fname ) ) {
-          results.add( (DataFrame)field.getObjectValue() );
+        if ( fname == null ) {
+          fname = "frame" + x;
         }
-        recurseFrames( (DataFrame)field.getObjectValue(), fname, results );
 
-      } // if frame
+        if ( token != null ) {
+          fname = token + "." + fname;
+        }
 
-    } // for each frame
+        if ( field.isFrame() ) {
+          if ( filter.matches( fname ) ) {
+            results.add( (DataFrame)field.getObjectValue() );
+          }
+          recurseFrames( (DataFrame)field.getObjectValue(), fname, results );
+
+        } // if frame
+
+      } // for each frame
+
+    } // frame !null
 
   }
 
