@@ -173,7 +173,7 @@ public class DataFrame implements Cloneable {
    * 
    * <p>This is essentially the same as calling: 
    * <pre><code>( getField("NAME") != null )</code></pre>
-   * when checking for a field named "NAME", only it reads nicer.</p>
+   * when checking for a field named "NAME", only it reads nicer.
    *  
    * @param name The name of the field for which to search.
    * 
@@ -975,7 +975,7 @@ public class DataFrame implements Cloneable {
    *   remove( name );
    *   add( name, obj );
    * }
-   * </code></pre></p>
+   * </code></pre>
    * 
    * <p><strong>NOTE:</strong> The value is not checked prior to removing the 
    * existing field which means if the object is not supported, the end state 
@@ -1004,7 +1004,7 @@ public class DataFrame implements Cloneable {
    *   removeAll( name );
    *   add( name, obj );
    * }
-   * </code></pre></p>
+   * </code></pre>
    * 
    * <p><strong>NOTE:</strong> The value is not checked prior to removing the 
    * existing fields which means if the object is not supported, the end state 

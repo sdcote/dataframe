@@ -477,7 +477,7 @@ public class StringParser {
 
   /**
    * Read the next character skipping any whitespace between the current
-   * position and the next non-whitespace character>
+   * position and the next non-whitespace character.
    *
    * @return The next non-whitespace character in the parser.
    *

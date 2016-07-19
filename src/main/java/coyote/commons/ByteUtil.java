@@ -69,7 +69,7 @@ public class ByteUtil
    *  258 : 0x00 0x00 0x01 0x02
    *  259 : 0x00 0x00 0x01 0x03
    *  260 : 0x00 0x00 0x01 0x04
-   * </pre></p>
+   * </pre>
    *
    * @param x
    * @param buf
@@ -372,7 +372,7 @@ public class ByteUtil
    *   4 bits = hex, base sixteen
    *   5 bits = base 32
    * </pre>
-   * Leading digits are included.</p>
+   * Leading digits are included.
    *
    * @param i the number to show
    * @param num_bits number of bits to consider
@@ -416,7 +416,7 @@ public class ByteUtil
    *   4 bits = hex, base sixteen
    *   5 bits = base 32
    * </pre>
-   * Leading digits are included.</p>
+   * Leading digits are included.
    *
    * @param i the number to show
    * @param num_bits number of bits to consider
@@ -460,7 +460,7 @@ public class ByteUtil
    *   4 bits = hex, base sixteen
    *   5 bits = base 32
    * </pre>
-   * Leading digits are included.</p>
+   * Leading digits are included.
    *
    * @param i the number to show
    * @param num_bits number of bits to consider
@@ -504,7 +504,7 @@ public class ByteUtil
    *   4 bits = hex, base sixteen
    *   5 bits = base 32
    * </pre>
-   * Leading digits are included.</p>
+   * Leading digits are included.
    *
    * @param i the number to show
    * @param num_bits number of bits to consider
@@ -562,7 +562,7 @@ public class ByteUtil
    * |00000000|00000000|00000001|00000111|11100110|10010101|01100100|10101111|
    * |000:00: |000:00: |001:01: |007:07: |230:e6: |149:95: |100:64:d|175:af: |
    * +--------+--------+--------+--------+--------+--------+--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the number to format.
    *
@@ -590,7 +590,7 @@ public class ByteUtil
    * |00000000|00010000|00100000|01000000|
    * |000:00: |016:10: |032:20: |064:40:@|
    * +--------+--------+--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the number to format.
    *
@@ -618,7 +618,7 @@ public class ByteUtil
    * |00000000|00010000|
    * |000:00: |016:10: |
    * +--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the byte array to format.
    *
@@ -648,7 +648,7 @@ public class ByteUtil
    * |00000000|00010000|00100000|01000000|11111111|
    * |000:00: |016:10: |032:20: |064:40:@|255:ff: |
    * +--------+--------+--------+--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the byte array to format.
    *
@@ -678,7 +678,7 @@ public class ByteUtil
    * |00000000|00010000|00100000|01000000|11111111|
    * |000:00: |016:10: |032:20: |064:40:@|255:ff: |
    * +--------+--------+--------+--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the byte array to format.
    *
@@ -710,7 +710,7 @@ public class ByteUtil
    * |00000000|00010000|00100000|01000000|11111111|
    * |000:00: |016:10: |032:20: |064:40:@|255:ff: |
    * +--------+--------+--------+--------+--------+
-   * </pre></p>
+   * </pre>
    * 
    * @param data the byte array to format.
    * @param size
@@ -1684,7 +1684,7 @@ public class ByteUtil
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the value.
    *
-   * @return True if the value in the byte is > 0 false otherwise.
+   * @return True if the value in the byte is &gt; 0 false otherwise.
    */
   public static boolean retrieveBoolean( final byte[] buf, final int offset )
   {

@@ -126,7 +126,7 @@ public class FrameSet {
    * 
    * @return the element at the specified position in this list 
    * 
-   * @throws IndexOutOfBoundsException - if the index is out of range (index < 0 || index >= size())
+   * @throws IndexOutOfBoundsException - if the index is out of range (index &lt; 0 || index &gt;= size())
    */
   public DataFrame get( int index ) {
     return rows.get( index );
