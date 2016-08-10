@@ -13,7 +13,7 @@ public class MapFrame {
    * Create a DataFrame from the given map.
    * 
    * <p>If a map contains other maps, then the DataFrame will contain other 
-   * DataFrames.</p>
+   * DataFrames.
    * 
    * @param source
    * 
@@ -49,9 +49,9 @@ public class MapFrame {
   /**
    * Return the given dataframe as a map of values.
    * 
-   * <p>The hierarchy is represented as a Map of Maps.</p>
+   * <p>The hierarchy is represented as a Map of Maps.
    * 
-   * <p>Only types supported by DataFrame will be placed in the Map.</p>
+   * <p>Only types supported by DataFrame will be placed in the Map.
    * 
    * @param frame The frame from which data is to be retrieved
    * 

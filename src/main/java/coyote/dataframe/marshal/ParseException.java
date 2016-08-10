@@ -29,7 +29,7 @@ public class ParseException extends RuntimeException {
   /**
    * Returns the value of the character which caused the error.
    * 
-   * <p>This is usually the 'current' character the parser is considering.</p>
+   * <p>This is usually the 'current' character the parser is considering.
    * 
    * @return the integer value of the character which caused the error.
    */

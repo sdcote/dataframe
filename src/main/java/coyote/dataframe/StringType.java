@@ -26,6 +26,7 @@ public class StringType implements FieldType {
   /** US standard default encoding, also known as Latin-1 */
   static final String ENC_8859_1 = "8859_1";
 
+  /** The default character encoding used */
   public static String DEFAULT_ENCODING = StringType.ENC_8859_1;
 
   // setup the string encoding of field names

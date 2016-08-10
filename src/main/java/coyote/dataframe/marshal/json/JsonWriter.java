@@ -145,7 +145,7 @@ public class JsonWriter {
    * Writes the string to the underlying writer with no additional formatting.
    * 
    * <p>Same function as {@link #writeLiteral(String)} but named differently 
-   * for more readable code.</p>
+   * for more readable code.
    * 
    * @param value the value to write
    * 

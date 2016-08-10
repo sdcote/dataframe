@@ -15,6 +15,7 @@ package coyote.dataframe;
  * This interface defines a data type
  */
 public interface FieldType {
+  
   /**
    * Check the object if it is the same type.
    * 
@@ -64,7 +65,7 @@ public interface FieldType {
   /**
    * Determine the size in bytes to be used in representing the value.
    * 
-   * <p>A value of 0 means null; negative number means variable length type.</p>
+   * <p>A value of 0 means null; negative number means variable length type.
    * 
    * @return the size of the value to store or read.
    */
@@ -87,9 +88,9 @@ public interface FieldType {
    * Get the string value of this data type.
    * 
    * <p>This allows each supported type to customize its own string 
-   * representation of the values it supports. Cor example, the string 
+   * representation of the values it supports. For example, the string 
    * representation can be customized to be formatted in ISO 8601 or the Java
-   * standard long date format.</p>
+   * standard long date format.
    * 
    * @param val the bytes to decode into a string representation of this type.
    * 

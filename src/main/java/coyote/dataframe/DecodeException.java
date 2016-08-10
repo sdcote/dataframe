@@ -70,6 +70,10 @@ public class DecodeException extends RuntimeException {
 
 
 
+  /**
+   * @param message
+   * @param bytes
+   */
   public DecodeException( String message, byte[] bytes ) {
     this( message, null, true, true, 0, -1, -1, null, bytes );
   }
@@ -94,6 +98,7 @@ public class DecodeException extends RuntimeException {
    * @param message
    * @param cause
    * @param pos
+   * @param prev 
    * @param indx
    * @param fld
    */
@@ -110,8 +115,10 @@ public class DecodeException extends RuntimeException {
    * @param enableSuppression
    * @param writableStackTrace
    * @param pos
+   * @param prev 
    * @param indx
    * @param fld
+   * @param data 
    */
   public DecodeException( String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, int pos, int prev, int indx, DataField fld, byte[] data ) {
     super( message, cause, enableSuppression, writableStackTrace );
@@ -135,6 +142,9 @@ public class DecodeException extends RuntimeException {
 
 
 
+  /**
+   * @return the previous position
+   */
   public int getPreviousPosition() {
     return previous;
   }

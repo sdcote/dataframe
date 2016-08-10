@@ -22,13 +22,13 @@ import java.util.UUID;
 /**
  * Various utilities for manipulating data at the byte level.
  *
- * <p>"overlay" methods place data into a byte array buffer.</p>
+ * <p>"overlay" methods place data into a byte array buffer.
  *
- * <p>"retrieve" methods remove data from a byte array buffer.</p>
+ * <p>"retrieve" methods remove data from a byte array buffer.
  *
- * <p>"show" methods convert data into strings such as a binary or hex string.</p>
+ * <p>"show" methods convert data into strings such as a binary or hex string.
  *
- * <p>"dump" methods convert bytes into easily viewable partitioned data.</p>
+ * <p>"dump" methods convert bytes into easily viewable partitioned data.
  */
 public class ByteUtil
 {
@@ -271,7 +271,7 @@ public class ByteUtil
    * Convert a byte to a character representation.
    *
    * <p>Sorta misnamed as this method will return the character representation
-   * of the given byte in the current / default encoding for the locale.</p>
+   * of the given byte in the current / default encoding for the locale.
    *
    * @param b the byte to convert
    *
@@ -555,7 +555,7 @@ public class ByteUtil
    * This will dump one long into a string for examination.
    *
    * <p>Dump produces three lines of output including an index, binary,
-   * decimal, hex, and character output.</p>
+   * decimal, hex, and character output.
    *
    * <p>This is an example of the output:<pre>
    * +000:00--+001:01--+002:02--+003:03--+004:04--+005:05--+006:06--+007:07--+
@@ -611,7 +611,7 @@ public class ByteUtil
    * This will dump one short into a string for examination.
    *
    * <p>Dump produces three lines of output including an index, binary,
-   * decimal, hex, and character output.</p>
+   * decimal, hex, and character output.
    *
    * <p>This is an example of the output:<pre>
    * +000:00--+001:01--+
@@ -641,7 +641,7 @@ public class ByteUtil
    * <p>The byte will be compartmentalized where the cell contains the offset
    * (always zero) into the byte (first line), the binary representation of
    * the byte (second line), and the decimal, hex, and corresponding character
-   * (third line).</p>
+   * (third line).
    *
    * <p>This is an example of the output:<pre>
    * +000:00--+001:01--+002:02--+003:03--+004:04--+
@@ -671,7 +671,7 @@ public class ByteUtil
    * <p>The individual bytes will be compartmentalized where each cell contains
    * the offset into the byte array (first line), the binary representation of
    * the byte (second line), and the decimal, hex, and corresponding character
-   * (third line).</p>
+   * (third line).
    *
    * <p>This is an example of the output:<pre>
    * +000:00--+001:01--+002:02--+003:03--+004:04--+
@@ -703,7 +703,7 @@ public class ByteUtil
    * <p>The individual bytes will be compartmentalized where each cell contains
    * the offset into the byte array (first line), the binary representation of
    * the byte (second line), and the decimal, hex, and corresponding character
-   * (third line).</p>
+   * (third line).
    *
    * <p>This is an example of the output:<pre>
    * +000:00--+001:01--+002:02--+003:03--+004:04--+
@@ -1373,7 +1373,7 @@ public class ByteUtil
   /**
    * Return a 2-byte array from a short value.
    *
-   * <p>This encodes the short in network byte order.</p>
+   * <p>This encodes the short in network byte order.
    *
    * @param value Short from -32,768 to 32,767 to render into the 2-byte array
    *
@@ -1426,7 +1426,7 @@ public class ByteUtil
   /**
    * Return a 4-byte array from an integer value.
    *
-   * <p>This encodes the integer in network byte order.</p>
+   * <p>This encodes the integer in network byte order.
    *
    * @param value integer from -2,147,483,648 to 2,147,483,647 to render into the 4-byte array
    *
@@ -1483,7 +1483,7 @@ public class ByteUtil
   /**
    * Return an 8-byte array from a long value.
    *
-   * <p>This encodes the long in network byte order.</p>
+   * <p>This encodes the long in network byte order.
    *
    * @param value long from -9,223,372,036,854,775,808 to
    *        9,223,372,036,854,775,807 to render into the 8-byte array
@@ -1529,7 +1529,7 @@ public class ByteUtil
    * Get an unsigned integer (U64) from 8 bytes in a byte[] buffer.
    *
    * <p>Range is from 0 to over 18 quintillion. Do you <em>really</em> need a
-   * number that big?</p>
+   * number that big?
    *
    * @param buf The buffer from which to retrieve the value
    * @param offset from which to get the number.
@@ -1579,7 +1579,7 @@ public class ByteUtil
   /**
    * Return a 4-byte array from a float value.
    *
-   * <p>This encodes the float in network byte order.</p>
+   * <p>This encodes the float in network byte order.
    *
    * @param value float from +/-1.4013e-45 to +/-3.4028e+38 to render into the
    *        4-byte array
@@ -1614,7 +1614,7 @@ public class ByteUtil
   /**
    * Return an 8-byte array from a double precision value.
    *
-   * <p>This encodes the long in network byte order.</p>
+   * <p>This encodes the long in network byte order.
    *
    * @param value double precision value from +/-4.9406e-324 to +/-1.7977e+308 to
    *        render into the 8-byte array
@@ -1704,7 +1704,7 @@ public class ByteUtil
    * given date relative to GMT.
    *
    * <p>This encodes the time as a long in network byte order after converting it
-   * to GMT and allowing for DST.</p>
+   * to GMT and allowing for DST.
    *
    * @param value any valid Date object
    * 
@@ -1732,7 +1732,7 @@ public class ByteUtil
    * Date object.
    *
    * <p>Assume the value represents the number of milliseconds in epoch time in 
-   * GMT.</p>
+   * GMT.
    *
    * @param buf The source of the bytes.
    * @param offset The offset to use.
@@ -1751,7 +1751,7 @@ public class ByteUtil
    * Render a UUID into a 16 byte array.
    * 
    * <p>This simply creates a 16 byte array, places the most significant bits 
-   * into the first 8 octets and the least significant bits in the last 8.</p>
+   * into the first 8 octets and the least significant bits in the last 8.
    *  
    * @param value The UUID to encode.
    * 

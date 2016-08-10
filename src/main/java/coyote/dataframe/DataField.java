@@ -26,21 +26,21 @@ import coyote.commons.ByteUtil;
  * 
  * <p>This is an Abstract Data Type that represents itself in a fairly self-
  * describing format where each attribute of the instance is named and typed in
- * its native binary format.</p>
+ * its native binary format.
  * 
  * <p>The first octet is unsigned integer (0-255) indicating the length of the 
  * name of the field. If non-zero, the given number of octets are read and 
- * parsed into a UTF-8 string.</p>
+ * parsed into a UTF-8 string.
  * 
  * <p>Next, another byte representing an unsigned integer (0-255) is read in 
  * and used to indicate the type of the field. If it is a numeric or other 
  * fixed type, the appropriate number of bytes are read in. If a variable type 
  * is indicated then the next S32 integer (4-bytes) is read as the length of 
  * the data. S32 is used to support nesting of frames within frames which can 
- * quickly exceed U16 values of 32767 bytes in length.</p>
+ * quickly exceed U16 values of 32767 bytes in length.
  * 
  * <p>This utility class packages up a tagged value pair with a length field so 
- * as to allow for reliable reading of data from various transport streams.</p>
+ * as to allow for reliable reading of data from various transport streams.
  */
 public class DataField implements Cloneable {
 
@@ -180,7 +180,7 @@ public class DataField implements Cloneable {
   /**
    * Create a DataField with a specified type and value.
    * 
-   * <p>Used by the ArrayType in decoding arrays of values.</p>
+   * <p>Used by the ArrayType in decoding arrays of values.
    * 
    * @param type the type code representing the type of data held.
    * @param value the encoded value of the field.
@@ -197,7 +197,7 @@ public class DataField implements Cloneable {
    * Create a DataField with a specified name, type and value.
    * 
    * <p>It is possible to use this to force a data field into a specific type 
-   * even if the value is null.</p>
+   * even if the value is null.
    * 
    * @param name The name of this DataField
    * @param type the type code representing the type of data held.
@@ -249,7 +249,7 @@ public class DataField implements Cloneable {
    * Create a deep-copy of this DataField.
    * 
    * <p>The name and type references are shared and the value is copied to an 
-   * new byte array.</p>
+   * new byte array.
    *
    * @return A mutable copy of this DataField.
    */
@@ -276,7 +276,7 @@ public class DataField implements Cloneable {
    * Checks to see if the name is valid.
    * 
    * <p>Right now only a check for size is performed. The size of a name must 
-   * be less than 256 characters.</p>
+   * be less than 256 characters.
    *
    * @param name The name to check
    *
@@ -762,7 +762,7 @@ public class DataField implements Cloneable {
    * <p>This is useful when using this field as a value and needing to output 
    * it in human readable form. This is similar to the toString function except
    * this represents the value carried/encapsulated in this field, not the 
-   * field itself.</p>
+   * field itself.
    * 
    * @return the string representation of the object value of the data encoded 
    * in the value attribute.

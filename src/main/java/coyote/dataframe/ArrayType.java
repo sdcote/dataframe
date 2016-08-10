@@ -26,7 +26,7 @@ import coyote.commons.ByteUtil;
  * 
  * <p>The current design involves encoding a name, type (array), length (number 
  * of elements) and a set of Type, Length, Value (TLV) triplets for each array
- * element.</p>
+ * element.
  */
 public class ArrayType implements FieldType {
 

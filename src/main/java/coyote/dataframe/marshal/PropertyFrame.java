@@ -30,7 +30,7 @@ public class PropertyFrame {
    * <p>If the expand argument is true, each of the property names will be 
    * expanded using the '.' (period) character as the delimiter. This will 
    * result in a hierarchical structure. Setting expand to false will result in
-   * a flat structure.</p>
+   * a flat structure.
    * 
    * @param source The properties to use
    * @param expand True will cause each property to be expanded based on its name
@@ -69,7 +69,7 @@ public class PropertyFrame {
    * 
    * <p>Each of the property names will be expanded using the '.' (period) 
    * character as the delimiter. This will result in a hierarchical 
-   * structure.</p>
+   * structure.
    * 
    * @param source The properties to use
    * 
@@ -86,7 +86,7 @@ public class PropertyFrame {
    * Create a set of properties from the given dataframe.
    * 
    * <p>The field names of child frames are concatenated using the '.' character
-   * as is common practice in property file key naming.</p>
+   * as is common practice in property file key naming.
    * 
    * @param frame The coude of the data
    * 
@@ -106,7 +106,7 @@ public class PropertyFrame {
    * Recurse into the a dataframe, building a property collection as it goes.
    * 
    * <p>The hierarchy of the dataframe is represented in the naming of the 
-   * property values using the '.' to delimit each recursion into the frame.</p>
+   * property values using the '.' to delimit each recursion into the frame.
    * 
    * @param frame The frame being recursed into, providing data for the property 
    * @param token The current build of the name of the property

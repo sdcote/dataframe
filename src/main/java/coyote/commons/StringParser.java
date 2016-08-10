@@ -366,7 +366,7 @@ public class StringParser {
   /**
    * Peek ahead in the parser and return the characters, in the given buffer.
    *
-   * <p>The distance of the peek will be the the length of the given buffer.</p>
+   * <p>The distance of the peek will be the the length of the given buffer.
    *
    * @param buffer the array of integers to fill.
    *
@@ -427,7 +427,7 @@ public class StringParser {
    *
    * <p>The history window displays the previous characters read by the parser,
    * so the next character that is to be read is not yet in the history
-   * window.</p>
+   * window.
    *
    * @return Context information used primarily during exceptions and debugging
    */
@@ -523,7 +523,7 @@ public class StringParser {
    * Read from the reader until the given stop character is found.
    *
    * <p>The parser (reader) will be positioned to read the character
-   * immediately following the given stop character.</p>
+   * immediately following the given stop character.
    *
    * @param stop The character past which the parser should read
    *
@@ -647,7 +647,7 @@ public class StringParser {
    * String.
    *
    * <p>This method will return when either of two events occur: the given stop
-   * pattern has been found or EOF has been reached.</p>
+   * pattern has been found or EOF has been reached.
    *
    * @param pattern The stop pattern String
    *
@@ -840,7 +840,7 @@ public class StringParser {
    * Return the current line number in the string the {@code read()} is reading.
    *  
    * <p>The count begins at 1 and is incremented every time the {@code read()} 
-   * comes across the new line character.</p>
+   * comes across the new line character.
    * 
    * @return return the current line in the buffer (starts with 1)
    */
@@ -855,7 +855,7 @@ public class StringParser {
    * Return the column position of the last read in character.
    * 
    * <p>Each time the {@code read()} method reads a character, this value is 
-   * incremented. It is reset when a new line character is read in.</p>
+   * incremented. It is reset when a new line character is read in.
    * 
    * @return the o-based position of the last read in character in relation to the current line.
    */
@@ -871,7 +871,7 @@ public class StringParser {
    * stream.
    * 
    * <p>Each time the {@code read()} method reads a character, this value is 
-   * incremented. It is never reset.</p>
+   * incremented. It is never reset.
    * 
    * @return the the current position in the stream
    */

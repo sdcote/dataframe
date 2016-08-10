@@ -28,7 +28,7 @@ import coyote.dataframe.marshal.ParseException;
  * 
  * <p>Attributes are largely ignored as they do not map to the fields concept. 
  * The notable exception is the use of the {@code type} attribute to indicate 
- * the type the field value contains.</p>
+ * the type the field value contains.
  */
 public class XmlFrameParser extends StringParser {
   private static final String XML_DELIMS = " \t\n><";
@@ -69,7 +69,7 @@ public class XmlFrameParser extends StringParser {
    * Generate a parse exception with the given message.
    * 
    * <p>All the position information is populated in the exception based on the 
-   * readers current counters.</p>
+   * readers current counters.
    * 
    * @param message The text message to include in the exception 
    * 
@@ -122,7 +122,7 @@ public class XmlFrameParser extends StringParser {
    * of the requested data type.
    * 
    * <p>The position of the reader will be immediately behind the closing tag 
-   * of the read-in field.</p>
+   * of the read-in field.
    * 
    * @param openTag The opening tag read in for this field
    * 
@@ -187,7 +187,7 @@ public class XmlFrameParser extends StringParser {
    * 
    * <p>This method is called when the value of a field is another open tag 
    * which indicates a new field. These nested fields are placed in a frame and 
-   * returned to the caller.</p>
+   * returned to the caller.
    * 
    * @param openTag The open tag read in signaling a nested field.
    * 
@@ -258,7 +258,7 @@ public class XmlFrameParser extends StringParser {
    * Read in a tag from the current position in the buffer.
    * 
    * <p>The reader is positioned immediately after the closing ('&gt;') 
-   * character.</p>
+   * character.
    * 
    * @return the next tag in the buffer or null if there are no tags left
    */
@@ -308,7 +308,7 @@ public class XmlFrameParser extends StringParser {
    * character.
    * 
    * <p>The reader is positioned just before the opening character of the next 
-   * tag.</p>
+   * tag.
    *  
    * @return everything up to the next opening ('&lt;') character or an empty 
    *         string ("") if there are no characters read. Will never be null. 

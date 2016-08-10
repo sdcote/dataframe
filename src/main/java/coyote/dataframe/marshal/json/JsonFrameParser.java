@@ -71,7 +71,7 @@ public class JsonFrameParser {
    * captured so far.
    * 
    * <p>Essentially, return the string from the point we started capturing to
-   * the character prior to the one we just read in.</p>
+   * the character prior to the one we just read in.
    * 
    * @return the string in the buffer from the point of capture to now.
    */
@@ -152,7 +152,7 @@ public class JsonFrameParser {
    * 
    * <p>Normally, there will only be one root value, but some applications may 
    * have data which represents multiple arrays or objects. This method will 
-   * continue parsing until all objects (or arrays) are consumed.</p>
+   * continue parsing until all objects (or arrays) are consumed.
    * 
    * @return the data represented by the currently set string as one or more 
    * DataFrames

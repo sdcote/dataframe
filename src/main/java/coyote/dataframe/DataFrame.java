@@ -34,11 +34,11 @@ import coyote.commons.ByteUtil;
  * A hierarchical unit of data.
  * 
  * <p>This models a unit of data that can be exchanged over a variety of 
- * transports for a variety communications needs.</p>
+ * transports for a variety communications needs.
  * 
  * <p>This is a surprisingly efficient transmission scheme as all field values 
  * and child frames are stored in their wire format as byte arrays. They are 
- * then marshaled only when accessed and are ready for transmission.</p>
+ * then marshaled only when accessed and are ready for transmission.
  * 
  * <p>This class was conceived to implement the Data Transfer Object (DTO) 
  * design pattern in distributed applications. Passing a DataFrame as both 
@@ -46,14 +46,14 @@ import coyote.commons.ByteUtil;
  * implementation of a DTO allows for more efficient transfer of data between
  * distributed components, reducing latency, improving throughput and 
  * decoupling not only the components of the system, but moving business logic
- * out of the data model.</p>
+ * out of the data model.
  * 
  * <p>More recently, this class ha proven to be an effective implementation of 
  * the Value Object pattern and has made representing database rows and objects 
  * relatively easy to code. It has several features which make this class more 
  * feature rich than implementing VOs with Maps or other map-based structures 
  * such as properties. Most of the recent upgrades have been directly related 
- * to VO implementations.</p> 
+ * to VO implementations. 
  */
 public class DataFrame implements Cloneable {
 
@@ -79,6 +79,8 @@ public class DataFrame implements Cloneable {
 
   /**
    * Convenience constructor for a frame wrapping the given field.
+   * 
+   * @param field the field to place in this frame 
    */
   public DataFrame( DataField field ) {
     fields.add( field );
@@ -830,7 +832,7 @@ public class DataFrame implements Cloneable {
    * partially by design as it is then possible to use one frame in the 
    * creation of all children. Also, storing the values in wire format reduces 
    * the number of times field values are marshaled, thereby improving overall
-   * performance.</p>  
+   * performance.  
    *
    * @param value The value to place in the un-named field
    *
@@ -853,7 +855,7 @@ public class DataFrame implements Cloneable {
    * Add a frame field with the given name and value.
    * 
    * <p>The resulting frame field will be added to the frame with its type 
-   * being determined by the DataField class.</p>
+   * being determined by the DataField class.
    *
    * @param name The name of the field to populate.
    * @param value The value to place in the named field
@@ -876,7 +878,7 @@ public class DataFrame implements Cloneable {
    * Add a frame field to the existing array of fields.
    * 
    * <p>Null fields will not be added to the list and will retun a negative 
-   * index.</p>
+   * index.
    * 
    * @param field The field to place in the frames array of fields
    * 
@@ -900,7 +902,7 @@ public class DataFrame implements Cloneable {
    * existing object with the same name.
    * 
    * <p>Note: this is different from <tt>add(String,Object)</tt> in that 
-   * this method will not duplicate names.</p>
+   * this method will not duplicate names.
    *
    * @param name The name of the field in which the value is to be placed. 
    * @param obj The value to place.
@@ -982,7 +984,7 @@ public class DataFrame implements Cloneable {
    * of the frame will be the named field will have been removed from the 
    * frame and no value replacing it. This is by design, allowing the invalid 
    * value to be deleted as desired and also because it saves time not having 
-   * to check for existence prior to each replace.</p>
+   * to check for existence prior to each replace.
    *  
    * @param name Name of the field to replace and then add.
    * @param obj The value of the object to set in the new field.
@@ -1011,7 +1013,7 @@ public class DataFrame implements Cloneable {
    * of the frame will be the named fields will have been removed from the 
    * frame and no value replacing it. This is by design, allowing the invalid 
    * value to be deleted as desired and also because it saves time not having 
-   * to check for existence prior to each replace.</p>
+   * to check for existence prior to each replace.
    *  
    * @param name Name of the fields to replace and then add.
    * @param obj The value of the object to set in the new field.
@@ -1052,10 +1054,10 @@ public class DataFrame implements Cloneable {
    * 
    * <p>This performs a SHA-1 digest on the payload to help determine a unique
    * identifier for the frame. Note: the digest can be used to help determine
-   * equivalence between frames.</p>
+   * equivalence between frames.
    * 
    * <p><strong>NOTE:</strong> This is a very expensive function and should not 
-   * be used without due consideration.</p>
+   * be used without due consideration.
    *
    * @return the SHA-1 digest for this frame.
    */
@@ -1080,7 +1082,7 @@ public class DataFrame implements Cloneable {
    * format of the payload and returns it as a Hex string.
    *
    * <p><strong>NOTE:</strong> This is a very expensive function and should not 
-   * be used without due consideration.</p>
+   * be used without due consideration.
    *
    * @see #getDigest()
    * 
@@ -1098,7 +1100,7 @@ public class DataFrame implements Cloneable {
    * 
    * <p>This is a way to serialize the frame for any medium that supports binary
    * data. The resultant byte array may then be used to the 
-   * <code>DataFrame(byte[])</code> constructor to reconstitute the frame.</p>
+   * <code>DataFrame(byte[])</code> constructor to reconstitute the frame.
    *
    * @return this frame represented in its wire format.
    */
@@ -1125,7 +1127,7 @@ public class DataFrame implements Cloneable {
    * 
    * <p>This is a way to serialize the frame for any medium that supports binary
    * data. The resultant byte array may then be used to the 
-   * <code>DataFrame(byte[])</code> constructor to reconstitute the frame.</p>
+   * <code>DataFrame(byte[])</code> constructor to reconstitute the frame.
    *
    * @return this frame represented in its wire format.
    */
@@ -1162,7 +1164,7 @@ public class DataFrame implements Cloneable {
    * <p>During development, it is useful to check the encoding of data fields 
    * when new data types are added to the library and when new applications of 
    * the library start generating errors. This allow each encoded data field to 
-   * be decoded with a byte dump performed when exceptions are thrown.</p>
+   * be decoded with a byte dump performed when exceptions are thrown.
    *  
    * @param data byte array containing the encoded data field
    * 
@@ -1200,7 +1202,7 @@ public class DataFrame implements Cloneable {
   /**
    * Get the byte[] with this name.
    * 
-   * <p>Basically, this will present the wire format of the named field.</p>
+   * <p>Basically, this will present the wire format of the named field.
    *
    * @param name The name of the field to query.
    *
@@ -1224,7 +1226,7 @@ public class DataFrame implements Cloneable {
    * frame.
    * 
    * <p>Changing this list changes the actual contents of the frame. <strong>Be 
-   * Careful!</strong></p>
+   * Careful!</strong>
    *
    * @return The list of frame fields in this frame.
    */
@@ -1241,7 +1243,7 @@ public class DataFrame implements Cloneable {
    * <p><strong>WARNING!</strong> all the elements MUST be DataFields or this 
    * frame will throw class cast exceptions whenever it tries to access the 
    * fields as no casting checks are performed on the backing list. Your code
-   * probably should not use this method.</p>
+   * probably should not use this method.
    * 
    * @param list An ordered list of DataFields.
    */
@@ -1266,7 +1268,7 @@ public class DataFrame implements Cloneable {
   /**
    * Remove all the fields from this frame.
    * 
-   * <p>The frame will be empty after this method is called.</p>
+   * <p>The frame will be empty after this method is called.
    */
   public void clear() {
     fields.clear();
@@ -1291,7 +1293,7 @@ public class DataFrame implements Cloneable {
    * <p>Note that fields are not required to have names. They can be anonymous 
    * and accessed by their index in the frame. Therefore it is possible that 
    * some fields will be inaccessible by name and will not be represented in 
-   * the returned list of names.</p>
+   * the returned list of names.
    * 
    * @return a list of field names in this frame.
    */
@@ -1379,6 +1381,7 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @return the number of fields in this frame
    * @see java.util.Map#size()
    */
   public int size() {
@@ -1389,6 +1392,7 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @return true if there are no fields in this frame, false if this frame contains data
    * @see java.util.Map#isEmpty()
    */
   public boolean isEmpty() {
@@ -1421,7 +1425,7 @@ public class DataFrame implements Cloneable {
    * values with the same name.
    * 
    * <p>This is essentially a {@code put} operation for all the fields in the 
-   * given frame. Contrast this to {@link #populate(DataFrame)}.</p>
+   * given frame. Contrast this to {@link #populate(DataFrame)}.
    * 
    * @param frame The frame from which the fields are read.
    */
@@ -1439,10 +1443,10 @@ public class DataFrame implements Cloneable {
    * 
    * <p>Overwriting does not occur. This is a straight addition of fields. It 
    * is possible that multiple fields with the same name may exist after this 
-   * operation. Contrast this to {@link #merge(DataFrame)}.</p>
+   * operation. Contrast this to {@link #merge(DataFrame)}.
    * 
    * <p>This is essentially an {@code add} operation for all the fields in the 
-   * given frame.</p>
+   * given frame.
    * 
    * @param frame The frame from which the fields are read.
    */
@@ -1456,6 +1460,10 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @param key the key for which to search
+   * 
+   * @return true if the frame contains a field exists with the exact given key, false otherwise
+   *  
    * @see java.util.Map#containsKey(java.lang.Object)
    */
   public boolean containsKey( Object key ) {
@@ -1467,6 +1475,11 @@ public class DataFrame implements Cloneable {
 
   /**
    * This is not supported
+   * 
+   * @param value not supported
+   * 
+   * @return true if the given value is contained in this frame - always returns false
+   * 
    * @see java.util.Map#containsValue(java.lang.Object)
    */
   public boolean containsValue( Object value ) {
@@ -1477,6 +1490,10 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @param key the key of the valy for which to search
+   * 
+   * @return the object in this frame with the given key
+   * 
    * @see java.util.Map#get(java.lang.Object)
    */
   public Object get( Object key ) {
@@ -1490,6 +1507,14 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @param key then key (name) of the field to be placed
+   * @param value  the value to place in the field
+   * 
+   * @return the previous value associated with key, or null if there was no 
+   *         mapping for key. (A null return can also indicate that the map 
+   *         previously associated null with key, if the implementation 
+   *         upports null values.)
+   * 
    * @see java.util.Map#put(java.lang.Object, java.lang.Object)
    */
   public Object put( Object key, Object value ) {
@@ -1535,6 +1560,11 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @param key the key of the object to be removed
+   * 
+   * @return the removed object value or null if the field with the given name 
+   *         was not found in this frame.
+   * 
    * @see java.util.Map#remove(java.lang.Object)
    */
   public Object remove( Object key ) {
@@ -1550,6 +1580,8 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @return the set of keys in this frame (i.e. field names)
+   * 
    * @see java.util.Map#keySet()
    */
   public Set keySet() {
@@ -1563,6 +1595,8 @@ public class DataFrame implements Cloneable {
 
 
   /**
+   * @return all the field values in this frame
+   *  
    * @see java.util.Map#values()
    */
   public Collection values() {
@@ -1576,7 +1610,7 @@ public class DataFrame implements Cloneable {
 
   /**
    * @param flag true to check encoded fields by decoding them afterwards, 
-   * false to just encode fields.
+   *        false to just encode fields.
    */
   public static void setCheckFlag( boolean flag ) {
     CHECK = flag;

@@ -10,7 +10,7 @@ import java.io.Writer;
  * 
  * <p>This implementation is not thread-safe. It deliberately deviates from the
  * contract of Writer. In particular, it does not flush or close the wrapped 
- * writer nor does it ensure that the wrapped writer is open.</p>
+ * writer nor does it ensure that the wrapped writer is open.
  */
 class WritingBuffer extends Writer {
 

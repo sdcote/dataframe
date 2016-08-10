@@ -27,6 +27,7 @@ public class UriType implements FieldType {
   /** US standard default encoding, also known as Latin-1 */
   static final String ENC_8859_1 = "8859_1";
 
+  /** The default character encoding of the string representation of the URI */
   public static String DEFAULT_ENCODING = UriType.ENC_8859_1;
 
   // setup the string encoding of field names

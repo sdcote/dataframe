@@ -25,7 +25,7 @@ import java.util.Set;
  * <p>This class was created in response to using DataFrames as Value Objects 
  * in a project which queried a variety of objects from data base tables. Using 
  * a Frame Set made it easy to collect the objects in one large set and parse
- * through them for easy output to files and displays.</p>
+ * through them for easy output to files and displays.
  */
 public class FrameSet {
 
@@ -92,10 +92,10 @@ public class FrameSet {
    * <p>Note that not all fields may be represented in all rows. It is 
    * possible that a frame in the set may have no named fields and its data 
    * will be inaccessible by name. This method attempts to provide uniform 
-   * columnar access to a set of frames for those frames with names.</p>
+   * columnar access to a set of frames for those frames with names.
    * 
    * <p>No assertion can be made as to the order of the names in the returned 
-   * list.</p>
+   * list.
    * 
    * @return A list of unique names for all the named fields of all the frames 
    * in this set.
@@ -138,7 +138,7 @@ public class FrameSet {
   /**
    * Return the values of the named column as strings.
    * 
-   * <p>The values will be in the same order as the rows in the frame set.</p>
+   * <p>The values will be in the same order as the rows in the frame set.
    *  
    * @param name The name of the column to return.
    * 
@@ -160,7 +160,7 @@ public class FrameSet {
   /**
    * Return the actual object values of the named column.
    * 
-   * <p>The values will be in the same order as the rows in the frame set.</p>
+   * <p>The values will be in the same order as the rows in the frame set.
    *  
    * @param name The name of the column to return.
    * 
@@ -179,6 +179,9 @@ public class FrameSet {
 
 
 
+  /**
+   * @return all the rows of this set as a list
+   */
   public List<DataFrame> getRows() {
     return rows;
   }
@@ -186,6 +189,9 @@ public class FrameSet {
 
 
 
+  /**
+   * Remove all the rows from this frame set
+   */
   public void clearRows() {
     rows.clear();
   }
