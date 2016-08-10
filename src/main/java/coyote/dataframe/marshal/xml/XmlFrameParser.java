@@ -244,7 +244,7 @@ public class XmlFrameParser extends StringParser {
       } else {
         // read past the comment or preamble
         currentTag = readTag();
-      }// not comment or preample
+      } // not comment or preample
 
     } // while we have tags
 

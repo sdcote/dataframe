@@ -129,8 +129,6 @@ public class Stepper {
    * @param file The file to read
    *
    * @return A byte array that contains the contents of the file.
-   *
-   * @throws IOException If problems occur.
    */
   public static byte[] read( final File file ) {
     if ( file.exists() && file.canRead() ) {
@@ -162,9 +160,6 @@ public class Stepper {
    *
    * @param file The file reference to which the data will be written.
    * @param data The data to write to the file.
-   *
-   * @throws IOException if there were problems with any of the operations
-   *         involved with writing the data
    */
   public static void write( final File file, final byte[] data ) {
     if ( !file.exists() || ( file.exists() && file.canWrite() ) ) {

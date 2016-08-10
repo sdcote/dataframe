@@ -23,16 +23,16 @@ public class MapFrame {
   public DataFrame marshal( Map<?, ?> source ) {
     DataFrame retval = new DataFrame();
 
-    if( source != null ) {
+    if ( source != null ) {
 
-      for( Map.Entry<?, ?> entry : source.entrySet() ) {
+      for ( Map.Entry<?, ?> entry : source.entrySet() ) {
 
         String key = entry.getKey().toString();
 
         Object value = entry.getValue();
 
-        if( value != null ) {
-          if( value instanceof Map ) {
+        if ( value != null ) {
+          if ( value instanceof Map ) {
             value = marshal( (Map)value );
           }
           retval.add( key, value );
@@ -60,7 +60,7 @@ public class MapFrame {
   @SuppressWarnings("rawtypes")
   public Map<?, ?> marshal( DataFrame frame ) {
     Map retval = new HashMap();
-    if( frame != null )
+    if ( frame != null )
       retval = recurse( frame, retval );
     return retval;
   }
@@ -77,17 +77,17 @@ public class MapFrame {
   @SuppressWarnings({ "rawtypes", "unchecked" })
   private static Map recurse( DataFrame frame, Map<?, ?> map ) {
     Map retval = new HashMap();
-    if( frame != null ) {
+    if ( frame != null ) {
 
-      for( int x = 0; x < frame.getFieldCount(); x++ ) {
+      for ( int x = 0; x < frame.getFieldCount(); x++ ) {
         final DataField field = frame.getField( x );
         String fname = field.getName();
 
-        if( fname == null )
+        if ( fname == null )
           fname = "field" + x;
 
-        if( field.isFrame() )
-          retval.put( fname, recurse( (DataFrame)field.getObjectValue(), map ));
+        if ( field.isFrame() )
+          retval.put( fname, recurse( (DataFrame)field.getObjectValue(), map ) );
         else
           retval.put( fname, field.getObjectValue() );
 
@@ -97,5 +97,5 @@ public class MapFrame {
 
     return retval;
   }
-  
+
 }

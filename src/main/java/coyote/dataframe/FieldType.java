@@ -15,7 +15,7 @@ package coyote.dataframe;
  * This interface defines a data type
  */
 public interface FieldType {
-  
+
   /**
    * Check the object if it is the same type.
    * 

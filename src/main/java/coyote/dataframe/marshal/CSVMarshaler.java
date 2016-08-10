@@ -79,9 +79,9 @@ public class CSVMarshaler {
    */
   public static FrameSet read( File tempFile ) {
     FrameSet retval = new FrameSet();
-    
+
     // TODO: complete this!
-    
+
     return retval;
   }
 
@@ -122,12 +122,12 @@ public class CSVMarshaler {
 
   }
 
-
-
-
   // / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
   // 
+
+
+
 
   // / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / /
 
@@ -212,7 +212,7 @@ public class CSVMarshaler {
 
 
   private static boolean stringContainsSpecialCharacters( final String line ) {
-    return ( line.indexOf( QUOTE_CHARACTER ) != -1 ) || (line.indexOf( SEPARATOR ) != -1 ) || ( line.indexOf( ESCAPE_CHARACTER ) != -1 );
+    return ( line.indexOf( QUOTE_CHARACTER ) != -1 ) || ( line.indexOf( SEPARATOR ) != -1 ) || ( line.indexOf( ESCAPE_CHARACTER ) != -1 );
   }
 
 
@@ -220,10 +220,10 @@ public class CSVMarshaler {
 
   protected static StringBuilder processLine( final String token ) {
     final StringBuilder sb = new StringBuilder( INITIAL_STRING_SIZE );
-    
+
     if ( token.indexOf( SEPARATOR ) != -1 )
       sb.append( QUOTE_CHARACTER );
-    
+
     for ( int indx = 0; indx < token.length(); indx++ ) {
       final char nextChar = token.charAt( indx );
       if ( ( ESCAPE_CHARACTER != NO_ESCAPE_CHARACTER ) && ( nextChar == QUOTE_CHARACTER ) ) {

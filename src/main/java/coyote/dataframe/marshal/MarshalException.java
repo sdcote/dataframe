@@ -7,8 +7,7 @@ public class MarshalException extends RuntimeException {
 
 
 
-  public MarshalException() {
-  }
+  public MarshalException() {}
 
 
 

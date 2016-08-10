@@ -40,7 +40,7 @@ public class SegmentFilter {
   public SegmentFilter( String pattern ) {
     segments = getSegments( pattern );
 
-    if( segments == null ) {
+    if ( segments == null ) {
       throw new IllegalArgumentException( "Subject pattern is not legal" );
     }
 
@@ -55,8 +55,7 @@ public class SegmentFilter {
    * @return The array of Strings that represent the filter text passed to the
    *         constructor.
    */
-  public String[] getSegments()
-  {
+  public String[] getSegments() {
     return segments;
   }
 
@@ -71,16 +70,15 @@ public class SegmentFilter {
    * @return An array of Strings containing each segment of the text, or null
    *         if the text is not a valid segmented text string.
    */
-  public static String[] getSegments( String text )
-  {
-    if( text == null ) {
+  public static String[] getSegments( String text ) {
+    if ( text == null ) {
       return null;
     }
 
     // Length check
     int len = text.length();
 
-    if( ( len == 0 ) || ( len > 250 ) ) {
+    if ( ( len == 0 ) || ( len > 250 ) ) {
       throw new IllegalArgumentException( "Pattern length of '" + text.length() + "' is illegal (1-250)" );
     }
 
@@ -92,9 +90,9 @@ public class SegmentFilter {
       int dotPosition = text.indexOf( '.', fromIndex );
 
       // no dot was found, the entire string is the first segment
-      if( dotPosition < 0 ) {
+      if ( dotPosition < 0 ) {
         // if this is the first time through...
-        if( fromIndex == 0 ) {
+        if ( fromIndex == 0 ) {
           // ...no dot was found so the whole text is the (first) segment
           int length = Array.getLength( retval );
           String[] newarray = new String[length + 1];
@@ -114,7 +112,7 @@ public class SegmentFilter {
       }
 
       // Segments cannot be longer than 128 characters
-      if( dotPosition - fromIndex > 127 ) {
+      if ( dotPosition - fromIndex > 127 ) {
         throw new IllegalArgumentException( "Segment at position '" + fromIndex + "' is > 128 characters" );
       }
 
@@ -123,7 +121,7 @@ public class SegmentFilter {
 
       // Make sure that if the segment is larger than one character, that it
       // does not contain the '>' character like "my.topic.ste>" or "my.su*"
-      if( ( segment.length() > 1 ) && ( ( segment.indexOf( '>' ) > 1 ) || ( segment.indexOf( '*' ) > 1 ) ) ) {
+      if ( ( segment.length() > 1 ) && ( ( segment.indexOf( '>' ) > 1 ) || ( segment.indexOf( '*' ) > 1 ) ) ) {
         throw new IllegalArgumentException( "Malformed wildcard in segment at position '" + fromIndex + "'" );
       }
 
@@ -133,13 +131,14 @@ public class SegmentFilter {
       Array.set( newarray, length, segment );
       retval = newarray;
 
-      if( ( segment.length() == 1 ) && ( segment.charAt( 0 ) == '>' ) ) {
+      if ( ( segment.length() == 1 ) && ( segment.charAt( 0 ) == '>' ) ) {
         // nothing comes after the '>' wildcard
       }
 
       // set the from index to the point just past the location of the last dot
       fromIndex = dotPosition + 1;
-    } while( true );
+    }
+    while ( true );
 
     return retval;
   }
@@ -155,9 +154,8 @@ public class SegmentFilter {
    * @return true if the filter matches the text, false otherwise. False will
    *         also be returned if the given text is not a valid segmented name.
    */
-  public boolean matches( String text )
-  {
-    if( ( text != null ) && ( segments != null ) ) {
+  public boolean matches( String text ) {
+    if ( ( text != null ) && ( segments != null ) ) {
       return matches( getSegments( text ) );
     }
 
@@ -174,22 +172,21 @@ public class SegmentFilter {
    *
    * @return True if the segments match our segments false otherwise.
    */
-  public boolean matches( String[] subSegments )
-  {
+  public boolean matches( String[] subSegments ) {
     // if there are fewer text segments than filter segments, then all the
     // segments of the filter could not possibly be satisfied
-    if( subSegments.length < segments.length ) {
+    if ( subSegments.length < segments.length ) {
       return false;
     }
 
-    if( ( ( segments != null ) && ( subSegments != null ) ) && ( subSegments.length >= segments.length ) ) {
-      for( int i = 0; i < segments.length; i++ ) {
-        if( segments[i].equals( ">" ) ) {
+    if ( ( ( segments != null ) && ( subSegments != null ) ) && ( subSegments.length >= segments.length ) ) {
+      for ( int i = 0; i < segments.length; i++ ) {
+        if ( segments[i].equals( ">" ) ) {
           return true; // EarlyExit wildcard
         }
 
-        if( !segments[i].equals( "*" ) ) {
-          if( !segments[i].equals( subSegments[i] ) ) {
+        if ( !segments[i].equals( "*" ) ) {
+          if ( !segments[i].equals( subSegments[i] ) ) {
             return false; // no match
           }
         }
@@ -211,16 +208,15 @@ public class SegmentFilter {
    *
    * @return the original filter string given in the constructor.
    */
-  public String toString()
-  {
-    if( segments.length > 0 ) {
-      if( segments.length > 1 ) {
+  public String toString() {
+    if ( segments.length > 0 ) {
+      if ( segments.length > 1 ) {
         StringBuffer retval = new StringBuffer();
 
-        for( int i = 0; i < segments.length; i++ ) {
+        for ( int i = 0; i < segments.length; i++ ) {
           retval.append( segments[i] );
 
-          if( i + 1 < segments.length ) {
+          if ( i + 1 < segments.length ) {
             retval.append( '.' );
           }
         }

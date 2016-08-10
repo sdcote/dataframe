@@ -105,9 +105,9 @@ public class FrameFormatter {
     String padding = null;
     int nextindent = -1;
 
-    if( indent > -1 ) {
+    if ( indent > -1 ) {
       final char[] pad = new char[indent];
-      for( int i = 0; i < indent; pad[i++] = ' ' ) {}
+      for ( int i = 0; i < indent; pad[i++] = ' ' ) {}
 
       padding = new String( pad );
       nextindent = indent + 2;
@@ -117,9 +117,9 @@ public class FrameFormatter {
 
     final StringBuffer buffer = new StringBuffer();
 
-    for( int x = 0; x < frame.getFieldCount(); x++ ) {
+    for ( int x = 0; x < frame.getFieldCount(); x++ ) {
       final DataField field = frame.getField( x );
-      if( indent > -1 ) {
+      if ( indent > -1 ) {
         buffer.append( padding );
       }
       buffer.append( x );
@@ -133,14 +133,14 @@ public class FrameFormatter {
       buffer.append( field.getType() );
       buffer.append( ") " );
 
-      if( field.getType() == DataField.FRAMETYPE ) {
+      if ( field.getType() == DataField.FRAMETYPE ) {
         buffer.append( LINE_FEED );
         buffer.append( prettyPrint( (DataFrame)field.getObjectValue(), nextindent ) );
       } else {
         buffer.append( field.getObjectValue().toString() );
       }
 
-      if( x + 1 < frame.getFieldCount() ) {
+      if ( x + 1 < frame.getFieldCount() ) {
         buffer.append( LINE_FEED );
       }
 
@@ -169,10 +169,10 @@ public class FrameFormatter {
     int nextindent = -1; // what the next, recursive indent value should be
 
     // if we are indenting
-    if( indent > -1 ) {
+    if ( indent > -1 ) {
       // Generate our padding
       final char[] pad = new char[indent];
-      for( int i = 0; i < indent; pad[i++] = ' ' ) {}
+      for ( int i = 0; i < indent; pad[i++] = ' ' ) {}
       padding = new String( pad );
       // determine our next indent
       nextindent = indent + increment;
@@ -183,34 +183,34 @@ public class FrameFormatter {
     xml.append( "<" );
 
     // Name the XML node
-    if( name == null || name.trim().length() == 0 )
+    if ( name == null || name.trim().length() == 0 )
       xml.append( NODENAME );
     else
       xml.append( name );
 
     // If we have fields, close the opening XML tag
-    if( ( frame.getFieldCount() > 0 ) ) {
+    if ( ( frame.getFieldCount() > 0 ) ) {
       xml.append( ">" );
 
       // if this is not a flat XML, move to the next line
-      if( indent > -1 ) {
+      if ( indent > -1 ) {
         xml.append( LINE_FEED );
       }
 
       // Generate our field padding
-      if( indent > -1 ) {
+      if ( indent > -1 ) {
         final char[] pad = new char[increment];
-        for( int i = 0; i < increment; pad[i++] = ' ' ) {}
+        for ( int i = 0; i < increment; pad[i++] = ' ' ) {}
         fieldpadding = new String( pad );
       }
 
       // get each field in this frame
-      for( int x = 0; x < frame.getFieldCount(); x++ ) {
+      for ( int x = 0; x < frame.getFieldCount(); x++ ) {
         final DataField field = frame.getField( x );
 
         String fname = field.getName();
 
-        if( field.isFrame() ) {
+        if ( field.isFrame() ) {
           xml.append( toIndentedXML( (DataFrame)field.getObjectValue(), fname, nextindent, increment ) );
         } else {
           xml.append( padding );
@@ -218,7 +218,7 @@ public class FrameFormatter {
 
           // Add the field
           xml.append( "<" );
-          if( fname == null ) {
+          if ( fname == null ) {
             fname = FIELDNAME + x;
           } else {
             xml.append( fname );
@@ -233,7 +233,7 @@ public class FrameFormatter {
         }
 
         // if this is not a flat XML, move to the next line
-        if( indent > -1 ) {
+        if ( indent > -1 ) {
           xml.append( LINE_FEED );
         }
 
@@ -241,7 +241,7 @@ public class FrameFormatter {
 
       xml.append( padding );
       xml.append( "</" );
-      if( name == null || name.trim().length() == 0 ) {
+      if ( name == null || name.trim().length() == 0 ) {
         xml.append( NODENAME );
       } else {
         xml.append( name );
@@ -268,17 +268,17 @@ public class FrameFormatter {
   private static String toEscaped( String content ) {
     String result = content;
 
-    if( ( content != null ) && ( content.length() > 0 ) ) {
+    if ( ( content != null ) && ( content.length() > 0 ) ) {
       boolean modified = false;
       StringBuilder stringBuilder = new StringBuilder( content.length() );
-      for( int i = 0, count = content.length(); i < count; ++i ) {
+      for ( int i = 0, count = content.length(); i < count; ++i ) {
         String character = content.substring( i, i + 1 );
         int pos = ESCAPE_CHARS.indexOf( character );
-        if( pos > -1 ) {
+        if ( pos > -1 ) {
           stringBuilder.append( ESCAPE_STRINGS.get( pos ) );
           modified = true;
         } else {
-          if( ( character.compareTo( UNICODE_LOW ) > -1 ) && ( character.compareTo( UNICODE_HIGH ) < 1 ) ) {
+          if ( ( character.compareTo( UNICODE_LOW ) > -1 ) && ( character.compareTo( UNICODE_HIGH ) < 1 ) ) {
             stringBuilder.append( character );
           } else {
             stringBuilder.append( "&#" + ( (int)character.charAt( 0 ) ) + ";" );
@@ -286,7 +286,7 @@ public class FrameFormatter {
           }
         }
       }
-      if( modified ) {
+      if ( modified ) {
         result = stringBuilder.toString();
       }
     }

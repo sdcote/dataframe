@@ -73,7 +73,7 @@ public class FrameSetTest {
 
 
   /**
-   * Test method for {@link coyote.dataframe.FrameSet#get()}.
+   * Test method for {@link coyote.dataframe.FrameSet#get(int)}.
    */
   @Test
   public void testGet() {
@@ -193,7 +193,10 @@ public class FrameSetTest {
     assertTrue( 5 == ( (Long)obj ).longValue() );
 
   }
-  
+
+
+
+
   /**
    * Test the use of generics in the API to allow anything which subclasses 
    * DataFrame to be used.
@@ -223,8 +226,7 @@ public class FrameSetTest {
     assertTrue( set.get( 1 ) == thing2 );
   }
 
-  
-  public class MyThing extends DataFrame{
-  
+  public class MyThing extends DataFrame {
+
   }
 }

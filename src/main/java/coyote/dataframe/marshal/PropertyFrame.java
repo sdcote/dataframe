@@ -39,17 +39,17 @@ public class PropertyFrame {
    */
   @SuppressWarnings("rawtypes")
   public DataFrame marshal( Properties source, boolean expand ) {
-    if( expand ) {
+    if ( expand ) {
       Map tree = buildPropertyTree( source );
       return new MapFrame().marshal( tree );
     } else {
       DataFrame retval = new DataFrame();
-      if( source != null ) {
-        for( Map.Entry<?, ?> entry : source.entrySet() ) {
+      if ( source != null ) {
+        for ( Map.Entry<?, ?> entry : source.entrySet() ) {
           String key = entry.getKey().toString();
           Object value = entry.getValue();
-          if( value != null ) {
-            if( value instanceof Properties ) { // Could this really happen?
+          if ( value != null ) {
+            if ( value instanceof Properties ) { // Could this really happen?
               value = marshal( (Properties)value, expand );
             }
             retval.add( key, value );
@@ -94,7 +94,7 @@ public class PropertyFrame {
    */
   public Properties marshal( DataFrame frame ) {
     Properties properties = new Properties();
-    if( frame != null )
+    if ( frame != null )
       recurse( frame, null, properties );
     return properties;
   }
@@ -113,17 +113,17 @@ public class PropertyFrame {
    * @param properties The property into which values are placed.
    */
   private static void recurse( DataFrame frame, String token, Properties properties ) {
-    for( int x = 0; x < frame.getFieldCount(); x++ ) {
+    for ( int x = 0; x < frame.getFieldCount(); x++ ) {
       final DataField field = frame.getField( x );
       String fname = field.getName();
 
-      if( fname == null )
+      if ( fname == null )
         fname = "field" + x;
 
-      if( token != null )
+      if ( token != null )
         fname = token + "." + fname;
 
-      if( field.isFrame() )
+      if ( field.isFrame() )
         recurse( (DataFrame)field.getObjectValue(), fname, properties );
       else
         properties.setProperty( fname, field.getObjectValue().toString() );
@@ -148,7 +148,7 @@ public class PropertyFrame {
     Map tree = new HashMap();
 
     // For each of the named properties
-    for( String name : p.stringPropertyNames() ) {
+    for ( String name : p.stringPropertyNames() ) {
 
       // Split the name into tokens using the '.' character as a delimiter
       String[] tokens = name.split( "\\." );
@@ -157,16 +157,16 @@ public class PropertyFrame {
       Map currentNode = tree;
 
       // for each of the tokens
-      for( int i = 0, numberOfTokens = tokens.length; i < numberOfTokens; i++ ) {
+      for ( int i = 0, numberOfTokens = tokens.length; i < numberOfTokens; i++ ) {
         String token = tokens[i];
 
         // get the named object from the current node
         Object v = currentNode.get( token );
 
         // If there is nothing with that name in the current node
-        if( v == null ) {
+        if ( v == null ) {
           // if we still have more tokens
-          if( i < numberOfTokens - 1 ) {
+          if ( i < numberOfTokens - 1 ) {
             // place a new node in the tree named for this token
             Map nextNode = new HashMap();
             currentNode.put( token, nextNode );
@@ -178,8 +178,8 @@ public class PropertyFrame {
         } else {
           // there is something here with that name... 
           // if there are more tokens in the name
-          if( i < numberOfTokens - 1 ) {
-            if( v instanceof Map ) {
+          if ( i < numberOfTokens - 1 ) {
+            if ( v instanceof Map ) {
               currentNode = (Map)v;
             } else {
               // there is already a value here. This means we need to create a 
@@ -214,19 +214,19 @@ public class PropertyFrame {
   @SuppressWarnings("rawtypes")
   private static void recurse( Map tree, StringBuilder sb, int deep ) {
     boolean first = true;
-    for( Object key : tree.keySet() ) {
-      if( !first )
+    for ( Object key : tree.keySet() ) {
+      if ( !first )
         sb.append( ",\n" );
       else
         first = false;
-      for( int t = 0; t < deep; t++ )
+      for ( int t = 0; t < deep; t++ )
         sb.append( "  " );
       sb.append( key + " : " );
       Object v = tree.get( key );
-      if( v instanceof Map ) {
+      if ( v instanceof Map ) {
         sb.append( "{\n" );
         recurse( (Map)v, sb, deep + 1 );
-        for( int t = 0; t < deep; t++ )
+        for ( int t = 0; t < deep; t++ )
           sb.append( "  " );
         sb.append( "}" );
       } else {

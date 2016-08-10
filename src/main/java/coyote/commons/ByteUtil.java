@@ -30,8 +30,7 @@ import java.util.UUID;
  *
  * <p>"dump" methods convert bytes into easily viewable partitioned data.
  */
-public class ByteUtil
-{
+public class ByteUtil {
 
   /**
    * All possible chars for representing a number as a String
@@ -44,9 +43,7 @@ public class ByteUtil
   /**
    * Private constructor because everything is static
    */
-  private ByteUtil()
-  {
-  }
+  private ByteUtil() {}
 
 
 
@@ -75,8 +72,7 @@ public class ByteUtil
    * @param buf
    * @param offset at which to place the number.
    */
-  public static void overlay( final long x, final byte[] buf, int offset )
-  {
+  public static void overlay( final long x, final byte[] buf, int offset ) {
     buf[offset++] = (byte)( x >>> 56 );
     buf[offset++] = (byte)( x >>> 48 );
     buf[offset++] = (byte)( x >>> 40 );
@@ -97,8 +93,7 @@ public class ByteUtil
    * @param buf the buffer into which the encoded value is written
    * @param offset at which point in the buffer to place the encoded value.
    */
-  public static void overlayUnsignedInt( final long value, final byte[] buf, int offset )
-  {
+  public static void overlayUnsignedInt( final long value, final byte[] buf, int offset ) {
     buf[offset++] = (byte)( ( value >>> 24 ) & 0xFF );
     buf[offset++] = (byte)( ( value >>> 16 ) & 0xFF );
     buf[offset++] = (byte)( ( value >>> 8 ) & 0xFF );
@@ -115,8 +110,7 @@ public class ByteUtil
    *
    * @return 3 bytes representing and unsigned short
    */
-  public static byte[] renderUnsignedShort( final int value )
-  {
+  public static byte[] renderUnsignedShort( final int value ) {
     final byte[] retval = new byte[2];
     retval[0] = (byte)( ( value >>> 8 ) & 0xFF );
     retval[1] = (byte)( ( value >>> 0 ) & 0xFF );
@@ -134,8 +128,7 @@ public class ByteUtil
    *
    * @return bytes suitable for communicating an integer of some media
    */
-  public static byte[] renderUnsignedInt( final long value )
-  {
+  public static byte[] renderUnsignedInt( final long value ) {
     final byte[] retval = new byte[4];
     retval[0] = (byte)( ( value >>> 24 ) & 0xFF );
     retval[1] = (byte)( ( value >>> 16 ) & 0xFF );
@@ -155,8 +148,7 @@ public class ByteUtil
    * @param buf the buffer into which the encoded value is written
    * @param offset at which point in the buffer to place the encoded value.
    */
-  public static void overlay( final int value, final byte[] buf, int offset )
-  {
+  public static void overlay( final int value, final byte[] buf, int offset ) {
     buf[offset++] = (byte)( value >>> 24 );
     buf[offset++] = (byte)( value >>> 16 );
     buf[offset++] = (byte)( value >>> 8 );
@@ -173,8 +165,7 @@ public class ByteUtil
    * @param buf the buffer into which the encoded value is written
    * @param offset at which point in the buffer to place the encoded value.
    */
-  public static void overlay( final short value, final byte[] buf, int offset )
-  {
+  public static void overlay( final short value, final byte[] buf, int offset ) {
     buf[offset++] = (byte)( value >>> 8 );
     buf[offset++] = (byte)( value );
   }
@@ -189,8 +180,7 @@ public class ByteUtil
    * @param buf the buffer into which the encoded value is written
    * @param offset at which point in the buffer to place the encoded value.
    */
-  public static void overlayUnsignedShort( final int value, final byte[] buf, int offset )
-  {
+  public static void overlayUnsignedShort( final int value, final byte[] buf, int offset ) {
     buf[offset++] = (byte)( ( value >>> 8 ) & 0xFF );
     buf[offset++] = (byte)( ( value >>> 0 ) & 0xFF );
   }
@@ -207,21 +197,17 @@ public class ByteUtil
    * @param len the limit of the search
    * @return offset of first occurrence or -1 if not found.
    */
-  public static int findNextByte( final byte c, final byte[] buf, final int offset, final int len )
-  {
+  public static int findNextByte( final byte c, final byte[] buf, final int offset, final int len ) {
     int rc = -1;
 
-    if( buf != null )
-    {
+    if ( buf != null ) {
       rc = offset;
 
-      while( ( rc < len ) && ( buf[rc] != c ) )
-      {
+      while ( ( rc < len ) && ( buf[rc] != c ) ) {
         ++rc;
       }
 
-      if( rc >= len )
-      {
+      if ( rc >= len ) {
         rc = -1;
       }
     }
@@ -242,21 +228,17 @@ public class ByteUtil
    * @param len the limit of the search
    * @return offset of first occurrence or -1 if not found.
    */
-  public static int findNextTwoBytes( final byte c1, final byte c2, final byte[] buf, final int offset, final int len )
-  {
+  public static int findNextTwoBytes( final byte c1, final byte c2, final byte[] buf, final int offset, final int len ) {
     int rc = -1;
 
-    if( buf != null )
-    {
+    if ( buf != null ) {
       rc = offset + 1;
 
-      while( ( rc < len ) && ( buf[rc] != c2 ) && ( buf[rc - 1] != c1 ) )
-      {
+      while ( ( rc < len ) && ( buf[rc] != c2 ) && ( buf[rc - 1] != c1 ) ) {
         ++rc;
       }
 
-      if( rc >= len )
-      {
+      if ( rc >= len ) {
         rc = -1;
       }
     }
@@ -277,14 +259,10 @@ public class ByteUtil
    *
    * @return the ASCII character representation of the byte
    */
-  public static char byteToASCII( final byte b )
-  {
-    if( ( b < 32 ) || ( b > 126 ) )
-    {
+  public static char byteToASCII( final byte b ) {
+    if ( ( b < 32 ) || ( b > 126 ) ) {
       return ' ';
-    }
-    else
-    {
+    } else {
       return (char)b;
     }
   }
@@ -300,8 +278,7 @@ public class ByteUtil
    *
    * @return hex representation of the byte
    */
-  public static String byteToHex( final byte b )
-  {
+  public static String byteToHex( final byte b ) {
     return ByteUtil.show( b, 4 );
   }
 
@@ -316,8 +293,7 @@ public class ByteUtil
    *
    * @return the string representing the array in hex
    */
-  public static String bytesToHex( final byte[] barray )
-  {
+  public static String bytesToHex( final byte[] barray ) {
     return bytesToHex( barray, " " );
   }
 
@@ -333,25 +309,21 @@ public class ByteUtil
    * 
    * @return the string representing the array in hex with the given delimiter between each
    */
-  public static String bytesToHex( final byte[] barray, String delim )
-  {
-    if( barray == null )
-    {
+  public static String bytesToHex( final byte[] barray, String delim ) {
+    if ( barray == null ) {
       return null;
     }
 
     String delimiter = "";
-    if( delim != null )
-    {
+    if ( delim != null ) {
       delimiter = delim;
     }
 
     final StringBuffer result = new StringBuffer();
 
-    for( int i = 0; i < barray.length; i++ )
-    {
+    for ( int i = 0; i < barray.length; i++ ) {
       result.append( ByteUtil.show( barray[i], 4 ) );
-      if( i + 1 < barray.length )
+      if ( i + 1 < barray.length )
         result.append( delimiter );
     }
 
@@ -379,12 +351,10 @@ public class ByteUtil
    *
    * @return string representation of the number represented by the bits
    */
-  public static String show( long i, final int num_bits )
-  {
+  public static String show( long i, final int num_bits ) {
     int num_chars = 64 / num_bits;
 
-    if( 64 % num_bits == 0 )
-    {
+    if ( 64 % num_bits == 0 ) {
       --num_chars;
     }
 
@@ -392,8 +362,7 @@ public class ByteUtil
     final int radix = 1 << num_bits;
     final long mask = radix - 1;
 
-    for( int charPos = num_chars; charPos >= 0; --charPos )
-    {
+    for ( int charPos = num_chars; charPos >= 0; --charPos ) {
       buf[charPos] = ByteUtil.digits[(int)( i & mask )];
       i >>>= num_bits;
     }
@@ -423,12 +392,10 @@ public class ByteUtil
    *
    * @return string representation of the number represented by the bits
    */
-  public static String show( int i, final int num_bits )
-  {
+  public static String show( int i, final int num_bits ) {
     int num_chars = 32 / num_bits;
 
-    if( 32 % num_bits == 0 )
-    {
+    if ( 32 % num_bits == 0 ) {
       --num_chars;
     }
 
@@ -436,8 +403,7 @@ public class ByteUtil
     final int radix = 1 << num_bits;
     final long mask = radix - 1;
 
-    for( int charPos = num_chars; charPos >= 0; --charPos )
-    {
+    for ( int charPos = num_chars; charPos >= 0; --charPos ) {
       buf[charPos] = ByteUtil.digits[(int)( i & mask )];
       i >>>= num_bits;
     }
@@ -467,12 +433,10 @@ public class ByteUtil
    *
    * @return string representation of the number represented by the bits
    */
-  public static String show( short i, final int num_bits )
-  {
+  public static String show( short i, final int num_bits ) {
     int num_chars = 16 / num_bits;
 
-    if( 16 % num_bits == 0 )
-    {
+    if ( 16 % num_bits == 0 ) {
       --num_chars;
     }
 
@@ -480,8 +444,7 @@ public class ByteUtil
     final int radix = 1 << num_bits;
     final long mask = radix - 1;
 
-    for( int charPos = num_chars; charPos >= 0; --charPos )
-    {
+    for ( int charPos = num_chars; charPos >= 0; --charPos ) {
       buf[charPos] = ByteUtil.digits[(int)( i & mask )];
       i >>>= num_bits;
     }
@@ -511,12 +474,10 @@ public class ByteUtil
    *
    * @return string representation of the number represented by the bits
    */
-  public static String show( byte i, final int num_bits )
-  {
+  public static String show( byte i, final int num_bits ) {
     int num_chars = 8 / num_bits;
 
-    if( 8 % num_bits == 0 )
-    {
+    if ( 8 % num_bits == 0 ) {
       --num_chars;
     }
 
@@ -524,8 +485,7 @@ public class ByteUtil
     final int radix = 1 << num_bits;
     final long mask = radix - 1;
 
-    for( int charPos = num_chars; charPos >= 0; --charPos )
-    {
+    for ( int charPos = num_chars; charPos >= 0; --charPos ) {
       buf[charPos] = ByteUtil.digits[(int)( i & mask )];
       i >>>= num_bits;
     }
@@ -543,8 +503,7 @@ public class ByteUtil
    *
    * @return string representation of the octet 
    */
-  public static String show( final byte octet )
-  {
+  public static String show( final byte octet ) {
     return ByteUtil.show( octet, 1 );
   }
 
@@ -568,8 +527,7 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final long data )
-  {
+  public static String dump( final long data ) {
     final byte[] temp = new byte[8];
     ByteUtil.overlay( data, temp, 0 );
 
@@ -596,8 +554,7 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final int data )
-  {
+  public static String dump( final int data ) {
     final byte[] temp = new byte[4];
     ByteUtil.overlay( data, temp, 0 );
 
@@ -624,8 +581,7 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final short data )
-  {
+  public static String dump( final short data ) {
     final byte[] temp = new byte[2];
     ByteUtil.overlay( data, temp, 0 );
 
@@ -654,8 +610,7 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final byte data )
-  {
+  public static String dump( final byte data ) {
     final byte[] temp = new byte[1];
     temp[0] = data;
 
@@ -684,10 +639,8 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final byte[] data )
-  {
-    if( ( data == null ) || ( data.length == 0 ) )
-    {
+  public static String dump( final byte[] data ) {
+    if ( ( data == null ) || ( data.length == 0 ) ) {
       return "";
     }
 
@@ -717,16 +670,13 @@ public class ByteUtil
    *
    * @return formatted dump of the data
    */
-  public static String dump( final byte[] data, int size )
-  {
+  public static String dump( final byte[] data, int size ) {
     // First, a little error checking
-    if( ( data == null ) || ( data.length == 0 ) )
-    {
+    if ( ( data == null ) || ( data.length == 0 ) ) {
       return "";
     }
 
-    if( data.length < size )
-    {
+    if ( data.length < size ) {
       size = data.length;
     }
 
@@ -738,8 +688,7 @@ public class ByteUtil
     final StringBuffer line4 = new StringBuffer( "+" );
     int mark = 0;
 
-    while( mark < size )
-    {
+    while ( mark < size ) {
       // Get the unsigned value of this byte
       final int value = ( data[mark] & 0xFF );
 
@@ -751,8 +700,7 @@ public class ByteUtil
 
       mark++;
 
-      if( ( mark > 0 ) && ( ( mark % 8 ) == 0 ) )
-      {
+      if ( ( mark > 0 ) && ( ( mark % 8 ) == 0 ) ) {
         line1.append( "\r\n" );
         line2.append( "\r\n" );
         line3.append( "\r\n" );
@@ -763,8 +711,7 @@ public class ByteUtil
         line3.delete( 0, line3.length() );
         line4.delete( 0, line4.length() );
 
-        if( mark < size )
-        {
+        if ( mark < size ) {
           line1.append( "+" );
           line2.append( "|" );
           line3.append( "|" );
@@ -773,8 +720,7 @@ public class ByteUtil
       }
     }
 
-    if( line1.length() > 0 )
-    {
+    if ( line1.length() > 0 ) {
       line1.append( "\r\n" );
       line2.append( "\r\n" );
       line3.append( "\r\n" );
@@ -795,12 +741,10 @@ public class ByteUtil
    *
    * @return array of byte representing little-endian encoding of the value
    */
-  public final static byte[] intToLittleEndian( int val )
-  {
+  public final static byte[] intToLittleEndian( int val ) {
     final byte[] b = new byte[4];
 
-    for( int i = 0; i < 4; i++ )
-    {
+    for ( int i = 0; i < 4; i++ ) {
       b[i] = (byte)( val % 256 );
       val = val / 256;
     }
@@ -818,12 +762,10 @@ public class ByteUtil
    *
    * @return array of byte representing little-endian encoding of the value
    */
-  public final static byte[] shortToLittleEndian( short val )
-  {
+  public final static byte[] shortToLittleEndian( short val ) {
     final byte[] b = new byte[2];
 
-    for( int i = 0; i < 2; i++ )
-    {
+    for ( int i = 0; i < 2; i++ ) {
       b[i] = (byte)( val % 256 );
       val = (short)( val / 256 );
     }
@@ -842,8 +784,7 @@ public class ByteUtil
    *
    * @return array of byte representing little-endian encoding of the value
    */
-  public final static double vax_to_long( final byte[] b )
-  {
+  public final static double vax_to_long( final byte[] b ) {
     return ByteUtil.fixByte( b[0] ) + ( ByteUtil.fixByte( b[1] ) * 256 ) + ( ByteUtil.fixByte( b[2] ) * ( 256 ^ 2 ) ) + ( ByteUtil.fixByte( b[3] ) * ( 256 ^ 3 ) );
   }
 
@@ -858,8 +799,7 @@ public class ByteUtil
    *
    * @return array of byte representing little-endian encoding of the value
    */
-  public final static int vax_to_short( final byte[] b )
-  {
+  public final static int vax_to_short( final byte[] b ) {
     return ( ByteUtil.fixByte( b[0] ) + ( ByteUtil.fixByte( b[1] ) * 256 ) );
   }
 
@@ -873,10 +813,8 @@ public class ByteUtil
    *
    * @return the byte encoded as an unsigned value
    */
-  public final static short fixByte( final byte b )
-  {
-    if( b < 0 )
-    {
+  public final static short fixByte( final byte b ) {
+    if ( b < 0 ) {
       return (short)( b + 256 );
     }
 
@@ -893,16 +831,14 @@ public class ByteUtil
    *
    * @return string representing base64 encoding of the data
    */
-  public static String toBase64( final byte[] data )
-  {
+  public static String toBase64( final byte[] data ) {
     final int i = data.length / 3;
     final int j = data.length % 3;
     final byte barray[] = new byte[( ( j == 0 ) ? i : i + 1 ) * 4];
     int k = 0;
     int l = 0;
 
-    for( int i1 = 0; i1 < i; i1++ )
-    {
+    for ( int i1 = 0; i1 < i; i1++ ) {
       barray[k++] = ByteUtil.toBase64( (byte)( data[l] >> 2 & 0x3f ) );
       barray[k++] = ByteUtil.toBase64( (byte)( ( data[l] & 3 ) << 4 | ( data[l + 1] & 0xf0 ) >> 4 & 0xf ) );
       barray[k++] = ByteUtil.toBase64( (byte)( ( data[l + 1] & 0xf ) << 2 | ( data[l + 2] & 0xc0 ) >> 6 & 3 ) );
@@ -910,17 +846,13 @@ public class ByteUtil
       l += 3;
     }
 
-    if( j == 1 )
-    {
+    if ( j == 1 ) {
       barray[k++] = ByteUtil.toBase64( (byte)( data[l] >> 2 & 0x3f ) );
       barray[k++] = ByteUtil.toBase64( (byte)( ( data[l] & 3 ) << 4 ) );
       barray[k++] = 61;
       barray[k++] = 61;
-    }
-    else
-    {
-      if( j == 2 )
-      {
+    } else {
+      if ( j == 2 ) {
         barray[k++] = ByteUtil.toBase64( (byte)( data[l] >> 2 & 0x3f ) );
         barray[k++] = ByteUtil.toBase64( (byte)( ( data[l] & 3 ) << 4 | ( data[l + 1] & 0xf0 ) >> 4 & 0xf ) );
         barray[k++] = ByteUtil.toBase64( (byte)( ( data[l + 1] & 0xf ) << 2 ) );
@@ -941,12 +873,10 @@ public class ByteUtil
    *
    * @return the number of data bytes expected from the given string. 
    */
-  public static int getBase64Length( final String string )
-  {
+  public static int getBase64Length( final String string ) {
     int len = ( string.length() / 4 ) * 3;
 
-    if( ( string.length() > 0 ) && ( string.charAt( string.length() - 1 ) == '=' ) )
-    {
+    if ( ( string.length() > 0 ) && ( string.charAt( string.length() - 1 ) == '=' ) ) {
       len -= ( string.charAt( string.length() - 2 ) != '=' ) ? 1 : 2;
     }
 
@@ -963,15 +893,13 @@ public class ByteUtil
    *
    * @return the data represented by the encoded text.
    */
-  public static byte[] fromBase64( final String text )
-  {
+  public static byte[] fromBase64( final String text ) {
     final byte[] data = text.getBytes();
     int i = data.length / 4;
     int j = i * 3;
     byte octet = 0;
 
-    if( ( data.length > 0 ) && ( data[data.length - 1] == 61 ) )
-    {
+    if ( ( data.length > 0 ) && ( data[data.length - 1] == 61 ) ) {
       octet = ( (byte)( ( data[data.length - 2] != 61 ) ? 1 : 2 ) );
       j -= octet;
 
@@ -982,8 +910,7 @@ public class ByteUtil
     int k = 0;
     int l = 0;
 
-    for( int i1 = 0; i1 < i; i1++ )
-    {
+    for ( int i1 = 0; i1 < i; i1++ ) {
       final byte byte3 = ByteUtil.fromBase64( data[l++] );
       final byte byte6 = ByteUtil.fromBase64( data[l++] );
       final byte byte8 = ByteUtil.fromBase64( data[l++] );
@@ -993,18 +920,14 @@ public class ByteUtil
       barray[k++] = (byte)( ( byte8 & 3 ) << 6 | byte9 & 0x3f );
     }
 
-    if( octet == 1 )
-    {
+    if ( octet == 1 ) {
       final byte byte1 = ByteUtil.fromBase64( data[l++] );
       final byte byte4 = ByteUtil.fromBase64( data[l++] );
       final byte byte7 = ByteUtil.fromBase64( data[l++] );
       barray[k++] = (byte)( byte1 << 2 | ( byte4 & 0x30 ) >> 4 );
       barray[k++] = (byte)( ( byte4 & 0xf ) << 4 | ( byte7 & 0x3c ) >> 2 );
-    }
-    else
-    {
-      if( octet == 2 )
-      {
+    } else {
+      if ( octet == 2 ) {
         final byte byte2 = ByteUtil.fromBase64( data[l++] );
         final byte byte5 = ByteUtil.fromBase64( data[l++] );
         barray[k++] = (byte)( byte2 << 2 | ( byte5 & 0x30 ) >> 4 );
@@ -1024,25 +947,20 @@ public class ByteUtil
    *
    * @return the base64 encoded representation of the given byte
    */
-  public static byte toBase64( final byte octet )
-  {
-    if( octet <= 25 )
-    {
+  public static byte toBase64( final byte octet ) {
+    if ( octet <= 25 ) {
       return (byte)( 65 + octet );
     }
 
-    if( octet <= 51 )
-    {
+    if ( octet <= 51 ) {
       return (byte)( ( 97 + octet ) - 26 );
     }
 
-    if( octet <= 61 )
-    {
+    if ( octet <= 61 ) {
       return (byte)( ( 48 + octet ) - 52 );
     }
 
-    if( octet == 62 )
-    {
+    if ( octet == 62 ) {
       return 43;
     }
 
@@ -1059,25 +977,20 @@ public class ByteUtil
    *
    * @return the decoded byte
    */
-  public static byte fromBase64( final byte octet )
-  {
-    if( ( octet >= 65 ) && ( octet <= 90 ) )
-    {
+  public static byte fromBase64( final byte octet ) {
+    if ( ( octet >= 65 ) && ( octet <= 90 ) ) {
       return (byte)( octet - 65 );
     }
 
-    if( ( octet >= 97 ) && ( octet <= 122 ) )
-    {
+    if ( ( octet >= 97 ) && ( octet <= 122 ) ) {
       return (byte)( ( 26 + octet ) - 97 );
     }
 
-    if( ( octet >= 48 ) && ( octet <= 57 ) )
-    {
+    if ( ( octet >= 48 ) && ( octet <= 57 ) ) {
       return (byte)( ( 52 + octet ) - 48 );
     }
 
-    if( octet == 43 )
-    {
+    if ( octet == 43 ) {
       return 62;
     }
 
@@ -1094,8 +1007,7 @@ public class ByteUtil
    * 
    * @return The byte swapped version of <code>s</code>.
    */
-  public static short swapBytes( final short s )
-  {
+  public static short swapBytes( final short s ) {
     return (short)( ( s << 8 ) | ( ( s >> 8 ) & 0x00ff ) );
   }
 
@@ -1109,8 +1021,7 @@ public class ByteUtil
    * 
    * @return The byte swapped version of <code>i</code>.
    */
-  public static int swapBytes( final int i )
-  {
+  public static int swapBytes( final int i ) {
     return ( i << 24 ) | ( ( i << 8 ) & 0x00ff0000 ) | ( i >>> 24 ) | ( ( i >> 8 ) & 0x0000ff00 );
   }
 
@@ -1126,20 +1037,16 @@ public class ByteUtil
    *
    * @return the portion of the byte array specified.
    */
-  public static byte[] subArray( final byte[] source, final int start, final int length )
-  {
-    if( start < 0 )
-    {
+  public static byte[] subArray( final byte[] source, final int start, final int length ) {
+    if ( start < 0 ) {
       throw new ArrayIndexOutOfBoundsException( "Start index: " + start );
     }
 
-    if( source == null )
-    {
+    if ( source == null ) {
       throw new IllegalArgumentException( "Source array was null" );
     }
 
-    if( ( start + length ) > source.length )
-    {
+    if ( ( start + length ) > source.length ) {
       throw new ArrayIndexOutOfBoundsException( "length index: " + length );
     }
 
@@ -1160,23 +1067,19 @@ public class ByteUtil
    *
    * @throws IOException if anything goes wrong
    */
-  public static void toBase64( final InputStream inputstream, final OutputStream outputstream ) throws IOException
-  {
+  public static void toBase64( final InputStream inputstream, final OutputStream outputstream ) throws IOException {
     int i = 0;
     final byte outbound[] = new byte[3];
     final byte inbound[] = new byte[1];
 
-    do
-    {
-      if( inputstream.read( inbound ) != 1 )
-      {
+    do {
+      if ( inputstream.read( inbound ) != 1 ) {
         break;
       }
 
       outbound[i++] = inbound[0];
 
-      if( i == 3 )
-      {
+      if ( i == 3 ) {
         final byte byte0 = ByteUtil.toBase64( (byte)( outbound[0] >> 2 & 0x3f ) );
         final byte byte3 = ByteUtil.toBase64( (byte)( ( outbound[0] & 3 ) << 4 | ( outbound[1] & 0xf0 ) >> 4 & 0xf ) );
         final byte byte6 = ByteUtil.toBase64( (byte)( ( outbound[1] & 0xf ) << 2 | ( outbound[2] & 0xc0 ) >> 6 & 3 ) );
@@ -1187,19 +1090,15 @@ public class ByteUtil
         i = 0;
       }
     }
-    while( true );
+    while ( true );
 
-    if( i == 1 )
-    {
+    if ( i == 1 ) {
       final byte byte1 = ByteUtil.toBase64( (byte)( outbound[0] >> 2 & 0x3f ) );
       final byte byte4 = ByteUtil.toBase64( (byte)( ( outbound[0] & 3 ) << 4 ) );
 
       outputstream.write( new byte[] { byte1, byte4, 61, 61 } );
-    }
-    else
-    {
-      if( i == 2 )
-      {
+    } else {
+      if ( i == 2 ) {
         final byte byte2 = ByteUtil.toBase64( (byte)( outbound[0] >> 2 & 0x3f ) );
         final byte byte5 = ByteUtil.toBase64( (byte)( ( outbound[0] & 3 ) << 4 | ( outbound[1] & 0xf0 ) >> 4 & 0xf ) );
         final byte byte7 = ByteUtil.toBase64( (byte)( ( outbound[1] & 0xf ) << 2 ) );
@@ -1221,37 +1120,28 @@ public class ByteUtil
    *
    * @throws IOException
    */
-  public static void fromBase64( final InputStream inputstream, final OutputStream outputstream ) throws IOException
-  {
+  public static void fromBase64( final InputStream inputstream, final OutputStream outputstream ) throws IOException {
     int i = 0;
     final byte inbound[] = new byte[4];
     final byte outbound[] = new byte[1];
 
-    do
-    {
-      if( inputstream.read( outbound ) != 1 )
-      {
+    do {
+      if ( inputstream.read( outbound ) != 1 ) {
         break;
       }
 
-      if( Character.isLetterOrDigit( (char)outbound[0] ) || ( (char)outbound[0] == '+' ) || ( (char)outbound[0] == '/' ) )
-      {
+      if ( Character.isLetterOrDigit( (char)outbound[0] ) || ( (char)outbound[0] == '+' ) || ( (char)outbound[0] == '/' ) ) {
         inbound[i++] = outbound[0];
       }
 
-      if( (char)outbound[0] == '=' )
-      {
-        if( i == 2 )
-        {
+      if ( (char)outbound[0] == '=' ) {
+        if ( i == 2 ) {
           final byte byte0 = ByteUtil.fromBase64( inbound[0] );
           final byte byte3 = ByteUtil.fromBase64( inbound[1] );
 
           outputstream.write( new byte[] { (byte)( byte0 << 2 | ( byte3 & 0x30 ) >> 4 ) } );
-        }
-        else
-        {
-          if( i == 3 )
-          {
+        } else {
+          if ( i == 3 ) {
             final byte byte1 = ByteUtil.fromBase64( inbound[0] );
             final byte byte4 = ByteUtil.fromBase64( inbound[1] );
             final byte byte6 = ByteUtil.fromBase64( inbound[2] );
@@ -1265,8 +1155,7 @@ public class ByteUtil
         break;
       }
 
-      if( i == 4 )
-      {
+      if ( i == 4 ) {
         final byte byte2 = ByteUtil.fromBase64( inbound[0] );
         final byte byte5 = ByteUtil.fromBase64( inbound[1] );
         final byte byte7 = ByteUtil.fromBase64( inbound[2] );
@@ -1280,7 +1169,7 @@ public class ByteUtil
         i = 0;
       }
     }
-    while( true );
+    while ( true );
   }
 
 
@@ -1293,25 +1182,19 @@ public class ByteUtil
    *
    * @return the byte array represented by the hex encoded string.
    */
-  public static byte[] hexToBytes( final String hex )
-  {
+  public static byte[] hexToBytes( final String hex ) {
     byte[] retval = null;
 
-    if( ( hex != null ) && ( hex.length() > 0 ) )
-    {
+    if ( ( hex != null ) && ( hex.length() > 0 ) ) {
       retval = new byte[( hex.length() / 2 ) + ( hex.length() % 2 )];
 
-      for( int i = 0; i < hex.length(); i++ )
-      {
+      for ( int i = 0; i < hex.length(); i++ ) {
 
-        if( i + 1 < hex.length() )
-        {
+        if ( i + 1 < hex.length() ) {
           retval[( i + 1 ) / 2] = (byte)Integer.parseInt( hex.substring( i, i + 2 ), 16 );
 
           i++;
-        }
-        else
-        {
+        } else {
           retval[( i + 1 ) / 2] = (byte)Integer.parseInt( hex.substring( i ), 16 );
         }
       }
@@ -1330,8 +1213,7 @@ public class ByteUtil
    *
    * @return a byte representing the short value to render
    */
-  public static byte renderShortByte( final short value )
-  {
+  public static byte renderShortByte( final short value ) {
     return (byte)( ( value >>> 0 ) & 0xFF );
   }
 
@@ -1346,8 +1228,7 @@ public class ByteUtil
    *
    * @return the unsigned short number (-128 to 127) stored at the offset.
    */
-  public static short retrieveShortByte( final byte[] buf, final int offset )
-  {
+  public static short retrieveShortByte( final byte[] buf, final int offset ) {
     return buf[offset];
   }
 
@@ -1362,8 +1243,7 @@ public class ByteUtil
    *
    * @return the unsigned short number (0 to 255) stored at the offset.
    */
-  public static short retrieveUnsignedShortByte( final byte[] buf, final int offset )
-  {
+  public static short retrieveUnsignedShortByte( final byte[] buf, final int offset ) {
     return (short)( buf[offset] & 0xFF );
   }
 
@@ -1379,8 +1259,7 @@ public class ByteUtil
    *
    * @return a 2-byte array representing the S16 short value
    */
-  public static byte[] renderShort( final short value )
-  {
+  public static byte[] renderShort( final short value ) {
     final byte[] retval = new byte[2];
     retval[0] = (byte)( ( value >>> 8 ) & 0xFF );
     retval[1] = (byte)( ( value >>> 0 ) & 0xFF );
@@ -1399,8 +1278,7 @@ public class ByteUtil
    *
    * @return the signed short number (-32,768 to 32,767) stored at the offset.
    */
-  public static short retrieveShort( final byte[] buf, int offset )
-  {
+  public static short retrieveShort( final byte[] buf, int offset ) {
     return (short)( (short)( ( buf[offset++] & 0xff ) << 8 ) | (short)( buf[offset++] & 0xff ) );
   }
 
@@ -1415,8 +1293,7 @@ public class ByteUtil
    *
    * @return the unsigned short number (0 to 65,535) stored at the offset.
    */
-  public static int retrieveUnsignedShort( final byte[] buf, int offset )
-  {
+  public static int retrieveUnsignedShort( final byte[] buf, int offset ) {
     return ( ( ( buf[offset++] & 0xff ) << 8 ) | ( buf[offset++] & 0xff ) );
   }
 
@@ -1432,8 +1309,7 @@ public class ByteUtil
    *
    * @return a 4-byte array representing the S32 integer value
    */
-  public static byte[] renderInt( final int value )
-  {
+  public static byte[] renderInt( final int value ) {
     final byte[] retval = new byte[4];
     retval[0] = (byte)( ( value >>> 24 ) & 0xFF );
     retval[1] = (byte)( ( value >>> 16 ) & 0xFF );
@@ -1455,8 +1331,7 @@ public class ByteUtil
    * @return the signed integer number (-2,147,483,648 to 2,147,483,647) stored
    *         at the offset.
    */
-  public static int retrieveInt( final byte[] buf, int offset )
-  {
+  public static int retrieveInt( final byte[] buf, int offset ) {
     return ( ( buf[offset++] & 0xff ) << 24 ) | ( ( buf[offset++] & 0xff ) << 16 ) | ( ( buf[offset++] & 0xff ) << 8 ) | ( buf[offset++] & 0xff );
   }
 
@@ -1472,8 +1347,7 @@ public class ByteUtil
    * @return the signed integer number (0 to 4,294,967,295) stored at the
    *         offset.
    */
-  public static long retrieveUnsignedInt( final byte[] buf, int offset )
-  {
+  public static long retrieveUnsignedInt( final byte[] buf, int offset ) {
     return ( ( (long)buf[offset++] & 0xff ) << 24 ) | ( ( (long)buf[offset++] & 0xff ) << 16 ) | ( ( (long)buf[offset++] & 0xff ) << 8 ) | ( (long)buf[offset++] & 0xff );
   }
 
@@ -1490,8 +1364,7 @@ public class ByteUtil
    *
    * @return a 8-byte array representing the S64 long value
    */
-  public static byte[] renderLong( final long value )
-  {
+  public static byte[] renderLong( final long value ) {
     final byte[] retval = new byte[8];
     retval[0] = (byte)( ( value >>> 56 ) & 0xFF );
     retval[1] = (byte)( ( value >>> 48 ) & 0xFF );
@@ -1517,8 +1390,7 @@ public class ByteUtil
    * @return the signed integer number (-9,223,372,036,854,775,808 to
    *       9,223,372,036,854,775,807) stored at the offset.
    */
-  public static long retrieveLong( final byte[] buf, int offset )
-  {
+  public static long retrieveLong( final byte[] buf, int offset ) {
     return ( ( (long)buf[offset++] & 0xff ) << 56 ) | ( ( (long)buf[offset++] & 0xff ) << 48 ) | ( ( (long)buf[offset++] & 0xff ) << 40 ) | ( ( (long)buf[offset++] & 0xff ) << 32 ) | ( ( (long)buf[offset++] & 0xff ) << 24 ) | ( ( (long)buf[offset++] & 0xff ) << 16 ) | ( ( (long)buf[offset++] & 0xff ) << 8 ) | ( (long)buf[offset++] & 0xff );
   }
 
@@ -1537,8 +1409,7 @@ public class ByteUtil
    * @return the signed long number (0 to 18,446,744,073,709,551,615) stored at
    *         the offset.
    */
-  public static BigInteger retrieveBigInteger( final byte[] buf, final int offset )
-  {
+  public static BigInteger retrieveBigInteger( final byte[] buf, final int offset ) {
     final byte[] chunk = new byte[8];
     System.arraycopy( buf, offset, chunk, 0, 8 );
 
@@ -1558,14 +1429,13 @@ public class ByteUtil
    * 
    * @return an 8 byte array representing the big integer.
    */
-  public static byte[] renderBigInteger( final BigInteger bint )
-  {
+  public static byte[] renderBigInteger( final BigInteger bint ) {
     final byte[] retval = new byte[8];
     byte[] arry = bint.toByteArray();
 
-    if( arry.length > retval.length )
+    if ( arry.length > retval.length )
       System.arraycopy( arry, arry.length - retval.length, retval, 0, retval.length );
-    else if( arry.length < retval.length )
+    else if ( arry.length < retval.length )
       System.arraycopy( arry, 0, retval, retval.length - arry.length, arry.length );
     else
       System.arraycopy( arry, 0, retval, 0, retval.length );
@@ -1586,8 +1456,7 @@ public class ByteUtil
    *
    * @return a 4-byte array representing the float value
    */
-  public static byte[] renderFloat( final float value )
-  {
+  public static byte[] renderFloat( final float value ) {
     return ByteUtil.renderInt( Float.floatToIntBits( value ) );
   }
 
@@ -1603,8 +1472,7 @@ public class ByteUtil
    * @return the signed floating point number (+/-1.4013e-45 to +/-3.4028e+38)
    *       stored at the offset.
    */
-  public static float retrieveFloat( final byte[] buf, final int offset )
-  {
+  public static float retrieveFloat( final byte[] buf, final int offset ) {
     return Float.intBitsToFloat( ByteUtil.retrieveInt( buf, offset ) );
   }
 
@@ -1620,8 +1488,7 @@ public class ByteUtil
    *        render into the 8-byte array
    * @return a 8-byte array representing the double precision value
    */
-  public static byte[] renderDouble( final double value )
-  {
+  public static byte[] renderDouble( final double value ) {
     return ByteUtil.renderLong( Double.doubleToLongBits( value ) );
   }
 
@@ -1637,8 +1504,7 @@ public class ByteUtil
    * @return the signed floating point number (+/-4.9406e-324 to +/-1.7977e+308)
    *         stored at the offset.
    */
-  public static double retrieveDouble( final byte[] buf, final int offset )
-  {
+  public static double retrieveDouble( final byte[] buf, final int offset ) {
     return Double.longBitsToDouble( ByteUtil.retrieveLong( buf, offset ) );
   }
 
@@ -1652,8 +1518,7 @@ public class ByteUtil
    *
    * @return a single byte representing 1 for true and 0 for false
    */
-  public static byte renderBooleanByte( final boolean value )
-  {
+  public static byte renderBooleanByte( final boolean value ) {
     return (byte)( value ? 1 : 0 );
   }
 
@@ -1667,8 +1532,7 @@ public class ByteUtil
    *
    * @return a single byte representing 1 for true and 0 for false
    */
-  public static byte[] renderBoolean( final boolean value )
-  {
+  public static byte[] renderBoolean( final boolean value ) {
     final byte[] retval = new byte[1];
     retval[0] = (byte)( value ? 1 : 0 );
 
@@ -1686,10 +1550,8 @@ public class ByteUtil
    *
    * @return True if the value in the byte is &gt; 0 false otherwise.
    */
-  public static boolean retrieveBoolean( final byte[] buf, final int offset )
-  {
-    if( buf[offset] > 0 )
-    {
+  public static boolean retrieveBoolean( final byte[] buf, final int offset ) {
+    if ( buf[offset] > 0 ) {
       return true;
     }
 
@@ -1711,15 +1573,11 @@ public class ByteUtil
    * @return a 8-byte array representing the epoch time in milliseconds, if
    *       value is null, then the date will be encoded as all zeros.
    */
-  public static byte[] renderDate( final Date value )
-  {
-    if( value != null )
-    {
+  public static byte[] renderDate( final Date value ) {
+    if ( value != null ) {
       // Handy how Date handles all the GMT and DST conversions, ain't it?
       return ByteUtil.renderLong( value.getTime() );
-    }
-    else
-    {
+    } else {
       return ByteUtil.renderLong( 0 );
     }
   }
@@ -1739,8 +1597,7 @@ public class ByteUtil
    * 
    * @return A date object representing the time in the 8-octet field.
    */
-  public static Date retrieveDate( final byte[] buf, final int offset )
-  {
+  public static Date retrieveDate( final byte[] buf, final int offset ) {
     return new Date( ByteUtil.retrieveLong( buf, offset ) );
   }
 
@@ -1757,8 +1614,7 @@ public class ByteUtil
    * 
    * @return the 16 bytes representing the UUID.
    */
-  public static byte[] renderUUID( final UUID value )
-  {
+  public static byte[] renderUUID( final UUID value ) {
     final byte[] retval = new byte[16];
     System.arraycopy( renderLong( value.getMostSignificantBits() ), 0, retval, 0, 8 );
     System.arraycopy( renderLong( value.getLeastSignificantBits() ), 0, retval, 8, 8 );
@@ -1769,8 +1625,7 @@ public class ByteUtil
 
 
   // TODO: FixMe! This only creates type 3 UUIDs and does not support our renderUUID method
-  public static UUID retrieveUUID( final byte[] buf, final int offset )
-  {
+  public static UUID retrieveUUID( final byte[] buf, final int offset ) {
     byte[] data = new byte[16];
     System.arraycopy( buf, offset, data, 0, data.length );
     UUID retval = UUID.nameUUIDFromBytes( data );
@@ -1789,8 +1644,7 @@ public class ByteUtil
    * 
    * @return The specified section of the given byte array decoded in ASCII.
    */
-  public static String retrieveAsciiString( final byte[] buf, final int offset, final int length )
-  {
+  public static String retrieveAsciiString( final byte[] buf, final int offset, final int length ) {
     final byte[] textData = new byte[length];
     System.arraycopy( buf, offset, textData, 0, textData.length );
     return new String( textData );
