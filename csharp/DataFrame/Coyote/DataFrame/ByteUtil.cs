@@ -170,11 +170,11 @@ namespace Coyote.DataFrame
         #region Rendering
 
         /// <summary>
-        /// Return a byte (1 octet) from an unsigned short
+        /// Return a byte (1 octet) from a signed byte
         /// </summary>
-        /// <param name="valu">Short 0-255 (anything higher will wrap/overflow)</param>
-        /// <returns>a byte representing the short value to render</returns>
-        public static byte RenderShortByte(ushort valu)
+        /// <param name="valu">Short (-128 to 127)</param>
+        /// <returns>a byte representing the value to render</returns>
+        public static byte RenderShortByte(sbyte valu)
         {
             return (byte)((valu >> 0) & 0xFF);
         }
@@ -185,7 +185,7 @@ namespace Coyote.DataFrame
         /// <summary>
         /// Render a byte[2] value from an unsigned short (U16)
         /// </summary>
-        /// <param name="valu"></param>
+        /// <param name="valu">Short from 0 to 65,535 to render into a 2-byte array</param>
         /// <returns></returns>
         public static byte[] RenderUnsignedShort(ushort valu)
         {
@@ -207,7 +207,6 @@ namespace Coyote.DataFrame
         public static byte[] RenderShort(short valu)
         {
             byte[] retval = new byte[2];
-
             retval[0] = (byte)((valu >> 8) & 0xFF);
             retval[1] = (byte)((valu >> 0) & 0xFF);
             return retval;
@@ -226,7 +225,6 @@ namespace Coyote.DataFrame
             retval[1] = (byte)((valu >> 16) & 0xFF);
             retval[2] = (byte)((valu >> 8) & 0xFF);
             retval[3] = (byte)((valu >> 0) & 0xFF);
-
             return retval;
         }
 
@@ -245,7 +243,6 @@ namespace Coyote.DataFrame
             retval[1] = (byte)((valu >> 16) & 0xFF);
             retval[2] = (byte)((valu >> 8) & 0xFF);
             retval[3] = (byte)((valu >> 0) & 0xFF);
-
             return retval;
         }
 
@@ -296,30 +293,12 @@ namespace Coyote.DataFrame
 
 
 
-        /// <summary>
-        /// Return an 4-byte array from a float value.
-        /// <para>This encodes the float in network byte order (big-endian).</para>
-        /// </summary>
-        /// <param name="valu">float from �1.4013e-45 to �3.4028e+38 to render into the 4-byte array</param>
-        /// <returns>a 4-byte array representing the float value</returns>
-        public static byte[] RenderFloat(float valu)
-        {
-            return RenderInt(Decimal.ToByte(Decimal.Parse(valu.ToString())));
-        }
+       
 
 
 
 
-        /// <summary>
-        /// Return an 8-byte array from a double precision value.
-        /// <para>This encodes the long in  network byte order (big-endian).</para>
-        /// </summary>
-        /// <param name="valu">double precision value from �4.9406e-324 to �1.7977e+308 to render into the 8-byte array</param>
-        /// <returns>a 8-byte array representing the double precision value</returns>
-        public static byte[] RenderDouble(double valu)
-        {
-            return RenderLong((long)valu);
-        }
+      
 
 
 
@@ -394,10 +373,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
-        /// <returns>the unsigned short number (0 to 255) stored at the offset.</returns>
-        public static short RetrieveShortByte(byte[] buf, uint offset)
+        /// <returns>the signed short number (-128 to 127) stored at the offset.</returns>
+        public static sbyte RetrieveByte(byte[] buf, uint offset)
         {
-            return (short)buf[offset];
+            return (sbyte)buf[offset];
         }
 
 
@@ -409,9 +388,9 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the unsigned short number (0 to 255) stored at the offset.</returns>
-        public static ushort RetrieveUnsignedShortByte(byte[] buf, uint offset)
+        public static byte RetrieveUnsignedByte(byte[] buf, uint offset)
         {
-            return (ushort)((ushort)buf[offset] & 0xFF);
+            return (byte)((byte)buf[offset] & 0xFF);
         }
 
 
@@ -426,8 +405,7 @@ namespace Coyote.DataFrame
         /// <returns>the signed short number (-32,768 to 32,767) stored at the offset.</returns>
         public static short RetrieveShort(byte[] buf, uint offset)
         {
-            //return (short)( (byte)( (short)( Convert.ToInt16( buf[offset++] & 0xff ) << 8 ) ) | Convert.ToByte( (short)buf[offset++] & 0xff ));
-            return (short)((short)(((short)buf[offset++] & 0xff) << 8) | (short)((short)buf[offset++] & 0xff));
+            return (short)((short)((buf[offset++] & 0xff) << 8) | (short)(buf[offset++] & 0xff));
         }
 
 
@@ -440,9 +418,9 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns> the unsigned short number (0 to 65,535) stored at the offset.</returns>
-        public static int RetrieveUnsignedShort(byte[] buf, uint offset)
+        public static ushort RetrieveUnsignedShort(byte[] buf, uint offset)
         {
-            return (int)((int)(((int)buf[offset++] & 0xff) << 8) | (int)((int)buf[offset++] & 0xff));
+            return (ushort)((ushort)((buf[offset++] & 0xff) << 8) | (ushort)(buf[offset++] & 0xff));
         }
 
 
@@ -457,10 +435,10 @@ namespace Coyote.DataFrame
         /// <returns>the signed integer number (-2,147,483,648 to 2,147,483,647) stored at the offset.</returns>
         public static int RetrieveInt(byte[] buf, uint offset)
         {
-            return (int)(((int)buf[offset++] & 0xff) << 24) |
-              (int)(((int)buf[offset++] & 0xff) << 16) |
-              (int)(((int)buf[offset++] & 0xff) << 8) |
-              (int)((int)buf[offset++] & 0xff);
+            return (buf[offset++] & 0xff) << 24 |
+              (buf[offset++] & 0xff) << 16 |
+              (buf[offset++] & 0xff) << 8 |
+              buf[offset++] & 0xff;
         }
 
 
@@ -475,10 +453,10 @@ namespace Coyote.DataFrame
         /// <returns>the unsigned integer number (0 to 4,294,967,295) stored at the offset.</returns>
         public static uint RetrieveUnsignedInt(byte[] buf, uint offset)
         {
-            return (uint)(((uint)buf[offset++] & 0xff) << 24) |
-              (uint)(((uint)buf[offset++] & 0xff) << 16) |
-              (uint)(((uint)buf[offset++] & 0xff) << 8) |
-              (uint)((uint)buf[offset++] & 0xff);
+            return ((uint)buf[offset++] & 0xff) << 24 |
+              ((uint)buf[offset++] & 0xff) << 16 |
+              ((uint)buf[offset++] & 0xff) << 8 |
+              (uint)buf[offset++] & 0xff;
         }
 
 
@@ -493,14 +471,14 @@ namespace Coyote.DataFrame
         /// <returns>the signed integer number (-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807) stored at the offset.</returns>
         public static long RetrieveLong(byte[] buf, uint offset)
         {
-            return (long)(((long)buf[offset++] & 0xff) << 56) |
-              (long)(((long)buf[offset++] & 0xff) << 48) |
-              (long)(((long)buf[offset++] & 0xff) << 40) |
-              (long)(((long)buf[offset++] & 0xff) << 32) |
-              (long)(((long)buf[offset++] & 0xff) << 24) |
-              (long)(((long)buf[offset++] & 0xff) << 16) |
-              (long)(((long)buf[offset++] & 0xff) << 8) |
-              (long)((long)buf[offset++] & 0xff);
+            return ((long)buf[offset++] & 0xff) << 56 |
+              ((long)buf[offset++] & 0xff) << 48 |
+              ((long)buf[offset++] & 0xff) << 40 |
+              ((long)buf[offset++] & 0xff) << 32 |
+              ((long)buf[offset++] & 0xff) << 24 |
+              ((long)buf[offset++] & 0xff) << 16 |
+              ((long)buf[offset++] & 0xff) << 8 |
+              (long)buf[offset++] & 0xff;
         }
 
 
@@ -515,14 +493,14 @@ namespace Coyote.DataFrame
         /// <returns>the signed integer number (0 to 18,446,744,073,709,551,615) stored at the offset.</returns>
         public static ulong RetrieveUnsignedLong(byte[] buf, uint offset)
         {
-            return (ulong)(((ulong)buf[offset++] & 0xff) << 56) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 48) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 40) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 32) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 24) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 16) |
-              (ulong)(((ulong)buf[offset++] & 0xff) << 8) |
-              (ulong)((ulong)buf[offset++] & 0xff);
+            return ((ulong)buf[offset++] & 0xff) << 56 |
+              ((ulong)buf[offset++] & 0xff) << 48 |
+              ((ulong)buf[offset++] & 0xff) << 40 |
+              ((ulong)buf[offset++] & 0xff) << 32 |
+              ((ulong)buf[offset++] & 0xff) << 24 |
+              ((ulong)buf[offset++] & 0xff) << 16 |
+              ((ulong)buf[offset++] & 0xff) << 8 |
+              (ulong)buf[offset++] & 0xff;
         }
 
 
@@ -539,35 +517,6 @@ namespace Coyote.DataFrame
             long ticks = (RetrieveLong(buf, offset) * 10000) + EPOCH_OFFSET;
             return new DateTime(ticks);
         }
-
-
-
-
-        /// <summary>
-        /// Get a floating point value from 4 bytes in a byte[] buffer.
-        /// </summary>
-        /// <param name="buf">The buffer from which to retrieve the value</param>
-        /// <param name="offset">from which to get the number.</param>
-        /// <returns>the signed floating point number (�1.4013e-45 to �3.4028e+38) stored at the offset.</returns>
-        public static float RetrieveFloat(byte[] buf, uint offset)
-        {
-            return (float)RetrieveInt(buf, offset);
-        }
-
-
-
-
-        /// <summary>
-        /// Get a double precision value from 8 bytes in a byte[] buffer.
-        /// </summary>
-        /// <param name="buf">The buffer from which to retrieve the value</param>
-        /// <param name="offset">from which to get the number.</param>
-        /// <returns>the signed floating point number (�4.9406e-324 to �1.7977e+308) stored at the offset.</returns>
-        public static double RetrieveDouble(byte[] buf, uint offset)
-        {
-            return (double)RetrieveLong(buf, offset);
-        }
-
 
 
 
