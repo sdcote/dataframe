@@ -3,11 +3,15 @@
 build/
 bin/
 .gradle/
+csharp/**/obj/
+csharp/**/packages/
+converted/
+*.user
+.suo
 
 
 # Other Projects #
 ##################
-csharp/
 json-docs/
 
 # Compiled Artifacts #
