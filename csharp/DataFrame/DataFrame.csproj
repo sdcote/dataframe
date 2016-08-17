@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F34111D9-DE3C-4262-831C-F77EE949B8BB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DataFrame</RootNamespace>
+    <AssemblyName>DataFrame</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Coyote\DataFrame\ArrayType.cs" />
+    <Compile Include="Coyote\DataFrame\BooleanType.cs" />
+    <Compile Include="Coyote\DataFrame\ByteArrayType.cs" />
+    <Compile Include="Coyote\DataFrame\ByteUtil.cs" />
+    <Compile Include="Coyote\DataFrame\DataField.cs" />
+    <Compile Include="Coyote\DataFrame\DataFrame.cs" />
+    <Compile Include="Coyote\DataFrame\DataFrameException.cs" />
+    <Compile Include="Coyote\DataFrame\DateType.cs" />
+    <Compile Include="Coyote\DataFrame\DecodeException.cs" />
+    <Compile Include="Coyote\DataFrame\DoubleType.cs" />
+    <Compile Include="Coyote\DataFrame\FieldType.cs" />
+    <Compile Include="Coyote\DataFrame\FloatType.cs" />
+    <Compile Include="Coyote\DataFrame\FrameType.cs" />
+    <Compile Include="Coyote\DataFrame\JSON\FormattedJsonWriter.cs" />
+    <Compile Include="Coyote\DataFrame\JSON\JsonFrameParser.cs" />
+    <Compile Include="Coyote\DataFrame\JSON\JsonWriter.cs" />
+    <Compile Include="Coyote\DataFrame\JSON\JsonWriterConfig.cs" />
+    <Compile Include="Coyote\DataFrame\MarshalException.cs" />
+    <Compile Include="Coyote\DataFrame\ParseException.cs" />
+    <Compile Include="Coyote\DataFrame\S16Type.cs" />
+    <Compile Include="Coyote\DataFrame\S32Type.cs" />
+    <Compile Include="Coyote\DataFrame\S64Type.cs" />
+    <Compile Include="Coyote\DataFrame\S8Type.cs" />
+    <Compile Include="Coyote\DataFrame\StringType.cs" />
+    <Compile Include="Coyote\DataFrame\U16Type.cs" />
+    <Compile Include="Coyote\DataFrame\U32Type.cs" />
+    <Compile Include="Coyote\DataFrame\U64Type.cs" />
+    <Compile Include="Coyote\DataFrame\U8Type.cs" />
+    <Compile Include="Coyote\DataFrame\UndefinedType.cs" />
+    <Compile Include="Coyote\DataFrame\UriType.cs" />
+    <Compile Include="Coyote\DataFrame\JSONMarshaler.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
