@@ -40,6 +40,7 @@
     <Compile Include="ByteUtilTest.cs" />
     <Compile Include="DataFieldTest.cs" />
     <Compile Include="DataFrameTest.cs" />
+    <Compile Include="JsonMarshalTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringTypeTest.cs" />
     <Compile Include="TestUtil.cs" />

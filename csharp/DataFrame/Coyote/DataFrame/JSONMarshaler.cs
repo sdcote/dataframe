@@ -30,13 +30,18 @@ namespace Coyote.DataFrame
 
 
         //  *
-        //   * Marshal the given JSON into a dataframe.
+        //   * 
         //   * 
         //   * @param json
         //   * 
         //   * @return Data frame containing the JSON represented data
         //   
-
+        /// <summary>
+        /// Marshal the given JSON into a dataframe.
+        /// </summary>
+        /// <param name="json">the JSON string to marshal</param>
+        /// <returns>A list of dataframes representing all the objects in the string</returns>
+        /// <exception cref="MarshalException">If there was a problem parsing the JSON string.</exception>
         public static List<DataFrame> Marshal(string json)
         {
             List<DataFrame> retval = null;
