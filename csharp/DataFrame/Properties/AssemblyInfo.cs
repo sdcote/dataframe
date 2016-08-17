@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DataFrame")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Abstract Data Type Toolkit")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DataFrame")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright ©  2016 Steve Cote")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
