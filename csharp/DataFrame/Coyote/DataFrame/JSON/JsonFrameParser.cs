@@ -16,8 +16,7 @@ using System.Collections.Generic;
 using Coyote.DataFrame;
 
 
-namespace Coyote.DataFrame.JSON
-{
+namespace Coyote.DataFrame.JSON {
 
 
 
@@ -25,44 +24,45 @@ namespace Coyote.DataFrame.JSON
     /// <summary>
     /// Parse JSON text into DataFrames.
     /// </summary>
-    public class JsonFrameParser
-    {
+    public class JsonFrameParser {
 
         private const int MIN_BUFFER_SIZE = 10;
         private const int DEFAULT_BUFFER_SIZE = 1024;
 
+        /// <summary>The reader used to acquire text from the outside world.</summary>
         private readonly TextReader reader;
+
+        /// <summary>The current buffer of characters</summary>
         private readonly char[] buffer;
+        /// <summary>The current position in the buffer.</summary>
         private int bufferOffset;
 
         private int fill;
         private int line;
         private int lineOffset;
 
-        // where we are in the current buffer
+        /// <summary>Where we are in the current buffer.</summary>
         private int index;
 
-        // The current character under consideration
+        /// <summary>The current character under consideration.</summary>
         private int current;
 
-        // What has been captured so far
+        /// <summary>What has been captured so far.</summary>
         private System.Text.StringBuilder captureBuffer;
 
-        // index into the current buffer where we start capturing our value
+        /// <summary>Index into the current buffer where we start capturing our value.</summary>
         private int captureStart;
 
 
 
 
-        public JsonFrameParser(TextReader reader) : this(reader, DEFAULT_BUFFER_SIZE)
-        {
+        public JsonFrameParser( TextReader reader ) : this( reader, DEFAULT_BUFFER_SIZE ) {
         }
 
 
 
 
-        public JsonFrameParser(TextReader reader, int buffersize)
-        {
+        public JsonFrameParser( TextReader reader, int buffersize ) {
             this.reader = reader;
             buffer = new char[buffersize];
             line = 1;
@@ -72,8 +72,7 @@ namespace Coyote.DataFrame.JSON
 
 
 
-        public JsonFrameParser(string json) : this(new StringReader(json), Math.Max(MIN_BUFFER_SIZE, Math.Min(DEFAULT_BUFFER_SIZE, json.Length)))
-        {
+        public JsonFrameParser( string json ) : this( new StringReader( json ), Math.Max( MIN_BUFFER_SIZE, Math.Min( DEFAULT_BUFFER_SIZE, json.Length ) ) ) {
         }
 
 
@@ -83,19 +82,15 @@ namespace Coyote.DataFrame.JSON
         /// </summary>
         /// <remarks><para>Essentially, return the string from the point we started capturing to the character prior to the one we just read in.</para></remarks>
         /// <returns>the string in the buffer from the point of capture to now.</returns>
-        private string endCapture()
-        {
+        private string EndCapture() {
             int end = current == -1 ? index : index - 1;
             string captured;
-            if (captureBuffer.Length > 0)
-            {
-                captureBuffer.Append(buffer, captureStart, end - captureStart);
+            if ( captureBuffer.Length > 0 ) {
+                captureBuffer.Append( buffer, captureStart, end - captureStart );
                 captured = captureBuffer.ToString();
                 captureBuffer.Length = 0;
-            }
-            else
-            {
-                captured = new string(buffer, captureStart, end - captureStart);
+            } else {
+                captured = new string( buffer, captureStart, end - captureStart );
             }
             captureStart = -1;
             return captured;
@@ -109,55 +104,47 @@ namespace Coyote.DataFrame.JSON
         /// </summary>
         /// <param name="message">The message to place in the exception</param>
         /// <returns>a parse exception with the given message.</returns>
-        private ParseException error(string message)
-        {
+        private ParseException Error( string message ) {
             int absIndex = bufferOffset + index;
             int column = absIndex - lineOffset;
-            int offset = isEndOfText() ? absIndex : absIndex - 1;
-            return new ParseException(message, offset, line, column, current);
+            int offset = IsEndOfText() ? absIndex : absIndex - 1;
+            return new ParseException( message, offset, line, column, current );
         }
 
 
 
 
-        private ParseException expected(string expected)
-        {
-            if (isEndOfText())
-            {
-                return error("Unexpected end of input");
+        private ParseException Expected( string expected ) {
+            if ( IsEndOfText() ) {
+                return Error( "Unexpected end of input" );
             }
-            return error("Expected " + expected);
+            return Error( "Expected " + expected );
         }
 
 
 
 
-        private bool isDigit()
-        {
+        private bool IsDigit() {
             return (current >= '0') && (current <= '9');
         }
 
 
 
 
-        private bool isEndOfText()
-        {
+        private bool IsEndOfText() {
             return current == -1;
         }
 
 
 
 
-        private bool isHexDigit()
-        {
+        private bool IsHexDigit() {
             return ((current >= '0') && (current <= '9')) || ((current >= 'a') && (current <= 'f')) || ((current >= 'A') && (current <= 'F'));
         }
 
 
 
-
-        private bool isWhiteSpace()
-        {
+        private bool IsWhiteSpace() {
             return (current == ' ') || (current == '\t') || (current == '\n') || (current == '\r');
         }
 
@@ -170,21 +157,18 @@ namespace Coyote.DataFrame.JSON
         /// <para>Normally, there will only be one root value, but some applications may have data which represents multiple arrays or objects. This method will continue parsing until all objects (or arrays) are consumed.</para>
         /// </remarks>
         /// <returns>The data represented by the currently set string as one or more DataFrames</returns>
-        public virtual List<DataFrame> Parse()
-        {
+        public virtual List<DataFrame> Parse() {
             List<DataFrame> retval = new List<DataFrame>();
-            read();
-            skipWhiteSpace();
+            Read();
+            SkipWhiteSpace();
 
-            while ((current == '{') || (current == '['))
-            {
-                retval.Add(readRootValue());
-                skipWhiteSpace();
+            while ( (current == '{') || (current == '[') ) {
+                retval.Add( ReadRootValue() );
+                SkipWhiteSpace();
             }
 
-            if (!isEndOfText())
-            {
-                throw error("Unexpected character");
+            if ( !IsEndOfText() ) {
+                throw Error( "Unexpected character" );
             }
             return retval;
 
@@ -193,160 +177,156 @@ namespace Coyote.DataFrame.JSON
 
 
 
-        private void pauseCapture()
-        {
+        private void PauseCapture() {
             int end = current == -1 ? index : index - 1;
-            captureBuffer.Append(buffer, captureStart, end - captureStart);
+            captureBuffer.Append( buffer, captureStart, end - captureStart );
             captureStart = -1;
         }
 
 
 
-
-        private void read()
-        {
-            if (index == fill)
-            {
-                if (captureStart != -1)
-                {
-                    captureBuffer.Append(buffer, captureStart, fill - captureStart);
+        /// <summary>
+        /// Read the next character
+        /// </summary>
+        /// <remarks><para>This actually just increments the index into the current buffer. If the index is at the end of the current buffer, a new "chunk" of data is read into the buffer from the reader and the index is set to the beginning of the buffer.</para></remarks>
+        private void Read() {
+            if ( index == fill ) {
+                if ( captureStart != -1 ) {
+                    captureBuffer.Append( buffer, captureStart, fill - captureStart );
                     captureStart = 0;
                 }
                 bufferOffset += fill;
-                fill = reader.Read(buffer, 0, buffer.Length);
+                fill = reader.Read( buffer, 0, buffer.Length );
                 index = 0;
-                if (fill == -1)
-                {
+
+                // check to see if we are at the end of the data
+                // -1 is definitely EOF
+                // 0 means we did not read anything into our buffer
+                if ( fill <= 0 ) {
                     current = -1;
                     return;
                 }
             }
-            if (current == '\n')
-            {
-                line++;
-                lineOffset = bufferOffset + index;
+
+            // if the current character is a new-line, 
+            if ( current == '\n' ) {
+                line++; // increment the line counter value
+                lineOffset = bufferOffset + index;  // reset the line offset value
             }
+
+            // set the current character to the current position in the buffer
             current = buffer[index++];
         }
 
 
 
 
-        private DataFrame readArray()
-        {
-            read();
+        private DataFrame ReadArray() {
+            Read(); // read past the '['
             DataFrame array = new DataFrame();
-            skipWhiteSpace();
-            if (readChar(']'))
-            {
+            SkipWhiteSpace();
+
+            // if the next character is the array close, return the empty frame
+            if ( CurrentCharacterIs( ']' ) ) {
                 return array;
             }
-            do
-            {
-                skipWhiteSpace();
-                DataField field = readFieldValue(null);
-                array.Add(field);
-                skipWhiteSpace();
-            } while (readChar(','));
-            if (!readChar(']'))
-            {
-                throw expected("',' or ']'");
+
+            // Loop through all the values
+            do {
+                SkipWhiteSpace();
+                DataField field = ReadFieldValue( null );
+                array.Add( field );
+                SkipWhiteSpace();
+            } while ( CurrentCharacterIs( ',' ) );
+            if ( !CurrentCharacterIs( ']' ) ) {
+                throw Expected( "',' or ']'" );
             }
             return array;
         }
 
 
 
-
-        private bool readChar(char ch)
-        {
-            if (current != ch)
-            {
+        /// <summary>
+        /// This method is a sentinel check method designed to be used in loops.
+        /// </summary>
+        /// <param name="ch"></param>
+        /// <returns>false if the character does not match, returns true after reading past it if it does.</returns>
+        private bool CurrentCharacterIs( char ch ) {
+            if ( current != ch ) {
                 return false;
             }
-            read();
+            Read();
             return true;
         }
 
 
 
 
-        private bool readDigit()
-        {
-            if (!isDigit())
-            {
+        private bool ReadDigit() {
+            if ( !IsDigit() ) {
                 return false;
             }
-            read();
+            Read();
             return true;
         }
 
 
 
-
-        private void readEscape()
-        {
-            read();
-            switch (current)
-            {
+        /// <summary>Read in an escaped character, placing the appropriate character in the capture buffer.</summary>
+        private void ReadEscape() {
+            Read();
+            switch ( current ) {
                 case '"':
                 case '/':
                 case '\\':
-                    captureBuffer.Append((char)current);
+                    captureBuffer.Append( (char)current );
                     break;
                 case 'b':
-                    captureBuffer.Append('\b');
+                    captureBuffer.Append( '\b' );
                     break;
                 case 'f':
-                    captureBuffer.Append('\f');
+                    captureBuffer.Append( '\f' );
                     break;
                 case 'n':
-                    captureBuffer.Append('\n');
+                    captureBuffer.Append( '\n' );
                     break;
                 case 'r':
-                    captureBuffer.Append('\r');
+                    captureBuffer.Append( '\r' );
                     break;
                 case 't':
-                    captureBuffer.Append('\t');
+                    captureBuffer.Append( '\t' );
                     break;
                 case 'u':
                     char[] hexChars = new char[4];
-                    for (int i = 0; i < 4; i++)
-                    {
-                        read();
-                        if (!isHexDigit())
-                        {
-                            throw expected("hexadecimal digit");
+                    for ( int i = 0; i < 4; i++ ) {
+                        Read();
+                        if ( !IsHexDigit() ) {
+                            throw Expected( "hexadecimal digit" );
                         }
                         hexChars[i] = (char)current;
                     }
-                    captureBuffer.Append((char)Convert.ToInt32(new string(hexChars), 16));
+                    captureBuffer.Append( (char)Convert.ToInt32( new string( hexChars ), 16 ) );
                     break;
                 default:
-                    throw expected("valid escape sequence");
+                    throw Expected( "valid escape sequence" );
             }
-            read();
+            Read();
         }
 
 
 
 
-        private bool readExponent()
-        {
-            if (!readChar('e') && !readChar('E'))
-            {
+        private bool ReadExponent() {
+            if ( !CurrentCharacterIs( 'e' ) && !CurrentCharacterIs( 'E' ) ) {
                 return false;
             }
-            if (!readChar('+'))
-            {
-                readChar('-');
+            if ( !CurrentCharacterIs( '+' ) ) {
+                CurrentCharacterIs( '-' );
             }
-            if (!readDigit())
-            {
-                throw expected("digit");
+            if ( !ReadDigit() ) {
+                throw Expected( "digit" );
             }
-            while (readDigit())
-            {
+            while ( ReadDigit() ) {
             }
             return true;
         }
@@ -354,38 +334,39 @@ namespace Coyote.DataFrame.JSON
 
 
 
-        private bool readFalse()
-        {
-            read();
-            readRequiredChar('a');
-            readRequiredChar('l');
-            readRequiredChar('s');
-            readRequiredChar('e');
+        private bool ReadFalse() {
+            Read();
+            ReadRequiredChar( 'a' );
+            ReadRequiredChar( 'l' );
+            ReadRequiredChar( 's' );
+            ReadRequiredChar( 'e' );
             return false;
         }
 
 
 
-
-        private DataField readFieldValue(string name)
-        {
-            switch (current)
-            {
+        /// <summary>
+        /// Read the value into a DataField with the given name.
+        /// </summary>
+        /// <param name="name">Name of the field.</param>
+        /// <returns>A DataField with the given name containing the value read in from the reader.</returns>
+        private DataField ReadFieldValue( string name ) {
+            switch ( current ) {
                 case 'n':
-                    return new DataField(name, readNull());
+                    return new DataField( name, ReadNull() );
                 case 't':
-                    return new DataField(name, readTrue());
+                    return new DataField( name, ReadTrue() );
                 case 'f':
-                    return new DataField(name, readFalse());
+                    return new DataField( name, ReadFalse() );
                 case '"':
-                    return new DataField(name, readString());
+                    return new DataField( name, ReadString() );
                 case '[':
-                    return new DataField(name, readArray());
+                    return new DataField( name, ReadArray() );
                 case '{':
-                    return new DataField(name, readObject());
+                    return new DataField( name, ReadObject() );
                 case ']':
                 case ',':
-                    return new DataField(name, null);
+                    return new DataField( name, null );
                 case '-':
                 case '0':
                 case '1':
@@ -397,27 +378,23 @@ namespace Coyote.DataFrame.JSON
                 case '7':
                 case '8':
                 case '9':
-                    return new DataField(name, readNumber());
+                    return new DataField( name, ReadNumber() );
                 default:
-                    throw expected("value");
+                    throw Expected( "value" );
             }
         }
 
 
 
 
-        private bool readFraction()
-        {
-            if (!readChar('.'))
-            {
+        private bool ReadFraction() {
+            if ( !CurrentCharacterIs( '.' ) ) {
                 return false;
             }
-            if (!readDigit())
-            {
-                throw expected("digit");
+            if ( !ReadDigit() ) {
+                throw Expected( "digit" );
             }
-            while (readDigit())
-            {
+            while ( ReadDigit() ) {
             }
             return true;
         }
@@ -430,73 +407,71 @@ namespace Coyote.DataFrame.JSON
         /// </summary>
         /// <returns>The value within the quotes</returns>
         /// <exception cref="IOException">if not in quotes</exception>
-        private string readName()
-        {
-            if (current != '"')
-            {
-                throw expected("name");
+        private string ReadName() {
+            if ( current != '"' ) {
+                throw Expected( "attribute name" );
             }
-            return readStringInternal();
+            return ReadString();
         }
 
 
 
 
-        private object readNull()
-        {
-            read();
-            readRequiredChar('u');
-            readRequiredChar('l');
-            readRequiredChar('l');
+        private object ReadNull() {
+            Read();
+            ReadRequiredChar( 'u' );
+            ReadRequiredChar( 'l' );
+            ReadRequiredChar( 'l' );
             return null;
         }
 
 
 
 
-        private object readNumber()
-        {
-            startCapture();
-            readChar('-');
-            int firstDigit = current;
-            if (!readDigit())
-            {
-                throw expected("digit");
-            }
-            if (firstDigit != '0')
-            {
-                while (readDigit())
-                {
-                }
-            }
-            bool isFraction = readFraction();
-            readExponent();
+        private object ReadNumber() {
+            StartCapture();
 
-            string @value = endCapture();
-            // TODO: support more types like exponents
-            if (isFraction)
-            {
-                try
-                {
-                    return Convert.ToDouble(@value);
+            // if the current character is a negative sign, read past it adding it to the capture buffer
+            CurrentCharacterIs( '-' );
+
+            int firstDigit = current;
+            if ( !ReadDigit() ) {
+                throw Expected( "digit" );
+            }
+            if ( firstDigit != '0' ) {
+                while ( ReadDigit() ) {
+                    //keep reading into the capture buffer while the current character is a digit
                 }
-                catch (Exception)
-                {
+            }
+
+            // we may have stopped because we reached a decimal point
+            bool isFraction = ReadFraction();
+
+            // read any exponent portion of the number (there may nt be anything to read)
+            ReadExponent();
+
+            // stop the capture and get the read-in text
+            string retval = EndCapture();
+
+            // if we found a decimal point...
+            if ( isFraction ) {
+                // convert the string into a double (DBL)
+                try {
+                    return Convert.ToDouble( retval );
+                } catch ( Exception ) {
+                    // Ignore...just return the string if all else fails
+                }
+            } else {
+                // convert it into an integer (S64)
+                try {
+                    return Convert.ToInt64( retval );
+                } catch ( Exception ) {
                     // Ignore...just return the string if all else fails
                 }
             }
-            else
-            {
-                try
-                {
-                    return Convert.ToInt64(@value);
-                }
-                catch (Exception)
-                {
-                    // Ignore...just return the string if all else fails
-                }
-            }
-            return @value; // for now, just return it as a string
+
+            // if we got here, the number could not be parsed...return it as a string (STR)
+            return retval;
         }
 
 
@@ -507,69 +482,66 @@ namespace Coyote.DataFrame.JSON
         /// </summary>
         /// <returns>A dataframe containing the JSON object</returns>
         /// <exception cref="IOException"></exception>
-        private DataFrame readObject()
-        {
-            read();
+        private DataFrame ReadObject() {
+            Read();
             DataFrame @object = new DataFrame();
-            skipWhiteSpace();
-            if (readChar('}'))
-            {
+            SkipWhiteSpace();
+            if ( CurrentCharacterIs( '}' ) ) {
                 return @object; // return an empty frame
             }
 
-            do
-            {
+            do {
                 // try to read the name
-                skipWhiteSpace();
-                string name = readName();
-                skipWhiteSpace();
-                if (!readChar(':'))
-                {
-                    throw expected("':'");
+                SkipWhiteSpace();
+                string name = ReadName();
+                SkipWhiteSpace();
+                if ( !CurrentCharacterIs( ':' ) ) {
+                    throw Expected( "':'" );
                 }
                 // next, read the value for this named field
-                skipWhiteSpace();
-                DataField @value = readFieldValue(name);
-                @object.Add(@value);
-                skipWhiteSpace();
-            } while (readChar(','));
-            if (!readChar('}'))
-            {
-                throw expected("',' or '}'");
+                SkipWhiteSpace();
+                DataField @value = ReadFieldValue( name );
+                @object.Add( @value );
+                SkipWhiteSpace();
+            } while ( CurrentCharacterIs( ',' ) );
+            if ( !CurrentCharacterIs( '}' ) ) {
+                throw Expected( "',' or '}'" );
             }
             return @object;
         }
 
 
 
-
-        private void readRequiredChar(char ch)
-        {
-            if (!readChar(ch))
-            {
-                throw expected("'" + ch + "'");
+        /// <summary>
+        /// Read the next character and throw an exception if it is not what is expected.
+        /// </summary>
+        /// <param name="expectedCharacter">The required/expected character.</param>
+        private void ReadRequiredChar( char expectedCharacter ) {
+            if ( !CurrentCharacterIs( expectedCharacter ) ) {
+                throw Expected( "'" + expectedCharacter + "'" );
             }
         }
 
 
 
-
-        private DataFrame readRootValue()
-        {
-            switch (current)
-            {
+        /// <summary>
+        /// Read the value into a dataframe.
+        /// </summary>
+        /// <returns></returns>
+        private DataFrame ReadRootValue() {
+            switch ( current ) {
                 case 'n':
-                    return new DataFrame(new DataField(readNull()));
+                    return new DataFrame( new DataField( ReadNull() ) );
                 case 't':
-                    return new DataFrame(new DataField(readTrue()));
+                    return new DataFrame( new DataField( ReadTrue() ) );
                 case 'f':
-                    return new DataFrame(new DataField(readFalse()));
+                    return new DataFrame( new DataField( ReadFalse() ) );
                 case '"':
-                    return new DataFrame(new DataField(readString()));
+                    return new DataFrame( new DataField( ReadString() ) );
                 case '[':
-                    return readArray();
+                    return ReadArray();
                 case '{':
-                    return readObject();
+                    return ReadObject();
                 case '-':
                 case '0':
                 case '1':
@@ -581,58 +553,55 @@ namespace Coyote.DataFrame.JSON
                 case '7':
                 case '8':
                 case '9':
-                    return new DataFrame(new DataField(readNumber()));
+                    return new DataFrame( new DataField( ReadNumber() ) );
                 default:
-                    throw expected("value");
+                    throw Expected( "value" );
             }
         }
 
 
 
 
-        private string readString()
-        {
-            return readStringInternal();
+        private string ReadString() {
+            Read(); // read past quote
+            StartCapture();
+
+            // keep reading until the next doube-quote character
+            while ( current != '"' ) {
+
+                // check for the escape character
+                if ( current == '\\' ) {
+                    // pause capturing read-in characters
+                    PauseCapture();
+                    // place the escaped character in the buffer
+                    ReadEscape();
+                    // resume capturing read-in characters
+                    StartCapture();
+                } else if ( current < 0x20 ) {
+                    throw Expected( "valid string character" );
+                } else {
+                    Read(); // read the next character
+                }
+            } // while not string delimiter
+
+            // End the capture and get the captured string
+            string retval = EndCapture();
+
+            // read past the closing quotes
+            Read();
+
+            // return what was captured
+            return retval;
         }
 
 
 
 
-        private string readStringInternal()
-        {
-            read();
-            startCapture();
-            while (current != '"')
-            {
-                if (current == '\\')
-                {
-                    pauseCapture();
-                    readEscape();
-                    startCapture();
-                }
-                else if (current < 0x20)
-                {
-                    throw expected("valid string character");
-                }
-                else
-                {
-                    read();
-                }
-            }
-            string @string = endCapture();
-            read();
-            return @string;
-        }
-
-
-
-
-        private bool readTrue()
-        {
-            read();
-            readRequiredChar('r');
-            readRequiredChar('u');
-            readRequiredChar('e');
+        private bool ReadTrue() {
+            Read();
+            ReadRequiredChar( 'r' );
+            ReadRequiredChar( 'u' );
+            ReadRequiredChar( 'e' );
             return true;
         }
 
@@ -642,21 +611,17 @@ namespace Coyote.DataFrame.JSON
         /// <summary>
         /// Consume all whitespace.
         /// </summary>
-        private void skipWhiteSpace()
-        {
-            while (isWhiteSpace())
-            {
-                read();
+        private void SkipWhiteSpace() {
+            while ( IsWhiteSpace() ) {
+                Read();
             }
         }
 
 
 
 
-        private void startCapture()
-        {
-            if (captureBuffer == null)
-            {
+        private void StartCapture() {
+            if ( captureBuffer == null ) {
                 captureBuffer = new System.Text.StringBuilder();
             }
             captureStart = index - 1;
