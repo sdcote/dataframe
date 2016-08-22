@@ -35,9 +35,9 @@ import coyote.commons.ByteUtil;
  * <p>Next, another byte representing an unsigned integer (0-255) is read in 
  * and used to indicate the type of the field. If it is a numeric or other 
  * fixed type, the appropriate number of bytes are read in. If a variable type 
- * is indicated then the next S32 integer (4-bytes) is read as the length of 
- * the data. S32 is used to support nesting of frames within frames which can 
- * quickly exceed U16 values of 32767 bytes in length.
+ * is indicated then the next U32 integer (4-bytes) is read as the length of 
+ * the data. U32 is used to support nesting of frames within frames which can 
+ * quickly exceed U16 values of 65535 bytes in length.
  * 
  * <p>This utility class packages up a tagged value pair with a length field so 
  * as to allow for reliable reading of data from various transport streams.
@@ -336,6 +336,7 @@ public class DataField implements Cloneable {
 
     // if the file type is a variable length (i.e. size < 0), read in the length
     if ( datatype.getSize() < 0 ) {
+      // FIXME: This can only read in 2GB! not a real U32!!!
       final int length = dis.readInt();
 
       if ( length < 0 ) {
@@ -537,7 +538,7 @@ public class DataField implements Cloneable {
       // If the value is variable in length
       if ( datatype.getSize() < 0 ) {
         // write the length
-        dos.writeInt( value.length );
+        dos.write( ByteUtil.renderUnsignedInt( (long)value.length ) );
       }
 
       // write the value itself
