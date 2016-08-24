@@ -12,9 +12,6 @@
 //   Stephan D. Cote 
 //      - Initial API and implementation
 //
-// Contact Information
-//   https://code.google.com/p/linker/
-//
 #endregion
 using System;
 using System.Collections.Generic;
@@ -40,6 +37,7 @@ namespace Coyote.DataFrame {
         /// The array of fields this frame holds 
         protected internal List<DataField> fields = new List<DataField>();
 
+
         /// Flag indicating the top-level elements of this frame has been changed. 
         protected internal volatile bool modified = false;
 
@@ -58,7 +56,9 @@ namespace Coyote.DataFrame {
         }
 
 
-        /// <summary>Generate a digest fingerprint for this DataFrame based soley on the wire format of this and all fields contained therein.</summary>
+        /// <summary>
+        /// Generate a digest fingerprint for this DataFrame based soley on the wire format of this and all fields contained therein.
+        /// </summary>
         /// <remarks>
         /// <para>This performs a SHA-1 digest on the payload to help determine a unique identifier for the DataFrame. Note: the digest can be used to help determine equivalance between DataFrames.</para>
         /// </remarks>
@@ -132,19 +132,20 @@ namespace Coyote.DataFrame {
             get {
                 bool retval = true;
                 foreach ( DataField field in fields ) {
-                    if ( field.name != null )
+                    if ( field.name != null ) {
                         return false;
+                    }
                 }
                 return retval;
             }
         }
 
+
         /// <summary>
         /// Convenience method to return the number of fields in this frame to make code a little more readable.
         /// </summary>
-        public virtual int Size { get { return Field.Count; } }
-
-
+        public virtual int Size { get { return fields.Count; } }
+        
         #endregion
 
 
@@ -157,6 +158,8 @@ namespace Coyote.DataFrame {
         public class FieldCollection {
             readonly DataFrame frame;  // The containing object
 
+            /// <summary>Private constructor tying this collection to a frame.</summary>
+            /// <param name="f">The frame owning this collection.</param>
             internal FieldCollection( DataFrame f ) {
                 frame = f;
             }
@@ -287,8 +290,7 @@ namespace Coyote.DataFrame {
         /// </summary>
         /// <param name="name"></param>
         /// <param name="value"></param>
-        public DataFrame( string name, object value )
-            : this() {
+        public DataFrame( string name, object value ) : this() {
             Add( name, value );
             modified = false;
         }
@@ -300,7 +302,8 @@ namespace Coyote.DataFrame {
         /// Construct the frame with the given bytes.
         /// </summary>
         /// <param name="data">The byte array from which to construct the frame.</param>
-        public DataFrame( byte[] data ) {
+        /// <exception cref="DecodeException">If there were problems decoding the byte array</exception>
+        public DataFrame( byte[] data ) : this() {
             if ( data != null && data.Length > 0 ) {
                 int loc = 0;
                 int ploc = 0;
@@ -346,6 +349,44 @@ namespace Coyote.DataFrame {
             for ( int i = 0; i < source.fields.Count; i++ ) {
                 fields.Insert( i, (DataField)((DataField)source.fields[i]).Clone() );
             }
+        }
+
+
+
+
+        /// <summary>
+        /// Convenience method to check if this frame contains a field with the given name.
+        /// </summary>
+        /// <param name="name">The name of the field to check</param>
+        /// <returns>true if this frame contains a field with the given name, false otherwise.</returns>
+        public bool Contains( string name ) {
+            if ( name != null ) {
+                foreach ( DataField field in fields ) {
+                    if ( String.Equals( name, field.Name, StringComparison.Ordinal ) ) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+
+
+
+        /// <summary>
+        /// Find the first field with the given name - Case insensitive.
+        /// </summary>
+        /// <param name="name">The name of the field to find</param>
+        /// <returns>The first field with the given name, or null if no matching field was found.</returns>
+        public DataField Find( string name ) {
+            if ( name != null ) {
+                foreach ( DataField field in fields ) {
+                    if ( String.Equals( name, field.Name, StringComparison.OrdinalIgnoreCase ) ) {
+                        return field;
+                    }
+                }
+            }
+            return null;
         }
 
 
@@ -576,7 +617,7 @@ namespace Coyote.DataFrame {
 
                     if ( field.Type == DataField.UDEF ) {
                         b.Append( "null" );
-                    } else if ( field.Type == DataField.BOOLEANTYPE ) {
+                    } else if ( field.Type == DataField.BOOLEAN ) {
                         b.Append( field.StringValue.ToLower() );
                     } else if ( field.IsNumeric ) {
                         b.Append( field.StringValue );
@@ -588,7 +629,7 @@ namespace Coyote.DataFrame {
                         b.Append( '"' );
                         b.Append( field.StringValue );
                         b.Append( '"' );
-                    } else if ( field.Type != DataField.FRAMETYPE ) {
+                    } else if ( field.Type != DataField.FRAME ) {
                         if ( field.ObjectValue != null ) {
                             b.Append( '"' );
                             b.Append( field.ObjectValue.ToString() );

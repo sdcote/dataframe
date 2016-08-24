@@ -12,12 +12,11 @@
 using System;
 using System.Text;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
-    public class ByteArrayType : FieldType
-    {
+    public class ByteArrayType : FieldType {
+
         /// negative size indicates a variable length value is to be expected. 
         private const int _size = -1;
 
@@ -26,34 +25,29 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return (obj is sbyte[]);
         }
 
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
+        public virtual byte[] Encode( object obj ) {
             return (byte[])obj;
         }
 
 
 
 
-        public virtual object Decode(byte[] @value)
-        {
+        public virtual object Decode( byte[] @value ) {
             return @value;
         }
 
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -61,10 +55,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return false;
             }
         }
@@ -72,10 +64,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
@@ -83,10 +73,9 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            object obj = Decode(val);
-            if (obj != null)
+        public virtual string StringValue( byte[] val ) {
+            object obj = Decode( val );
+            if ( obj != null )
                 return obj.ToString();
             else
                 return "";

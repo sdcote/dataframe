@@ -13,8 +13,8 @@
 using System;
 using System.Text;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
+
     /// <summary>Various utilities for manipulating data at the byte level.</summary>
     /// <remarks>
     ///	<para>"Overlay" methods place data into a byte array buffer.</para>
@@ -23,12 +23,12 @@ namespace Coyote.DataFrame
     ///	<para>"Show" methods convert data into strings such as a binary or hex string.</para>
     ///	<para>"Dump" methods convert bytes into easily viewable partitioned data.</para>
     /// </remarks>
-    public sealed class ByteUtil
-    {
+    public sealed class ByteUtil {
+
 
         #region Attributes
 
-        ///All possible chars for representing a number as a String
+        ///<summary>All possible chars for representing a number as a String</summary>
         static char[] digits = {
                              '0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f',
                              'g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v',
@@ -50,8 +50,7 @@ namespace Coyote.DataFrame
         #region Constructors
 
         ///Private constructor because everything is static
-        private ByteUtil()
-        {
+        private ByteUtil() {
         }
 
         #endregion
@@ -62,7 +61,9 @@ namespace Coyote.DataFrame
         #region Methods
 
 
-        #region Overlaying
+        #region Overlaying - render objects into an existing byte array
+
+
         /// <summary>
         /// Put a long into a byte[] buffer.
         ///	<para>This stores a binary number. Assuming that only four bytes are 
@@ -86,8 +87,7 @@ namespace Coyote.DataFrame
         /// <param name="x"></param>
         /// <param name="buf"></param>
         /// <param name="offset">at which to place the number.</param>
-        public static void Overlay(long x, byte[] buf, uint offset)
-        {
+        public static void Overlay( long x, byte[] buf, uint offset ) {
             buf[offset++] = (byte)(x >> 56);
             buf[offset++] = (byte)(x >> 48);
             buf[offset++] = (byte)(x >> 40);
@@ -100,16 +100,14 @@ namespace Coyote.DataFrame
 
 
 
-
-
+        
         /// <summary>
         /// Put an unsigned integer(4-byte value) into a byte[] buffer.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="buf"></param>
         /// <param name="offset">at which to place the number.</param>
-        public static void OverlayUnsignedInt(uint x, byte[] buf, uint offset)
-        {
+        public static void OverlayUnsignedInt( uint x, byte[] buf, uint offset ) {
             buf[offset++] = (byte)((x >> 24) & 0xFF);
             buf[offset++] = (byte)((x >> 16) & 0xFF);
             buf[offset++] = (byte)((x >> 8) & 0xFF);
@@ -118,16 +116,14 @@ namespace Coyote.DataFrame
 
 
 
-
-
+        
         /// <summary>
         /// Put an int (4 byte value) into a byte[] buffer.
         /// </summary>
         /// <param name="x"></param>
         /// <param name="buf"></param>
         /// <param name="offset">at which to place the number.</param>
-        public static void Overlay(int x, byte[] buf, uint offset)
-        {
+        public static void Overlay( int x, byte[] buf, uint offset ) {
             buf[offset++] = (byte)(x >> 24);
             buf[offset++] = (byte)(x >> 16);
             buf[offset++] = (byte)(x >> 8);
@@ -143,8 +139,7 @@ namespace Coyote.DataFrame
         /// <param name="x"></param>
         /// <param name="buf"></param>
         /// <param name="offset">at which to place the number.</param>
-        public static void Overlay(short x, byte[] buf, uint offset)
-        {
+        public static void Overlay( short x, byte[] buf, uint offset ) {
             buf[offset++] = (byte)(x >> 8);
             buf[offset++] = (byte)(x);
         }
@@ -158,24 +153,23 @@ namespace Coyote.DataFrame
         /// <param name="x"></param>
         /// <param name="buf"></param>
         /// <param name="offset">at which to place the number.</param>
-        public static void OverlayUnsignedShort(int x, byte[] buf, uint offset)
-        {
+        public static void OverlayUnsignedShort( int x, byte[] buf, uint offset ) {
             buf[offset++] = (byte)((x >> 8) & 0xFF);
             buf[offset++] = (byte)((x >> 0) & 0xFF);
         }
 
+
         #endregion
 
 
-        #region Rendering
+        #region Rendering - object to byte array
 
         /// <summary>
         /// Return a byte (1 octet) from a signed byte
         /// </summary>
         /// <param name="valu">Short (-128 to 127)</param>
         /// <returns>a byte representing the value to render</returns>
-        public static byte RenderShortByte(sbyte valu)
-        {
+        public static byte RenderSignedByte( sbyte valu ) {
             return (byte)((valu >> 0) & 0xFF);
         }
 
@@ -187,8 +181,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="valu">Short from 0 to 65,535 to render into a 2-byte array</param>
         /// <returns></returns>
-        public static byte[] RenderUnsignedShort(ushort valu)
-        {
+        public static byte[] RenderUnsignedShort( ushort valu ) {
             byte[] retval = new byte[2];
             retval[0] = (byte)((valu >> 8) & 0xFF);
             retval[1] = (byte)((valu >> 0) & 0xFF);
@@ -204,8 +197,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="valu">Short from -32,768 to 32,767 to render into the 2-byte array</param>
         /// <returns>a 2-byte array representing the S16 short value</returns>
-        public static byte[] RenderShort(short valu)
-        {
+        public static byte[] RenderShort( short valu ) {
             byte[] retval = new byte[2];
             retval[0] = (byte)((valu >> 8) & 0xFF);
             retval[1] = (byte)((valu >> 0) & 0xFF);
@@ -218,8 +210,7 @@ namespace Coyote.DataFrame
         /// <summary>
         /// Return a 4-byte array representing an unsigned integer (U32) in network byte order.
         /// </summary>
-        public static byte[] RenderUnsignedInt(uint valu)
-        {
+        public static byte[] RenderUnsignedInt( uint valu ) {
             byte[] retval = new byte[4];
             retval[0] = (byte)((valu >> 24) & 0xFF);
             retval[1] = (byte)((valu >> 16) & 0xFF);
@@ -228,16 +219,14 @@ namespace Coyote.DataFrame
             return retval;
         }
 
-
-
+        
 
 
         /// <summary>
         /// Return a 4-byte array representing a signed integer (S32) in network byte order.
         /// </summary>
         /// <param name="valu">integer from -2,147,483,648 to 2,147,483,647 to render into the 4-byte array</param>
-        public static byte[] RenderInt(int valu)
-        {
+        public static byte[] RenderInt( int valu ) {
             byte[] retval = new byte[4];
             retval[0] = (byte)((valu >> 24) & 0xFF);
             retval[1] = (byte)((valu >> 16) & 0xFF);
@@ -245,6 +234,7 @@ namespace Coyote.DataFrame
             retval[3] = (byte)((valu >> 0) & 0xFF);
             return retval;
         }
+
 
 
 
@@ -252,8 +242,7 @@ namespace Coyote.DataFrame
         /// Return a 8-byte array representing a signed long (S64) in network byte order.
         /// </summary>
         /// <param name="valu">long from -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 to render into the 8-byte array</param>
-        public static byte[] RenderLong(long valu)
-        {
+        public static byte[] RenderLong( long valu ) {
             byte[] retval = new byte[8];
 
             retval[0] = (byte)((valu >> 56) & 0xFF);
@@ -275,8 +264,7 @@ namespace Coyote.DataFrame
         /// Return a 8-byte array representing an unsigned long (U64) in network byte order.
         /// </summary>
         /// <param name="valu">long from 0 to 18,446,744,073,709,551,615 to render into the 8-byte array</param>
-        public static byte[] RenderUnsignedLong(ulong valu)
-        {
+        public static byte[] RenderUnsignedLong( ulong valu ) {
             byte[] retval = new byte[8];
             retval[0] = (byte)((valu >> 56) & 0xFF);
             retval[1] = (byte)((valu >> 48) & 0xFF);
@@ -293,27 +281,14 @@ namespace Coyote.DataFrame
 
 
 
-       
-
-
-
-
-      
-
-
-
-
-
         /// <summary>
         /// Return a byte representing a boolean value.
         /// </summary>
         /// <param name="valu">either true or false</param>
         /// <returns>a single byte representing 1 for true and 0 for false</returns>
-        public static byte RenderBooleanByte(bool valu)
-        {
+        public static byte RenderBooleanByte( bool valu ) {
             return (byte)(valu ? 1 : 0);
         }
-
 
 
 
@@ -323,8 +298,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="arg">either true or false</param>
         /// <returns>a single byte representing 1 for true and 0 for false</returns>
-        public static byte[] RenderBoolean(bool arg)
-        {
+        public static byte[] RenderBoolean( bool arg ) {
             byte[] retval = new byte[1];
             retval[0] = (byte)(arg ? 1 : 0);
             return retval;
@@ -346,26 +320,20 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="date">any valid Date object</param>
         /// <returns>a 8-byte array representing the epoch time in milliseconds, if value is null, then the date will be encoded as zero</returns>
-        public static byte[] RenderDate(DateTime date)
-        {
-            if (date.Equals(null))
-            {
-                return RenderLong(0);
-            }
-            else
-            {
+        public static byte[] RenderDate( DateTime date ) {
+            if ( date.Equals( null ) ) {
+                return RenderLong( 0 );
+            } else {
                 // return the UTC as ticks, subtract the epoch offset and convert ticks to milliseconds
-                return RenderLong((date.ToUniversalTime().Ticks - EPOCH_OFFSET) / 10000);
+                return RenderLong( (date.ToUniversalTime().Ticks - EPOCH_OFFSET) / 10000 );
             }
         }
-
-
 
 
         #endregion
 
 
-        #region Retrieve
+        #region Retrieve - bytes to object
 
 
         /// <summary>
@@ -374,8 +342,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the signed short number (-128 to 127) stored at the offset.</returns>
-        public static sbyte RetrieveByte(byte[] buf, uint offset)
-        {
+        public static sbyte RetrieveByte( byte[] buf, uint offset ) {
             return (sbyte)buf[offset];
         }
 
@@ -388,8 +355,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the unsigned short number (0 to 255) stored at the offset.</returns>
-        public static byte RetrieveUnsignedByte(byte[] buf, uint offset)
-        {
+        public static byte RetrieveUnsignedByte( byte[] buf, uint offset ) {
             return (byte)((byte)buf[offset] & 0xFF);
         }
 
@@ -403,8 +369,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the signed short number (-32,768 to 32,767) stored at the offset.</returns>
-        public static short RetrieveShort(byte[] buf, uint offset)
-        {
+        public static short RetrieveShort( byte[] buf, uint offset ) {
             return (short)((short)((buf[offset++] & 0xff) << 8) | (short)(buf[offset++] & 0xff));
         }
 
@@ -418,8 +383,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns> the unsigned short number (0 to 65,535) stored at the offset.</returns>
-        public static ushort RetrieveUnsignedShort(byte[] buf, uint offset)
-        {
+        public static ushort RetrieveUnsignedShort( byte[] buf, uint offset ) {
             return (ushort)((ushort)((buf[offset++] & 0xff) << 8) | (ushort)(buf[offset++] & 0xff));
         }
 
@@ -433,8 +397,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the signed integer number (-2,147,483,648 to 2,147,483,647) stored at the offset.</returns>
-        public static int RetrieveInt(byte[] buf, uint offset)
-        {
+        public static int RetrieveInt( byte[] buf, uint offset ) {
             return (buf[offset++] & 0xff) << 24 |
               (buf[offset++] & 0xff) << 16 |
               (buf[offset++] & 0xff) << 8 |
@@ -451,8 +414,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the unsigned integer number (0 to 4,294,967,295) stored at the offset.</returns>
-        public static uint RetrieveUnsignedInt(byte[] buf, uint offset)
-        {
+        public static uint RetrieveUnsignedInt( byte[] buf, uint offset ) {
             return ((uint)buf[offset++] & 0xff) << 24 |
               ((uint)buf[offset++] & 0xff) << 16 |
               ((uint)buf[offset++] & 0xff) << 8 |
@@ -469,8 +431,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the signed integer number (-9,223,372,036,854,775,808 to 9,223,372,036,854,775,807) stored at the offset.</returns>
-        public static long RetrieveLong(byte[] buf, uint offset)
-        {
+        public static long RetrieveLong( byte[] buf, uint offset ) {
             return ((long)buf[offset++] & 0xff) << 56 |
               ((long)buf[offset++] & 0xff) << 48 |
               ((long)buf[offset++] & 0xff) << 40 |
@@ -491,8 +452,7 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the number.</param>
         /// <returns>the signed integer number (0 to 18,446,744,073,709,551,615) stored at the offset.</returns>
-        public static ulong RetrieveUnsignedLong(byte[] buf, uint offset)
-        {
+        public static ulong RetrieveUnsignedLong( byte[] buf, uint offset ) {
             return ((ulong)buf[offset++] & 0xff) << 56 |
               ((ulong)buf[offset++] & 0xff) << 48 |
               ((ulong)buf[offset++] & 0xff) << 40 |
@@ -507,15 +467,14 @@ namespace Coyote.DataFrame
 
 
         /// <summary>
-        /// Method RetrieveDate
+        /// Retrieve the value as the number of milliseconds and convert it to a UTC DateTime object.
         /// </summary>
-        /// <param name="buf"></param>
-        /// <param name="offset"></param>
+        /// <param name="buf">The buffer from which to retrieve the value</param>
+        /// <param name="offset">from which to get the value.</param>
         /// <returns></returns>
-        public static DateTime RetrieveDate(byte[] buf, uint offset)
-        {
-            long ticks = (RetrieveLong(buf, offset) * 10000) + EPOCH_OFFSET;
-            return new DateTime(ticks);
+        public static DateTime RetrieveDate( byte[] buf, uint offset ) {
+            long ticks = (RetrieveLong( buf, offset ) * 10000) + EPOCH_OFFSET;
+            return new DateTime( ticks );
         }
 
 
@@ -527,10 +486,8 @@ namespace Coyote.DataFrame
         /// <param name="buf">The buffer from which to retrieve the value</param>
         /// <param name="offset">from which to get the value.</param>
         /// <returns>True if the value in the byte is > 0 false otherwise.</returns>
-        public static bool RetrieveBoolean(byte[] buf, uint offset)
-        {
-            if ((byte)buf[offset] > 0)
-            {
+        public static bool RetrieveBoolean( byte[] buf, uint offset ) {
+            if ( (byte)buf[offset] > 0 ) {
                 return true;
             }
 
@@ -547,11 +504,10 @@ namespace Coyote.DataFrame
         /// <param name="offset">The position in the byte array where the string begins.</param>
         /// <param name="length">The length of the string in bytes.</param>
         /// <returns>The specified section of the given byte array decoded in ASCII.</returns>
-        public static string RetrieveAsciiString(byte[] buf, uint offset, int length)
-        {
+        public static string RetrieveAsciiString( byte[] buf, uint offset, int length ) {
             byte[] textData = new byte[length];
-            Array.Copy(buf, offset, textData, 0, textData.Length);
-            return System.Text.Encoding.ASCII.GetString(textData);
+            Array.Copy( buf, offset, textData, 0, textData.Length );
+            return System.Text.Encoding.ASCII.GetString( textData );
         }
 
 
@@ -559,6 +515,7 @@ namespace Coyote.DataFrame
 
 
         #region Other Methods
+
 
         /// <summary>
         /// Find the first occurrence of a specified byte.
@@ -568,21 +525,17 @@ namespace Coyote.DataFrame
         /// <param name="offset">from which to start</param>
         /// <param name="len"></param>
         /// <returns>offset of first occurrence or -1 if not found.</returns>
-        public static uint FindNextByte(byte c, byte[] buf, uint offset, uint len)
-        {
+        public static uint FindNextByte( byte c, byte[] buf, uint offset, uint len ) {
             long rc = -1;
 
-            if (buf != null)
-            {
+            if ( buf != null ) {
                 rc = offset;
 
-                while ((rc < len) && (buf[rc] != c))
-                {
+                while ( (rc < len) && (buf[rc] != c) ) {
                     ++rc;
                 }
 
-                if (rc >= len)
-                {
+                if ( rc >= len ) {
                     rc = -1;
                 }
             }
@@ -592,8 +545,7 @@ namespace Coyote.DataFrame
 
 
 
-
-
+        
         /// <summary>
         /// Find the first occurrence of a specified pair of bytes.
         /// </summary>
@@ -603,21 +555,17 @@ namespace Coyote.DataFrame
         /// <param name="offset">from which to start</param>
         /// <param name="len"></param>
         /// <returns>offset of first occurrence or -1 if not found.</returns>
-        public static uint FindNextTwoBytes(byte c1, byte c2, byte[] buf, uint offset, int len)
-        {
+        public static uint FindNextTwoBytes( byte c1, byte c2, byte[] buf, uint offset, int len ) {
             long rc = -1;
 
-            if (buf != null)
-            {
+            if ( buf != null ) {
                 rc = offset + 1;
 
-                while ((rc < len) && (buf[rc] != c2) && (buf[rc - 1] != c1))
-                {
+                while ( (rc < len) && (buf[rc] != c2) && (buf[rc - 1] != c1) ) {
                     ++rc;
                 }
 
-                if (rc >= len)
-                {
+                if ( rc >= len ) {
                     rc = -1;
                 }
             }
@@ -626,8 +574,7 @@ namespace Coyote.DataFrame
         }
 
 
-
-
+        
 
         /// <summary>
         /// Convert a byte to a character representation.
@@ -636,14 +583,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static char ByteToASCII(byte b)
-        {
-            if ((b < 32) || (b > 126))
-            {
+        public static char ByteToASCII( byte b ) {
+            if ( (b < 32) || (b > 126) ) {
                 return ' ';
-            }
-            else
-            {
+            } else {
                 return (char)b;
             }
         }
@@ -652,37 +595,31 @@ namespace Coyote.DataFrame
 
 
         /// <summary>
-        /// Convert a byte to a 2-character string representing its hexadecimal value,
-        /// with leading zero if needed.
+        /// Convert a byte to a 2-character string representing its hexadecimal value, with leading zero if needed.
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static string ByteToHex(byte b)
-        {
-            return Show(b, 4);
+        public static string ByteToHex( byte b ) {
+            return Show( b, 4 );
         }
 
 
 
 
         /// <summary>
-        /// Convert a byte array to a string of 2-character hexadecimal values, with
-        /// leading zero if needed.
+        /// Convert a byte array to a string of 2-character hexadecimal values, with leading zero if needed.
         /// </summary>
         /// <param name="barray"></param>
         /// <returns></returns>
-        public static string BytesToHex(byte[] barray)
-        {
-            if (barray == null)
-            {
+        public static string BytesToHex( byte[] barray ) {
+            if ( barray == null ) {
                 return null;
             }
 
             StringBuilder result = new StringBuilder();
 
-            for (int i = 0; i < barray.Length; i++)
-            {
-                result.Append(Show((byte)barray[i], 4));
+            for ( int i = 0; i < barray.Length; i++ ) {
+                result.Append( Show( (byte)barray[i], 4 ) );
             }
 
             return result.ToString().ToUpper();
@@ -707,12 +644,10 @@ namespace Coyote.DataFrame
         /// <param name="i"></param>
         /// <param name="num_bits"></param>
         /// <returns></returns>
-        public static string Show(long i, int num_bits)
-        {
+        public static string Show( long i, int num_bits ) {
             int num_chars = 64 / num_bits;
 
-            if ((64 % num_bits) == 0)
-            {
+            if ( (64 % num_bits) == 0 ) {
                 --num_chars;
             }
 
@@ -720,14 +655,13 @@ namespace Coyote.DataFrame
             int radix = 1 << num_bits;
             long mask = radix - 1;
 
-            for (int charPos = num_chars; charPos >= 0; --charPos)
-            {
+            for ( int charPos = num_chars; charPos >= 0; --charPos ) {
                 buf[charPos] = digits[(int)(i & mask)];
 
                 i >>= num_bits;
             }
 
-            return new string(buf);
+            return new string( buf );
         }
 
 
@@ -735,7 +669,6 @@ namespace Coyote.DataFrame
 
         /// <summary>
         /// Convert the entered number into a string. This works based upon number of bits.
-        ///   
         /// <para>This can be used to produce many standard outputs.
         ///  <pre>
         ///    1 bit  = binary, base two
@@ -749,12 +682,10 @@ namespace Coyote.DataFrame
         /// <param name="i"></param>
         /// <param name="num_bits"></param>
         /// <returns></returns>
-        public static string Show(int i, int num_bits)
-        {
+        public static string Show( int i, int num_bits ) {
             int num_chars = 32 / num_bits;
 
-            if (32 % num_bits == 0)
-            {
+            if ( 32 % num_bits == 0 ) {
                 --num_chars;
             }
 
@@ -762,14 +693,13 @@ namespace Coyote.DataFrame
             int radix = 1 << num_bits;
             long mask = radix - 1;
 
-            for (int charPos = num_chars; charPos >= 0; --charPos)
-            {
+            for ( int charPos = num_chars; charPos >= 0; --charPos ) {
                 buf[charPos] = digits[(int)(i & mask)];
 
                 i >>= num_bits;
             }
 
-            return new string(buf);
+            return new string( buf );
         }
 
 
@@ -777,7 +707,6 @@ namespace Coyote.DataFrame
 
         /// <summary>
         /// Convert the entered number into a string. This works based upon number of bits.
-        ///   
         ///   <para>This can be used to produce many standard outputs.
         ///   <pre>
         ///      1 bit  = binary, base two
@@ -791,12 +720,10 @@ namespace Coyote.DataFrame
         /// <param name="i"></param>
         /// <param name="num_bits"></param>
         /// <returns></returns>
-        public static string Show(short i, int num_bits)
-        {
+        public static string Show( short i, int num_bits ) {
             int num_chars = 16 / num_bits;
 
-            if (16 % num_bits == 0)
-            {
+            if ( 16 % num_bits == 0 ) {
                 --num_chars;
             }
 
@@ -804,14 +731,13 @@ namespace Coyote.DataFrame
             int radix = 1 << num_bits;
             long mask = radix - 1;
 
-            for (int charPos = num_chars; charPos >= 0; --charPos)
-            {
+            for ( int charPos = num_chars; charPos >= 0; --charPos ) {
                 buf[charPos] = digits[(int)(i & mask)];
 
                 i >>= num_bits;
             }
 
-            return new string(buf);
+            return new string( buf );
         }
 
 
@@ -819,7 +745,6 @@ namespace Coyote.DataFrame
 
         /// <summary>
         /// Convert the entered number into a string.
-        ///  
         ///   <para>This works based upon number of bits. This can be used to produce many
         ///   standard outputs.
         ///   <pre>
@@ -834,12 +759,10 @@ namespace Coyote.DataFrame
         /// <param name="i"></param>
         /// <param name="num_bits"></param>
         /// <returns></returns>
-        public static string Show(byte i, int num_bits)
-        {
+        public static string Show( byte i, int num_bits ) {
             int num_chars = 8 / num_bits;
 
-            if (8 % num_bits == 0)
-            {
+            if ( 8 % num_bits == 0 ) {
                 --num_chars;
             }
 
@@ -848,14 +771,13 @@ namespace Coyote.DataFrame
             int radix = 1 << num_bits;
             long mask = radix - 1;
 
-            for (int charPos = num_chars; charPos >= 0; --charPos)
-            {
+            for ( int charPos = num_chars; charPos >= 0; --charPos ) {
                 buf[charPos] = digits[(int)(i & mask)];
 
                 i >>= num_bits;
             }
 
-            return new string(buf);
+            return new string( buf );
         }
 
 
@@ -866,9 +788,8 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="octet"></param>
         /// <returns></returns>
-        public static string Show(byte octet)
-        {
-            return Show((byte)octet, 1);
+        public static string Show( byte octet ) {
+            return Show( (byte)octet, 1 );
         }
 
 
@@ -880,11 +801,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Dump(long data)
-        {
+        public static string Dump( long data ) {
             byte[] temp = new byte[8];
-            Overlay(data, temp, 0);
-            return Dump(temp);
+            Overlay( data, temp, 0 );
+            return Dump( temp );
         }
 
 
@@ -897,11 +817,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Dump(int data)
-        {
+        public static string Dump( int data ) {
             byte[] temp = new byte[4];
-            Overlay(data, temp, 0);
-            return Dump(temp);
+            Overlay( data, temp, 0 );
+            return Dump( temp );
         }
 
 
@@ -914,18 +833,17 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Dump(short data)
-        {
+        public static string Dump( short data ) {
             byte[] temp = new byte[2];
-            Overlay(data, temp, 0);
-            return Dump(temp);
+            Overlay( data, temp, 0 );
+            return Dump( temp );
         }
 
 
 
 
         /// <summary>
-        /// This will dump one byte into a string for examination
+        /// This will dump one byte into a string for examination.
         /// <para>The byte will be compartmentalized where the cell contains the offset
         ///	(always zero) into the byte (first line), the binary representation of
         ///	the byte (second line), and the decimal, hex, and corresponding character
@@ -933,11 +851,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Dump(byte data)
-        {
+        public static string Dump( byte data ) {
             byte[] temp = new byte[1];
             temp[0] = data;
-            return Dump(temp);
+            return Dump( temp );
         }
 
 
@@ -952,14 +869,12 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Dump(byte[] data)
-        {
-            if ((data == null) || (data.Length == 0))
-            {
+        public static string Dump( byte[] data ) {
+            if ( (data == null) || (data.Length == 0) ) {
                 return "";
             }
 
-            return Dump(data, (data.Length > 256) ? 256 : data.Length);
+            return Dump( data, (data.Length > 256) ? 256 : data.Length );
         }
 
 
@@ -975,67 +890,60 @@ namespace Coyote.DataFrame
         /// <param name="data"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        public static string Dump(byte[] data, int size)
-        {
+        public static string Dump( byte[] data, int size ) {
             // First, a little error checking
-            if ((data == null) || (data.Length == 0))
-            {
+            if ( (data == null) || (data.Length == 0) ) {
                 return "";
             }
 
-            if (data.Length < size)
-            {
+            if ( data.Length < size ) {
                 size = data.Length;
             }
 
             StringBuilder result = new StringBuilder();
-            StringBuilder line1 = new StringBuilder("+");
-            StringBuilder line2 = new StringBuilder("|");
-            StringBuilder line3 = new StringBuilder("|");
-            StringBuilder line4 = new StringBuilder("+");
+            StringBuilder line1 = new StringBuilder( "+" );
+            StringBuilder line2 = new StringBuilder( "|" );
+            StringBuilder line3 = new StringBuilder( "|" );
+            StringBuilder line4 = new StringBuilder( "+" );
             int mark = 0;
 
-            while (mark < size)
-            {
+            while ( mark < size ) {
                 // Get the unsigned value of this byte
                 int val = (data[mark] & 0xFF);
 
                 // Print the little box that represents this byte
-                line1.Append(string.Format(PF, mark) + ":" + ByteToHex((byte)mark) + "--+");
-                line2.Append(Show(data[mark]) + "|");
-                line3.Append(string.Format(PF, val) + ":" + ByteToHex(data[mark]) + ":" + ByteToASCII(data[mark]) + "|");
-                line4.Append("--------+");
+                line1.Append( string.Format( PF, mark ) + ":" + ByteToHex( (byte)mark ) + "--+" );
+                line2.Append( Show( data[mark] ) + "|" );
+                line3.Append( string.Format( PF, val ) + ":" + ByteToHex( data[mark] ) + ":" + ByteToASCII( data[mark] ) + "|" );
+                line4.Append( "--------+" );
 
                 mark++;
 
-                if ((mark > 0) && ((mark % 8) == 0))
-                {
-                    line1.Append("\r\n");
-                    line2.Append("\r\n");
-                    line3.Append("\r\n");
-                    line4.Append("\r\n");
-                    result.Append(line1.ToString() + line2.ToString() + line3.ToString() + line4.ToString());
-                    line1.Remove(0, line1.Length);
-                    line2.Remove(0, line2.Length);
-                    line3.Remove(0, line3.Length);
-                    line4.Remove(0, line4.Length);
+                if ( (mark > 0) && ((mark % 8) == 0) ) {
+                    line1.Append( "\r\n" );
+                    line2.Append( "\r\n" );
+                    line3.Append( "\r\n" );
+                    line4.Append( "\r\n" );
+                    result.Append( line1.ToString() + line2.ToString() + line3.ToString() + line4.ToString() );
+                    line1.Remove( 0, line1.Length );
+                    line2.Remove( 0, line2.Length );
+                    line3.Remove( 0, line3.Length );
+                    line4.Remove( 0, line4.Length );
 
-                    if (mark < size)
-                    {
-                        line1.Append("+");
-                        line2.Append("|");
-                        line3.Append("|");
-                        line4.Append("+");
+                    if ( mark < size ) {
+                        line1.Append( "+" );
+                        line2.Append( "|" );
+                        line3.Append( "|" );
+                        line4.Append( "+" );
                     }
                 }
             }
 
-            if (line1.Length > 0)
-            {
-                line1.Append("\r\n");
-                line2.Append("\r\n");
-                line3.Append("\r\n");
-                result.Append(line1.ToString() + line2.ToString() + line3.ToString() + line4.ToString());
+            if ( line1.Length > 0 ) {
+                line1.Append( "\r\n" );
+                line2.Append( "\r\n" );
+                line3.Append( "\r\n" );
+                result.Append( line1.ToString() + line2.ToString() + line3.ToString() + line4.ToString() );
             }
 
             return result.ToString();
@@ -1049,12 +957,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static byte[] IntToLittleEndian(int val)
-        {
+        public static byte[] IntToLittleEndian( int val ) {
             byte[] b = new byte[4];
 
-            for (int i = 0; i < 4; i++)
-            {
+            for ( int i = 0; i < 4; i++ ) {
                 b[i] = (byte)(val % 256);
 
                 val = val / 256;
@@ -1071,12 +977,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="val"></param>
         /// <returns></returns>
-        public static byte[] ShortToLittleEndian(short val)
-        {
+        public static byte[] ShortToLittleEndian( short val ) {
             byte[] b = new byte[2];
 
-            for (int i = 0; i < 2; i++)
-            {
+            for ( int i = 0; i < 2; i++ ) {
                 b[i] = (byte)(val % 256);
 
                 val = (short)(val / 256);
@@ -1094,9 +998,8 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static double Vax_to_long(byte[] b)
-        {
-            return FixByte(b[0]) + (FixByte(b[1]) * 256) + (FixByte(b[2]) * (256 ^ 2)) + (FixByte(b[3]) * (256 ^ 3));
+        public static double Vax_to_long( byte[] b ) {
+            return FixByte( b[0] ) + (FixByte( b[1] ) * 256) + (FixByte( b[2] ) * (256 ^ 2)) + (FixByte( b[3] ) * (256 ^ 3));
         }
 
 
@@ -1108,9 +1011,8 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static int vax_to_short(byte[] b)
-        {
-            return (int)(FixByte(b[0]) + (FixByte(b[1]) * 256));
+        public static int vax_to_short( byte[] b ) {
+            return (int)(FixByte( b[0] ) + (FixByte( b[1] ) * 256));
         }
 
 
@@ -1121,10 +1023,8 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static short FixByte(byte b)
-        {
-            if (b < 0)
-            {
+        public static short FixByte( byte b ) {
+            if ( b < 0 ) {
                 return (short)(b + 256);
             }
 
@@ -1139,8 +1039,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string ToBase64(byte[] data)
-        {
+        public static string ToBase64( byte[] data ) {
 
             int i = data.Length / 3;
             int j = data.Length % 3;
@@ -1148,37 +1047,32 @@ namespace Coyote.DataFrame
             int k = 0;
             int l = 0;
 
-            for (int i1 = 0; i1 < i; i1++)
-            {
-                barray[k++] = ToBase64((byte)(data[l] >> 2 & 0x3f));
+            for ( int i1 = 0; i1 < i; i1++ ) {
+                barray[k++] = ToBase64( (byte)(data[l] >> 2 & 0x3f) );
 
-                barray[k++] = ToBase64((byte)((data[l] & 3) << 4 | (data[l + 1] & 0xf0) >> 4 & 0xf));
-                barray[k++] = ToBase64((byte)((data[l + 1] & 0xf) << 2 | (data[l + 2] & 0xc0) >> 6 & 3));
-                barray[k++] = ToBase64((byte)(data[l + 2] & 0x3f));
+                barray[k++] = ToBase64( (byte)((data[l] & 3) << 4 | (data[l + 1] & 0xf0) >> 4 & 0xf) );
+                barray[k++] = ToBase64( (byte)((data[l + 1] & 0xf) << 2 | (data[l + 2] & 0xc0) >> 6 & 3) );
+                barray[k++] = ToBase64( (byte)(data[l + 2] & 0x3f) );
                 l += 3;
             }
 
-            if (j == 1)
-            {
-                barray[k++] = ToBase64((byte)(data[l] >> 2 & 0x3f));
+            if ( j == 1 ) {
+                barray[k++] = ToBase64( (byte)(data[l] >> 2 & 0x3f) );
 
-                barray[k++] = ToBase64((byte)((data[l] & 3) << 4));
+                barray[k++] = ToBase64( (byte)((data[l] & 3) << 4) );
                 barray[k++] = 61;
                 barray[k++] = 61;
-            }
-            else
-            {
-                if (j == 2)
-                {
-                    barray[k++] = ToBase64((byte)(data[l] >> 2 & 0x3f));
+            } else {
+                if ( j == 2 ) {
+                    barray[k++] = ToBase64( (byte)(data[l] >> 2 & 0x3f) );
 
-                    barray[k++] = ToBase64((byte)((data[l] & 3) << 4 | (data[l + 1] & 0xf0) >> 4 & 0xf));
-                    barray[k++] = ToBase64((byte)((data[l + 1] & 0xf) << 2));
+                    barray[k++] = ToBase64( (byte)((data[l] & 3) << 4 | (data[l + 1] & 0xf0) >> 4 & 0xf) );
+                    barray[k++] = ToBase64( (byte)((data[l + 1] & 0xf) << 2) );
                     barray[k++] = 61;
                 }
             }
 
-            return Encoding.ASCII.GetString(barray);
+            return Encoding.ASCII.GetString( barray );
         }
 
 
@@ -1189,12 +1083,10 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static int GetBase64Length(string str)
-        {
+        public static int GetBase64Length( string str ) {
             int len = (str.Length / 4) * 3;
 
-            if ((str.Length > 0) && (str[str.Length - 1] == '='))
-            {
+            if ( (str.Length > 0) && (str[str.Length - 1] == '=') ) {
                 len -= (str[str.Length - 2] != '=') ? 1 : 2;
             }
 
@@ -1209,16 +1101,14 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="text"></param>
         /// <returns></returns>
-        public static byte[] FromBase64(string text)
-        {
-            byte[] data = Encoding.ASCII.GetBytes(text);
+        public static byte[] FromBase64( string text ) {
+            byte[] data = Encoding.ASCII.GetBytes( text );
 
             int i = data.Length / 4;
             int j = i * 3;
             byte octet = 0;
 
-            if ((data.Length > 0) && (data[data.Length - 1] == 61))
-            {
+            if ( (data.Length > 0) && (data[data.Length - 1] == 61) ) {
                 octet = ((byte)((data[data.Length - 2] != 61) ? 1 : 2));
 
                 j -= octet;
@@ -1230,34 +1120,29 @@ namespace Coyote.DataFrame
             int k = 0;
             int l = 0;
 
-            for (int i1 = 0; i1 < i; i1++)
-            {
-                byte byte3 = FromBase64(data[l++]);
+            for ( int i1 = 0; i1 < i; i1++ ) {
+                byte byte3 = FromBase64( data[l++] );
 
-                byte byte6 = FromBase64(data[l++]);
-                byte byte8 = FromBase64(data[l++]);
-                byte byte9 = FromBase64(data[l++]);
+                byte byte6 = FromBase64( data[l++] );
+                byte byte8 = FromBase64( data[l++] );
+                byte byte9 = FromBase64( data[l++] );
                 barray[k++] = (byte)(byte3 << 2 | (byte6 & 0x30) >> 4);
                 barray[k++] = (byte)((byte6 & 0xf) << 4 | (byte8 & 0x3c) >> 2);
                 barray[k++] = (byte)((byte8 & 3) << 6 | byte9 & 0x3f);
             }
 
-            if (octet == 1)
-            {
-                byte byte1 = FromBase64(data[l++]);
+            if ( octet == 1 ) {
+                byte byte1 = FromBase64( data[l++] );
 
-                byte byte4 = FromBase64(data[l++]);
-                byte byte7 = FromBase64(data[l++]);
+                byte byte4 = FromBase64( data[l++] );
+                byte byte7 = FromBase64( data[l++] );
                 barray[k++] = (byte)(byte1 << 2 | (byte4 & 0x30) >> 4);
                 barray[k++] = (byte)((byte4 & 0xf) << 4 | (byte7 & 0x3c) >> 2);
-            }
-            else
-            {
-                if (octet == 2)
-                {
-                    byte byte2 = FromBase64(data[l++]);
+            } else {
+                if ( octet == 2 ) {
+                    byte byte2 = FromBase64( data[l++] );
 
-                    byte byte5 = FromBase64(data[l++]);
+                    byte byte5 = FromBase64( data[l++] );
                     barray[k++] = (byte)(byte2 << 2 | (byte5 & 0x30) >> 4);
                 }
             }
@@ -1273,25 +1158,20 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="octet"></param>
         /// <returns></returns>
-        public static byte ToBase64(byte octet)
-        {
-            if (octet <= 25)
-            {
+        public static byte ToBase64( byte octet ) {
+            if ( octet <= 25 ) {
                 return (byte)(65 + octet);
             }
 
-            if (octet <= 51)
-            {
+            if ( octet <= 51 ) {
                 return (byte)((97 + octet) - 26);
             }
 
-            if (octet <= 61)
-            {
+            if ( octet <= 61 ) {
                 return (byte)((48 + octet) - 52);
             }
 
-            if (octet == 62)
-            {
+            if ( octet == 62 ) {
                 return 43;
             }
 
@@ -1306,25 +1186,20 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="octet"></param>
         /// <returns></returns>
-        public static byte FromBase64(byte octet)
-        {
-            if ((octet >= 65) && (octet <= 90))
-            {
+        public static byte FromBase64( byte octet ) {
+            if ( (octet >= 65) && (octet <= 90) ) {
                 return (byte)(octet - 65);
             }
 
-            if ((octet >= 97) && (octet <= 122))
-            {
+            if ( (octet >= 97) && (octet <= 122) ) {
                 return (byte)((26 + octet) - 97);
             }
 
-            if ((octet >= 48) && (octet <= 57))
-            {
+            if ( (octet >= 48) && (octet <= 57) ) {
                 return (byte)((52 + octet) - 48);
             }
 
-            if (octet == 43)
-            {
+            if ( octet == 43 ) {
                 return 62;
             }
 
@@ -1339,8 +1214,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="s"></param>
         /// <returns>The byte swapped version of <code>s</code>.</returns>
-        public static short SwapBytes(short s)
-        {
+        public static short SwapBytes( short s ) {
             return (short)((s << 8) | ((s >> 8) & 0x00ff));
         }
 
@@ -1352,8 +1226,7 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="i"></param>
         /// <returns>The byte swapped version of <code>i</code>.</returns>
-        public static int SwapBytes(int i)
-        {
+        public static int SwapBytes( int i ) {
             return (i << 24) | ((i << 8) & 0x00ff0000) | (i >> 24) | ((i >> 8) & 0x0000ff00);
         }
 
@@ -1367,25 +1240,21 @@ namespace Coyote.DataFrame
         /// <param name="start">starting byte</param>
         /// <param name="length">length of the array to return</param>
         /// <returns></returns>
-        public static byte[] SubArray(byte[] source, int start, int length)
-        {
-            if (start < 0)
-            {
-                throw new ArgumentOutOfRangeException("Start index: " + start);
+        public static byte[] SubArray( byte[] source, int start, int length ) {
+            if ( start < 0 ) {
+                throw new ArgumentOutOfRangeException( "Start index: " + start );
             }
 
-            if (source == null)
-            {
-                throw new ArgumentException("Source array was null");
+            if ( source == null ) {
+                throw new ArgumentException( "Source array was null" );
             }
 
-            if ((start + length) > source.Length)
-            {
-                throw new ArgumentOutOfRangeException("length index: " + length);
+            if ( (start + length) > source.Length ) {
+                throw new ArgumentOutOfRangeException( "length index: " + length );
             }
 
             byte[] retval = new byte[length];
-            Array.Copy(source, start, retval, 0, length);
+            Array.Copy( source, start, retval, 0, length );
             return retval;
         }
 
@@ -1397,25 +1266,19 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="hex"></param>
         /// <returns></returns>
-        public static byte[] HexToBytes(string hex)
-        {
+        public static byte[] HexToBytes( string hex ) {
             byte[] retval = null;
 
-            if ((hex != null) && (hex.Length > 0))
-            {
+            if ( (hex != null) && (hex.Length > 0) ) {
                 retval = new byte[(hex.Length / 2) + (hex.Length % 2)];
 
-                for (int i = 0; i < hex.Length; i++)
-                {
-                    if (i + 1 < hex.Length)
-                    {
-                        retval[(i + 1) / 2] = (byte)Int32.Parse(hex.Substring(i, i + 2), System.Globalization.NumberStyles.HexNumber);
+                for ( int i = 0; i < hex.Length; i++ ) {
+                    if ( i + 1 < hex.Length ) {
+                        retval[(i + 1) / 2] = (byte)Int32.Parse( hex.Substring( i, i + 2 ), System.Globalization.NumberStyles.HexNumber );
 
                         i++;
-                    }
-                    else
-                    {
-                        retval[(i + 1) / 2] = (byte)Int32.Parse(hex.Substring(i), System.Globalization.NumberStyles.HexNumber);
+                    } else {
+                        retval[(i + 1) / 2] = (byte)Int32.Parse( hex.Substring( i ), System.Globalization.NumberStyles.HexNumber );
                     }
                 }
             }
@@ -1429,8 +1292,7 @@ namespace Coyote.DataFrame
         /// <summary>reverse byte order (16-bit)</summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static UInt16 ReverseBytes(UInt16 value)
-        {
+        public static UInt16 ReverseBytes( UInt16 value ) {
             return (UInt16)((value & 0xFFU) << 8 | (value & 0xFF00U) >> 8);
         }
 
@@ -1440,8 +1302,7 @@ namespace Coyote.DataFrame
         /// <summary>reverse byte order (32-bit)</summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static UInt32 ReverseBytes(UInt32 value)
-        {
+        public static UInt32 ReverseBytes( UInt32 value ) {
             return (value & 0x000000FFU) << 24 | (value & 0x0000FF00U) << 8 |
                    (value & 0x00FF0000U) >> 8 | (value & 0xFF000000U) >> 24;
         }
@@ -1452,16 +1313,17 @@ namespace Coyote.DataFrame
         /// <summary>reverse byte order (64-bit)</summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static UInt64 ReverseBytes(UInt64 value)
-        {
+        public static UInt64 ReverseBytes( UInt64 value ) {
             return (value & 0x00000000000000FFUL) << 56 | (value & 0x000000000000FF00UL) << 40 |
                    (value & 0x0000000000FF0000UL) << 24 | (value & 0x00000000FF000000UL) << 8 |
                    (value & 0x000000FF00000000UL) >> 8 | (value & 0x0000FF0000000000UL) >> 24 |
                    (value & 0x00FF000000000000UL) >> 40 | (value & 0xFF00000000000000UL) >> 56;
         }
+
         #endregion
 
 
         #endregion
+
     }
 }

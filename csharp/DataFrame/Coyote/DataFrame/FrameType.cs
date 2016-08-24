@@ -10,19 +10,17 @@
 //      - Initial API and implementation
 #endregion
 using System;
-using System.Text;
+using System.Diagnostics;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
-    public class FrameType : FieldType
-    {
+    public class FrameType : FieldType {
 
         /// negative size indicates a variable length value is to be expected. 
         private const int _size = -1;
 
-        private const string _name = "FRAME";
+        private const string _name = "FRM";
 
 
 
@@ -32,44 +30,38 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return (obj is DataFrame);
         }
 
 
 
 
-        //  *
-        //   * @see coyote.dataframe.FieldType#decode(byte[])
-        //   
-        public virtual object Decode(byte[] @value)
-        {
-            try
-            {
-                return new DataFrame(@value);
-            }
-            catch (Exception)
-            {
-                //e.printStackTrace();
+        public virtual object Decode( byte[] value ) {
+            try {
+                return new DataFrame( value );
+            } catch ( DecodeException de ) {
+                Debug.WriteLine( de );
+                Debug.WriteLine( ByteUtil.Dump(value) );
+                return new DataFrame();
+            } catch ( Exception e ) {
+                Debug.WriteLine( e );
+                Debug.WriteLine( System.Environment.StackTrace );
                 return new DataFrame();
             }
         }
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
+        public virtual byte[] Encode( object obj ) {
             return ((DataFrame)obj).Bytes;
         }
 
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return false;
             }
         }
@@ -77,20 +69,16 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -98,10 +86,9 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            object obj = Decode(val);
-            if (obj != null)
+        public virtual string StringValue( byte[] val ) {
+            object obj = Decode( val );
+            if ( obj != null )
                 return obj.ToString();
             else
                 return "";

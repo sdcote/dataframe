@@ -11,14 +11,12 @@
 #endregion
 using System;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
 
     /// This is a Short; a signed, 16-bit value in the range of -32,768 to 32,767 
-    public class S16Type : FieldType
-    {
+    public class S16Type : FieldType {
         private const int _size = 2;
 
         private const string _name = "S16";
@@ -26,10 +24,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -37,10 +33,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return true;
             }
         }
@@ -48,51 +42,42 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
 
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return (obj is short);
         }
 
 
 
 
-        public virtual object Decode(byte[] @value)
-        {
-            return ByteUtil.RetrieveShort(@value, 0);
+        public virtual object Decode( byte[] @value ) {
+            return ByteUtil.RetrieveShort( @value, 0 );
         }
 
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
-            return ByteUtil.RenderShort((short)obj);
+        public virtual byte[] Encode( object obj ) {
+            return ByteUtil.RenderShort( (short)obj );
         }
 
 
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            if (val == null)
-            {
+        public virtual string StringValue( byte[] val ) {
+            if ( val == null ) {
                 return "";
-            }
-            else
-            {
-                object obj = Decode(val);
-                if (obj != null)
+            } else {
+                object obj = Decode( val );
+                if ( obj != null )
                     return obj.ToString();
                 else
                     return "";

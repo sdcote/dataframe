@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataFrame</RootNamespace>
     <AssemblyName>DataFrame</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Coyote\DataFrame\AbstractDataType.cs" />
     <Compile Include="Coyote\DataFrame\ArrayType.cs" />
     <Compile Include="Coyote\DataFrame\BooleanType.cs" />
     <Compile Include="Coyote\DataFrame\ByteArrayType.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Coyote\DataFrame\FieldType.cs" />
     <Compile Include="Coyote\DataFrame\FloatType.cs" />
     <Compile Include="Coyote\DataFrame\FrameType.cs" />
+    <Compile Include="Coyote\DataFrame\JSONMarshaler.cs" />
     <Compile Include="Coyote\DataFrame\JSON\FormattedJsonWriter.cs" />
     <Compile Include="Coyote\DataFrame\JSON\JsonFrameParser.cs" />
     <Compile Include="Coyote\DataFrame\JSON\JsonWriter.cs" />
@@ -71,7 +73,6 @@
     <Compile Include="Coyote\DataFrame\U8Type.cs" />
     <Compile Include="Coyote\DataFrame\UndefinedType.cs" />
     <Compile Include="Coyote\DataFrame\UriType.cs" />
-    <Compile Include="Coyote\DataFrame\JSONMarshaler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

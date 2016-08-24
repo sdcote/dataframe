@@ -68,9 +68,6 @@ namespace UnitTest {
 
 
 
-
-
-
         [Test]
         public void MarshalJSONArray() {
             string json = "[]";
@@ -78,8 +75,7 @@ namespace UnitTest {
             Assert.True( results.Count == 1 );
             DataFrame frame = results[0];
             Debug.WriteLine( frame );
-
-
+            
             json = "[5,3]";
             results = JSONMarshaler.Marshal( json );
             Assert.True( results.Count == 1 );
@@ -119,6 +115,7 @@ namespace UnitTest {
 
 
 
+
         [Test]
         public void TestRealJSON() {
             //String json = "[{\"message_stats\":{\"deliver_get\":2,\"deliver_get_details\":{\"rate\":0.0},\"get_no_ack\":2,\"get_no_ack_details\":{\"rate\":0.0},\"publish\":2,\"publish_details\":{\"rate\":0.0}},\"messages\":0,\"messages_details\":{\"rate\":0.0},\"messages_ready\":0,\"messages_ready_details\":{\"rate\":0.0},\"messages_unacknowledged\":0,\"messages_unacknowledged_details\":{\"rate\":0.0},\"name\":\"/\",\"tracing\":false}]";
@@ -138,23 +135,96 @@ namespace UnitTest {
             DataField result = frame.Field[0]; // get the JSON data object
         }
 
-        //  public void testx() throws Exception {
-        //    String s = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
-        //    Object obj = JSONValue.parse( s );
-        //    JSONArray array = (JSONArray)obj;
-        //    Debug.WriteLine( "======the 2nd element of array======" );
-        //    Debug.WriteLine( array.get( 1 ) );
-        //    Debug.WriteLine();
-        //    assertEquals( "{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}", array.get( 1 ).toString() );
-        //
-        //    DataFrame obj2 = (DataFrame)array.get( 1 );
-        //    Debug.WriteLine( "======field \"1\"==========" );
-        //    Debug.WriteLine( obj2.getObject( "1" ) );
-        //    assertEquals( "{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}", obj2.getObject( "1" ).toString() );
-        //  }
-        //  
 
 
+
+        [Test]
+        public void MarshalJSONDouble() {
+            string json = "{\"double\":123.456}";
+            List<DataFrame> results = JSONMarshaler.Marshal( json );
+            Assert.True( results.Count == 1 );
+            DataFrame frame = results[0];
+
+            DataField field = frame.Field["double"];
+            Assert.NotNull( field );
+            Assert.True( field.Type == DataField.DOUBLE );
+            Debug.WriteLine( frame );
+        }
+
+
+
+
+        [Test]
+        public void MarshalJSONBoolean() {
+            string json = "{\"boolean\":true}";
+            List<DataFrame> results = JSONMarshaler.Marshal( json );
+            Assert.True( results.Count == 1 );
+            DataFrame frame = results[0];
+
+            DataField field = frame.Field["boolean"];
+            Assert.NotNull( field );
+            Assert.True( field.Type == DataField.BOOLEAN );
+            Debug.WriteLine( frame );
+        }
+
+
+
+
+        [Test]
+        public void MarshalJSONLong() {
+            string json = "{\"long\":123}";
+            List<DataFrame> results = JSONMarshaler.Marshal( json );
+            Assert.True( results.Count == 1 );
+            DataFrame frame = results[0];
+
+            DataField field = frame.Field["long"];
+            Assert.NotNull( field );
+            Assert.True( field.Type == DataField.S64 );
+            Debug.WriteLine( frame );
+        }
+
+
+
+
+        [Test]
+        public void MarshalJSONNegative() {
+            string json = "{\"long\":-123}";
+            List<DataFrame> results = JSONMarshaler.Marshal( json );
+            Assert.True( results.Count == 1 );
+            DataFrame frame = results[0];
+
+            DataField field = frame.Field["long"];
+            Assert.NotNull( field );
+            Assert.True( field.Type == DataField.S64 );
+            Assert.True( ((long)field.ObjectValue) == -123 );
+            Debug.WriteLine( frame );
+        }
+
+
+
+        [Test]
+        public void MarshalJSONNest() {
+            string json = "[0,{\"1\":{\"2\":{\"3\":{\"4\":[5,{\"6\":7}]}}}}]";
+            List<DataFrame> results = JSONMarshaler.Marshal( json );
+            Assert.True( results.Count == 1 );
+            DataFrame frame = results[0];
+            Debug.WriteLine( frame );
+            // start traversing into the nested frames to validate proper parsing
+        }
+
+        [Test]
+        public void MarshalJSONError() {
+            string json = "{\"one\":1,\"two\":2,}";
+            try {
+                List<DataFrame> results = JSONMarshaler.Marshal( json );
+                Assert.Fail();
+            } catch ( MarshalException e ) {
+                Debug.WriteLine( e );
+                e.GetBaseException();
+                //testc for the position and location of the error
+                //Expected attribute name at line:1 column:18 offset:17 char: '}'
+            }
+        }
 
     }
 }

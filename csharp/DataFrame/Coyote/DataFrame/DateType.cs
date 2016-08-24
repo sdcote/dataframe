@@ -11,15 +11,15 @@
 #endregion
 using System;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
 
 
+    /// <summary>
     /// Type representing a unsigned 64-bit epoch time in milliseconds 
-    public class DateType : FieldType
-    {
+    /// </summary>
+    public class DateType : FieldType {
         private const int _size = 8;
 
         private const string _name = "DAT";
@@ -28,10 +28,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -39,10 +37,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return false;
             }
         }
@@ -50,10 +46,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
@@ -63,41 +57,34 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return obj is DateTime;
         }
 
 
 
 
-        public virtual object Decode(byte[] value)
-        {
-            return ByteUtil.RetrieveDate(value, 0);
+        public virtual object Decode( byte[] value ) {
+            return ByteUtil.RetrieveDate( value, 0 );
         }
 
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
-            return ByteUtil.RenderDate((DateTime)obj);
+        public virtual byte[] Encode( object obj ) {
+            return ByteUtil.RenderDate( (DateTime)obj );
         }
 
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            if (val == null || val.Length == 0)
-            {
+        public virtual string StringValue( byte[] val ) {
+            if ( val == null || val.Length == 0 ) {
                 return "";
-            }
-            else
-            {
-                object obj = Decode(val);
-                if (obj != null)
-                    return String.Format(DATEFORMAT, (DateTime)obj);
+            } else {
+                object obj = Decode( val );
+                if ( obj != null )
+                    return String.Format( DATEFORMAT, (DateTime)obj );
                 else
                     return "";
             }

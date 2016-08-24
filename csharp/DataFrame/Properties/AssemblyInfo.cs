@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("DataFrame")]
-[assembly: AssemblyDescription("Abstract Data Type Toolkit")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DataFrame")]
-[assembly: AssemblyCopyright("Copyright ©  2016 Steve Cote")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("584d43d4-9276-4b05-8134-db593e0888b4")]
+[assembly: Guid("58af9167-d31f-4bfc-b2c7-4fcaa045ad76")]
 
 // Version information for an assembly consists of the following four values:
 //

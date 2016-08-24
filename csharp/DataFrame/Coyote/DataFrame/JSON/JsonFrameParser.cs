@@ -13,13 +13,8 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-using Coyote.DataFrame;
-
 
 namespace Coyote.DataFrame.JSON {
-
-
-
 
     /// <summary>
     /// Parse JSON text into DataFrames.
@@ -272,7 +267,9 @@ namespace Coyote.DataFrame.JSON {
 
 
 
-        /// <summary>Read in an escaped character, placing the appropriate character in the capture buffer.</summary>
+        /// <summary>
+        /// Read in an escaped character, placing the appropriate character in the capture buffer.
+        /// </summary>
         private void ReadEscape() {
             Read();
             switch ( current ) {
@@ -483,11 +480,11 @@ namespace Coyote.DataFrame.JSON {
         /// <returns>A dataframe containing the JSON object</returns>
         /// <exception cref="IOException"></exception>
         private DataFrame ReadObject() {
-            Read();
-            DataFrame @object = new DataFrame();
+            Read(); // read past the open brace
+            DataFrame obj = new DataFrame();
             SkipWhiteSpace();
             if ( CurrentCharacterIs( '}' ) ) {
-                return @object; // return an empty frame
+                return obj; // return an empty frame
             }
 
             do {
@@ -500,14 +497,14 @@ namespace Coyote.DataFrame.JSON {
                 }
                 // next, read the value for this named field
                 SkipWhiteSpace();
-                DataField @value = ReadFieldValue( name );
-                @object.Add( @value );
+                DataField val = ReadFieldValue( name );
+                obj.Add( val );
                 SkipWhiteSpace();
             } while ( CurrentCharacterIs( ',' ) );
             if ( !CurrentCharacterIs( '}' ) ) {
                 throw Expected( "',' or '}'" );
             }
-            return @object;
+            return obj;
         }
 
 

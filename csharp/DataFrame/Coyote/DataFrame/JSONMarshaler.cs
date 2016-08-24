@@ -14,45 +14,31 @@ using System.IO;
 using System.Collections.Generic;
 using Coyote.DataFrame.JSON;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
-    ///
-    // * 
-    // 
-    public class JSONMarshaler
-    {
+    ///<summary>
+    /// Marshal JSON into and out of a DataFrame.
+    ///</summary> 
+    public class JSONMarshaler {
         private const string NULL = "null";
         private const string TRUE = "true";
         private const string FALSE = "false";
 
 
 
-
-        //  *
-        //   * 
-        //   * 
-        //   * @param json
-        //   * 
-        //   * @return Data frame containing the JSON represented data
-        //   
         /// <summary>
         /// Marshal the given JSON into a dataframe.
         /// </summary>
         /// <param name="json">the JSON string to marshal</param>
         /// <returns>A list of dataframes representing all the objects in the string</returns>
         /// <exception cref="MarshalException">If there was a problem parsing the JSON string.</exception>
-        public static List<DataFrame> Marshal(string json)
-        {
+        public static List<DataFrame> Marshal( string json ) {
             List<DataFrame> retval = null;
 
-            try
-            {
-                retval = new JsonFrameParser(json).Parse();
-            }
-            catch (Exception e)
-            {
-                throw new MarshalException("Could not marshal JSON to DataFrame: " + e.Message, e);
+            try {
+                retval = new JsonFrameParser( json ).Parse();
+            } catch ( Exception e ) {
+                throw new MarshalException( "Could not marshal JSON to DataFrame: " + e.Message, e );
             }
 
             return retval;
@@ -60,32 +46,26 @@ namespace Coyote.DataFrame
 
 
 
-
-        //  *
-        //   * Generate a JSON string from the given data frame.
-        //   * 
-        //   * @param frame The frame to marshal
-        //   * 
-        //   * @return A JSON formatted string which can be marshaled back into a frame
-        //   
-        public static string Marshal(DataFrame frame)
-        {
-            return write(frame, JsonWriterConfig.MINIMAL);
+        
+        /// <summary>
+        /// Generate a JSON string from the given data frame.
+        /// </summary>
+        /// <param name="frame">The frame to marshal</param>
+        /// <returns>A JSON formatted string which can be marshaled back into a frame</returns>
+        public static string Marshal( DataFrame frame ) {
+            return write( frame, JsonWriterConfig.MINIMAL );
         }
 
 
 
-
-        //  *
-        //   * Generate a nicely formatted (and indented) JSON string from the given data frame.
-        //   * 
-        //   * @param frame The frame to marshal
-        //   * 
-        //   * @return A JSON formatted string which can be marshaled back into a frame
-        //   
-        public static string ToFormattedString(DataFrame frame)
-        {
-            return write(frame, JsonWriterConfig.FORMATTED);
+        
+        /// <summary>
+        /// Generate a nicely formatted (and indented) JSON string from the given data frame.
+        /// </summary>
+        /// <param name="frame">The frame to marshal</param>
+        /// <returns>A JSON formatted string which can be marshaled back into a frame</returns>
+        public static string ToFormattedString( DataFrame frame ) {
+            return write( frame, JsonWriterConfig.FORMATTED );
         }
 
 
@@ -97,20 +77,16 @@ namespace Coyote.DataFrame
         /// <param name="frame">The DataFrame to be written</param>
         /// <param name="config">The configuration of a JSON writer to use when writing the data</param>
         /// <returns>A JSON string representing the results of writing the data. It may contain error text if an I/O exception occurred</returns>
-        private static string write(DataFrame frame, JsonWriterConfig config)
-        {
+        private static string write( DataFrame frame, JsonWriterConfig config ) {
 
             // create string writer
-             StringWriter sw = new StringWriter();
-             JsonWriter writer = config.createWriter(sw);
+            StringWriter sw = new StringWriter();
+            JsonWriter writer = config.CreateWriter( sw );
 
-            try
-            {
-                writeFrame(frame, writer);
+            try {
+                writeFrame( frame, writer );
                 sw.Flush();
-            }
-            catch (IOException e)
-            {
+            } catch ( IOException e ) {
                 return "[\"" + e.Message + "\"]";
             }
             return sw.ToString();
@@ -124,95 +100,70 @@ namespace Coyote.DataFrame
         /// </summary>
         /// <param name="frame">The DataFrame to be written</param>
         /// <param name="writer">The instance of the JSON writer responsible for writing the data</param>
-        private static void writeFrame(DataFrame frame, JsonWriter writer)
-        {
+        private static void writeFrame( DataFrame frame, JsonWriter writer ) {
 
-            if (frame == null || writer == null)
-            {
+            if ( frame == null || writer == null ) {
                 return;
             }
 
-            if (frame.Size > 0)
-            {
+            if ( frame.Size > 0 ) {
                 bool isArray = frame.IsArray;
-                if (isArray)
+                if ( isArray )
                     writer.writeArrayOpen();
                 else
                     writer.writeObjectOpen();
 
                 DataField field = null;
-                for (int i = 0; i < frame.Size; i++)
-                {
+                for ( int i = 0; i < frame.Size; i++ ) {
                     field = frame.Field[i];
 
-                    if (!isArray)
-                    {
-                        if (field.Name != null)
-                        {
-                            writer.writeString(field.Name);
-                        }
-                        else
-                        {
-                            writer.writeString("");
+                    if ( !isArray ) {
+                        if ( field.Name != null ) {
+                            writer.writeString( field.Name );
+                        } else {
+                            writer.writeString( "" );
                         }
                         writer.writeMemberSeparator();
                     }
 
-                    if (field.Type == DataField.UDEF)
-                    {
-                        writer.writeLiteral(NULL);
-                    }
-                    else if (field.Type == DataField.BOOLEANTYPE)
-                    {
-                        if (TRUE.Equals(field.StringValue, StringComparison.OrdinalIgnoreCase))
-                        {
-                            writer.writeLiteral(TRUE);
+                    if ( field.Type == DataField.UDEF ) {
+                        writer.writeLiteral( NULL );
+                    } else if ( field.Type == DataField.BOOLEAN ) {
+                        if ( TRUE.Equals( field.StringValue, StringComparison.OrdinalIgnoreCase ) ) {
+                            writer.writeLiteral( TRUE );
+                        } else {
+                            writer.writeLiteral( FALSE );
                         }
-                        else
-                        {
-                            writer.writeLiteral(FALSE);
-                        }
-                    }
-                    else if (field.IsNumeric)
-                    {
-                        writer.writeNumber(field.StringValue);
-                    }
-                    else if (field.Type == DataField.FRAMETYPE)
-                    {
-                        writeFrame((DataFrame)field.ObjectValue, writer);
-                    }
-                    else
-                    {
+                    } else if ( field.IsNumeric ) {
+                        writer.writeNumber( field.StringValue );
+                    } else if ( field.Type == DataField.FRAME ) {
+                        writeFrame( (DataFrame)field.ObjectValue, writer );
+                    } else {
                         object obj = field.ObjectValue;
-                        if (obj != null)
-                        {
-                            writer.writeString(obj.ToString());
-                        }
-                        else
-                        {
-                            writer.writeLiteral(NULL);
+                        if ( obj != null ) {
+                            writer.writeString( obj.ToString() );
+                        } else {
+                            writer.writeLiteral( NULL );
                         }
                     }
-                    if (i + 1 < frame.Size)
-                    {
+                    if ( i + 1 < frame.Size ) {
                         writer.writeObjectSeparator();
                     }
                 }
 
-                if (isArray)
+                if ( isArray )
                     writer.writeArrayClose();
                 else
                     writer.writeObjectClose();
 
-            }
-            else
-            {
+            } else {
                 writer.writeObjectOpen();
                 writer.writeObjectClose();
             }
 
             return;
         }
+
     }
 
 }

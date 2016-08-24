@@ -14,8 +14,7 @@ using System.IO;
 
 namespace Coyote.DataFrame.JSON
 {
-
-
+    
 
     public class JsonWriter
     {
@@ -170,7 +169,7 @@ namespace Coyote.DataFrame.JSON
 
         
         /// <summary>
-        /// Writes the string to the underlying writer with no additional formatting.
+        /// Writes the number to the underlying writer with no additional formatting.
         /// </summary>
         /// <param name="value">the value to write</param>
         /// <exception cref="IOException">If writing encountered an error</exception>

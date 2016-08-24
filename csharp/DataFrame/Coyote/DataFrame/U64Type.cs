@@ -11,15 +11,13 @@
 #endregion
 using System;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
 
 
     ///<summary>This is a type equivalent to a <code>ulong</code>; representing an unsigned, 64-bit value in the range of 0 to 18,446,744,073,709,551,615 </summary> 
-    public class U64Type : FieldType
-    {
+    public class U64Type : FieldType {
         private const int _size = 8;
 
         private const string _name = "U64";
@@ -27,10 +25,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -38,10 +34,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return true;
             }
         }
@@ -49,34 +43,29 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return (obj is ulong);
         }
 
 
 
 
-        public virtual object Decode(byte[] value)
-        {
-            return ByteUtil.RetrieveUnsignedLong(value, 0);
+        public virtual object Decode( byte[] value ) {
+            return ByteUtil.RetrieveUnsignedLong( value, 0 );
         }
 
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
-            return ByteUtil.RenderUnsignedLong(((ulong)obj));
+        public virtual byte[] Encode( object obj ) {
+            return ByteUtil.RenderUnsignedLong( ((ulong)obj) );
 
         }
 
@@ -86,16 +75,12 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            if (val == null)
-            {
+        public virtual string StringValue( byte[] val ) {
+            if ( val == null ) {
                 return "";
-            }
-            else
-            {
-                object obj = Decode(val);
-                if (obj != null)
+            } else {
+                object obj = Decode( val );
+                if ( obj != null )
                     return obj.ToString();
                 else
                     return "";

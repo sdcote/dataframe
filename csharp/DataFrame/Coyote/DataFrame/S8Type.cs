@@ -10,24 +10,20 @@
 //      - Initial API and implementation
 #endregion
 using System;
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
 
 
     /// <summary>This is a numeric type equivalent to the <code>sbyte</code>type, representing an signed, 8-bit value in the range of -128 to 127.</summary>
-    public class S8Type : FieldType
-    {
+    public class S8Type : FieldType {
         private const int _size = 1;
 
         private const string _name = "S8";
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -35,10 +31,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return true;
             }
         }
@@ -46,10 +40,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return _size;
             }
         }
@@ -57,26 +49,23 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool CheckType(object obj)
-        {
+        public virtual bool CheckType( object obj ) {
             return obj is sbyte;
         }
 
 
 
 
-        public virtual object Decode(byte[] value)
-        {
+        public virtual object Decode( byte[] value ) {
             return (sbyte)value[0];
         }
 
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
+        public virtual byte[] Encode( object obj ) {
             byte[] retval = new byte[1];
-            retval[0] = (byte)obj;
+            retval[0] = ByteUtil.RenderSignedByte( (sbyte)obj );
             return retval;
         }
 
@@ -84,16 +73,12 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual string StringValue(byte[] val)
-        {
-            if (val == null)
-            {
+        public virtual string StringValue( byte[] val ) {
+            if ( val == null ) {
                 return "";
-            }
-            else
-            {
-                object obj = Decode(val);
-                if (obj != null)
+            } else {
+                object obj = Decode( val );
+                if ( obj != null )
                     return obj.ToString();
                 else
                     return "";

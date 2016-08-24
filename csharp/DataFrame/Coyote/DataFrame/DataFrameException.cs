@@ -11,47 +11,40 @@
 #endregion
 using System;
 
-namespace Coyote.DataFrame
-{
+namespace Coyote.DataFrame {
 
-    ///
-    // * Exception thrown when there is a problem with DataFrame operations.
-    // 
-    public sealed class DataFrameException : Exception
-    {
+    /// <summary>
+    /// Exception thrown when there is a problem with DataFrame operations.
+    /// </summary>
+    public sealed class DataFrameException : Exception {
 
 
 
-        //  *
-        //   * Constructor with no message.
-        //   
-        public DataFrameException() : base()
-        {
+        /// <summary>
+        /// Constructor with no message.
+        /// </summary>
+        public DataFrameException() : base() {
         }
 
 
 
 
-        //  *
-        //   * Constructor with a user message
-        //   *
-        //   * @param message The text of the message.
-        //   
-        public DataFrameException(string message) : base(message)
-        {
+        /// <summary>
+        /// Constructor with a user message
+        /// </summary>
+        /// <param name="message">The text of the message.</param>
+        public DataFrameException( string message ) : base( message ) {
         }
 
 
 
 
-        //  *
-        //   * Constructor with a user message and a nested throwable object.
-        //   *
-        //   * @param message The text of the message.
-        //   * @param excptn The throwable object (exception?) to nest in this exception
-        //   
-        public DataFrameException(string message, System.Exception excptn) : base(message, excptn)
-        {
+        /// <summary>
+        /// Constructor with a user message and a nested throwable object.
+        /// </summary>
+        /// <param name="message">The text of the message.</param>
+        /// <param name="excptn">The throwable object (exception?) to nest in this exception.</param>
+        public DataFrameException( string message, System.Exception excptn ) : base( message, excptn ) {
         }
 
     }

@@ -9,16 +9,13 @@
 //   Stephan D. Cote 
 //      - Initial API and implementation
 #endregion
-using System;
-using System.Text;
 
-namespace Coyote.DataFrame
-{
-    ///
-    // * Type representing an undefined value.
-    // 
-    public class UndefinedType : FieldType
-    {
+namespace Coyote.DataFrame {
+
+    /// <summary>
+    /// Type representing an undefined value.
+    /// </summary>
+    public class UndefinedType : FieldType {
 
         private static readonly byte[] NULLVALUE = new byte[0];
 
@@ -30,10 +27,8 @@ namespace Coyote.DataFrame
         /// <summary>
         /// zero size implies null type
         /// </summary>
-        public virtual int Size
-        {
-            get
-            {
+        public virtual int Size {
+            get {
                 return 0;
             }
         }
@@ -41,9 +36,8 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool CheckType(object obj)
-        {
-            if (obj == null)
+        public virtual bool CheckType( object obj ) {
+            if ( obj == null )
                 return true;
             else
                 return false;
@@ -52,26 +46,22 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual byte[] Encode(object obj)
-        {
+        public virtual byte[] Encode( object obj ) {
             return NULLVALUE;
         }
 
 
 
 
-        public virtual object Decode(byte[] @value)
-        {
+        public virtual object Decode( byte[] @value ) {
             return null;
         }
 
 
 
 
-        public virtual string TypeName
-        {
-            get
-            {
+        public virtual string TypeName {
+            get {
                 return _name;
             }
         }
@@ -79,24 +69,18 @@ namespace Coyote.DataFrame
 
 
 
-        public virtual bool IsNumeric
-        {
-            get
-            {
+        public virtual bool IsNumeric {
+            get {
                 return false;
             }
         }
 
+        
 
-
-
-        //  *
-        //   * @see coyote.dataframe.FieldType#stringValue(byte[])
-        //   
-        public string StringValue(byte[] val)
-        {
-            object obj = Decode(val);
-            if (obj != null)
+      
+        public string StringValue( byte[] val ) {
+            object obj = Decode( val );
+            if ( obj != null )
                 return obj.ToString();
             else
                 return "";

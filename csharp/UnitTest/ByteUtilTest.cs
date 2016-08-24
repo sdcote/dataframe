@@ -212,14 +212,13 @@ namespace DataFrameTests
         /// 
         /// </summary>
         [Test]
-        [Ignore("This test should be ignored since it is broke")]
+        //[Ignore("This test should be ignored since it is broke")]
         public void testDate()
         {
             DateTime value = new DateTime();
             byte[] data = null;
             data = ByteUtil.RenderDate(value);
-
-            // Console.WriteLine(ByteUtil.Dump(data));
+            Debug.WriteLine("Date:\r\n"+ByteUtil.Dump(data));
 
 
             //Assert.True(ByteUtil.RetrieveDate(data, 0).Ticks == value.Ticks);
