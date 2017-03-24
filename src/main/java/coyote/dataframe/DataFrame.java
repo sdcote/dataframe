@@ -1616,6 +1616,58 @@ public class DataFrame implements Cloneable {
     CHECK = flag;
   }
 
+
+
+
+  /**
+   * Set (add) a frame field with the given name and value and return a 
+   * reference to the frame to which it was added (this) allowing the chaining 
+   * of set methods for more readable code and simpler coding.
+   * 
+   * <p>The resulting frame field will be added to the frame with its type 
+   * being determined by the DataField class.
+   *
+   * @param name The name of the field to populate.
+   * @param value The value to place in the named field
+   *
+   * @return the the data frame (this) to which the data was added.
+   * 
+   * @throws IllegalArgumentException If the name is longer than 255 characters 
+   *         or the value is an unsupported type.
+   */
+  public DataFrame set( final String name, final Object value ) {
+    add( name, value );
+    return this;
+  }
+
+
+
+
+  /**
+   * Set (add) a new field with the given value without a name and return a 
+   * reference to the frame to which it was added (this) allowing the chaining 
+   * of set methods for more readable code and simpler coding.
+   * 
+   * <p><strong>NOTICE:</strong> Because values are added as byte arrays and
+   * not references, only complete frames can be added. This is because child 
+   * frames are stored as their wire format at the time of their being added. 
+   * Any fields added to the child after being added to the parent <strong>will 
+   * not have their values represented in the child frame</strong>. This is 
+   * partially by design as it is then possible to use one frame in the 
+   * creation of all children. Also, storing the values in wire format reduces 
+   * the number of times field values are marshaled, thereby improving overall
+   * performance.  
+   *
+   * @param value The value to place in the un-named field
+   *
+   * @return the the data frame (this) to which the data was added.
+   */
+
+  public DataFrame set( final Object value ) {
+    add( value );
+    return this;
+  }
+
   /**
    * @see java.util.Map#putAll(java.util.Map)
    */

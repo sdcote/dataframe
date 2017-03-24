@@ -233,4 +233,40 @@ public class DataFrameTest {
       fail( e.getMessage() );
     }
   }
+
+
+
+
+  @Test
+  public void constructorChain() {
+    DataFrame frame = new DataFrame()
+        .set( "alpha", Short.MAX_VALUE )
+        .set( "beta", "0" )
+        .set( "gamma", Long.MAX_VALUE );
+
+    try {
+      assertTrue( frame.getFieldCount() == 3 );
+      assertNotNull( frame.getAsString( "alpha" ) );
+      assertNotNull( frame.getAsString( "beta" ) );
+      assertNotNull( frame.getAsString( "gamma" ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+    
+    frame = new DataFrame()
+        .set( Short.MAX_VALUE )
+        .set( "0" )
+        .set( Long.MAX_VALUE );
+
+    try {
+      assertTrue( frame.getFieldCount() == 3 );
+      assertNotNull( frame.getAsString( 0 ) );
+      assertNotNull( frame.getAsString( 1 ) );
+      assertNotNull( frame.getAsString( 2 ) );
+    } catch ( Exception e ) {
+      fail( e.getMessage() );
+    }
+
+  }
+
 }
