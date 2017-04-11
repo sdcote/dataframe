@@ -152,10 +152,11 @@ public class JSONMarshaler {
           }
         } else if ( field.isNumeric() ) {
           writer.writeNumber( field.getStringValue() );
+        } else if ( field.isArray() ) {
+          writer.writeArray( field.getObjectValue() );
         } else if ( field.getType() == DataField.FRAMETYPE ) {
           writeFrame( (DataFrame)field.getObjectValue(), writer );
         } else {
-
           Object obj = field.getObjectValue();
           if ( obj != null ) {
             writer.writeString( obj.toString() );

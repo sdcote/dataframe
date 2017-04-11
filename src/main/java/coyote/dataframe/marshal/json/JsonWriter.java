@@ -185,4 +185,30 @@ public class JsonWriter {
     writer.write( '"' );
   }
 
+
+
+
+  public void writeArray( Object value ) throws IOException {
+    writeArrayOpen();
+    if ( value instanceof Object[] ) {
+      Object[] array = (Object[])value;
+      for ( int x = 0; x < array.length; x++ ) {
+        if ( array[x] != null ) {
+          if ( array[x] instanceof Number ) {
+            writeNumber( array[x].toString() );
+          } else if ( array[x] instanceof Boolean ) {
+            writeLiteral( array[x].toString() );
+          } else {
+            writeString( array[x].toString() );
+          }
+        }
+        if ( x + 1 < array.length ) {
+          writeObjectSeparator();
+        }
+      }
+
+    }
+    writeArrayClose();
+  }
+
 }

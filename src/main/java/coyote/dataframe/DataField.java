@@ -797,4 +797,14 @@ public class DataField implements Cloneable {
     return !isNull();
   }
 
+
+
+
+  /**
+   * @return True if the value is an array, false otherwise.
+   */
+  public boolean isArray() {
+    return type == ARRAY;
+  }
+
 }
