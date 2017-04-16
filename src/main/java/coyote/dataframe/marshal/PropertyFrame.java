@@ -88,7 +88,7 @@ public class PropertyFrame {
    * <p>The field names of child frames are concatenated using the '.' character
    * as is common practice in property file key naming.
    * 
-   * @param frame The coude of the data
+   * @param frame The source of the data
    * 
    * @return a set of properties representing those in the given frame.
    */
