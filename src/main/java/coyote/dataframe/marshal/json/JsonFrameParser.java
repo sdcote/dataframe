@@ -210,7 +210,7 @@ public class JsonFrameParser {
 
 
 
-  private DataFrame readArray() throws IOException {
+  private DataFrame readArrayFrame() throws IOException {
     read();
     final DataFrame array = new DataFrame();
     skipWhiteSpace();
@@ -228,6 +228,31 @@ public class JsonFrameParser {
       throw expected( "',' or ']'" );
     }
     return array;
+  }
+
+
+
+
+  private Object[] readArray() throws IOException {
+    read();
+    final List<Object> array = new ArrayList<Object>();
+    skipWhiteSpace();
+    if ( readChar( ']' ) ) {
+      return new DataField[0];
+    }
+    do {
+      skipWhiteSpace();
+      final DataField field = readFieldValue( null );
+      if ( field != null && field.isNotNull() ) {
+        array.add( field.getObjectValue() );
+      }
+      skipWhiteSpace();
+    }
+    while ( readChar( ',' ) );
+    if ( !readChar( ']' ) ) {
+      throw expected( "',' or ']'" );
+    }
+    return array.toArray( new Object[array.size()] );
   }
 
 
@@ -499,7 +524,7 @@ public class JsonFrameParser {
       case '"':
         return new DataFrame( new DataField( readString() ) );
       case '[':
-        return readArray();
+        return readArrayFrame();
       case '{':
         return readObject();
       case '-':
