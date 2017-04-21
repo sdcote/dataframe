@@ -1348,6 +1348,10 @@ public class DataFrame implements Cloneable {
           b.append( '"' );
           b.append( field.getStringValue() );
           b.append( '"' );
+        } else if ( field.getType() == DataField.ARRAY ) {
+          b.append( '"' );
+          b.append( field.getStringValue() );
+          b.append( '"' );
         } else if ( field.getType() != DataField.FRAMETYPE ) {
           if ( field.getObjectValue() != null ) {
             b.append( '"' );
