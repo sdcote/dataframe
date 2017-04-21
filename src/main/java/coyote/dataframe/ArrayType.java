@@ -47,12 +47,11 @@ public class ArrayType implements FieldType {
 
 
   /**
-   * 
+   * This will return a DataFrame with unnamed fields
    */
   public Object decode( byte[] value ) {
+    DataFrame retval = new DataFrame();
 
-    Object[] retval = EMPTY_ARRAY;
-    ArrayList<Object> elements = new ArrayList<Object>();
     short type = 0;
     byte[] data = null;
     FieldType datatype = null;
@@ -100,11 +99,9 @@ public class ArrayType implements FieldType {
           }
 
           // now get the object value of the data
-          elements.add( datatype.decode( data ) );
+          retval.add( datatype.decode( data ) );
 
         } // while there is data available to read
-
-        retval = elements.toArray();
 
       } catch ( Exception e ) {
         throw new IllegalArgumentException( "Could not decode value", e );
@@ -113,7 +110,6 @@ public class ArrayType implements FieldType {
     }
 
     return retval;
-
   }
 
 
@@ -188,11 +184,35 @@ public class ArrayType implements FieldType {
    */
   @Override
   public String stringValue( byte[] val ) {
+    StringBuffer b = new StringBuffer();
     Object obj = decode( val );
-    if ( obj != null )
-      return obj.toString();
-    else
-      return "";
+    if ( obj != null ) {
+      if ( obj instanceof Object[] ) {
+        Object[] orray = (Object[])obj;
+        for ( int x = 0; x < orray.length; x++ ) {
+          Object oval = orray[x];
+          if ( oval instanceof Boolean ) {
+            b.append( Boolean.toString( (Boolean)oval ) );
+          }else if ( oval instanceof Number ) {
+            b.append( ( (Number)oval ).toString() );
+          } else {
+            b.append( "\"" );
+            b.append( oval.toString() );
+            b.append( "\"" );
+          }
+
+          if ( x + 1 < orray.length ) {
+            b.append( "," );
+          }
+        }
+
+      } else {
+        b.append( obj.toString() );
+      }
+    }
+
+    return b.toString();
+
   }
 
 }

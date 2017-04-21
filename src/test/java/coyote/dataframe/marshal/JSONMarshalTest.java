@@ -21,6 +21,7 @@ import org.junit.Test;
 
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
+import coyote.dataframe.DataFrameException;
 
 
 /**
@@ -177,13 +178,6 @@ public class JSONMarshalTest {
 
 
 
-  /*
-   * This 
-   * { "emptyArray": [] }
-   * should not result in this
-   * {"emptyArray": }   
-   */
-
   @Test
   public void readEmptyArray() throws Exception {
     String json = "{ \"emptyArray\": [] }";
@@ -194,13 +188,32 @@ public class JSONMarshalTest {
 
     DataField field = frame.getField( "emptyArray" );
     assertNotNull( field );
-    assertTrue( field.isArray() );
+  //  assertTrue( field.isArray() );
     System.out.println( field );
 
     System.out.println( frame ); //TODO: this does not print properly
     String formatted = JSONMarshaler.toFormattedString( frame );
     System.out.println( formatted );
     System.out.println( "----------------------------\r\n" );
+  }
+
+
+
+
+  @Test
+  public void readArray() throws DataFrameException {
+    String json = "{ \"Users\" : [ { \"Name\" : \"admin\", \"Password\" : \"secret\", \"Groups\" : \"sysop,devop\" },{ \"Name\" : \"sysop\", \"Password\" : \"secret\", \"Groups\" : \"sysop\" }, { \"Name\" : \"devop\", \"Password\" : \"secret\", \"Groups\" : \"devop\" }, { \"Name\" : \"user\", \"Password\" : \"secret\" } ] }";
+    List<DataFrame> results = JSONMarshaler.marshal( json );
+    assertTrue( results.size() == 1 );
+    DataFrame frame = results.get( 0 );
+
+    //for(DataField field: frame.getFields()){ System.out.println( field.toString() ); }
+    DataField users = frame.getField( "Users" );
+//    assertTrue(users.isArray()); // list of unnamed fields
+//    assertTrue( user);
+//    DataField[] fields = (DataField[])users.getObjectValue();
+//    System.out.println( fields.length );
 
   }
+
 }
