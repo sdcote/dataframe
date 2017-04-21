@@ -12,6 +12,7 @@
 package coyote.dataframe.marshal;
 
 //import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -166,4 +167,40 @@ public class JSONMarshalTest {
   //  }
   //  
 
+  /*
+   * This 
+   * { "emptyString": "" }
+   * should not result in this
+   * {"emptyString":null }   
+   */
+
+
+
+
+  /*
+   * This 
+   * { "emptyArray": [] }
+   * should not result in this
+   * {"emptyArray": }   
+   */
+
+  @Test
+  public void readEmptyArray() throws Exception {
+    String json = "{ \"emptyArray\": [] }";
+
+    List<DataFrame> results = JSONMarshaler.marshal( json );
+    assertTrue( results.size() == 1 );
+    DataFrame frame = results.get( 0 );
+
+    DataField field = frame.getField( "emptyArray" );
+    assertNotNull( field );
+    assertTrue( field.isArray() );
+    System.out.println( field );
+
+    System.out.println( frame ); //TODO: this does not print properly
+    String formatted = JSONMarshaler.toFormattedString( frame );
+    System.out.println( formatted );
+    System.out.println( "----------------------------\r\n" );
+
+  }
 }
