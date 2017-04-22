@@ -210,9 +210,10 @@ public class JsonFrameParser {
 
 
 
-  private DataFrame readArrayFrame() throws IOException {
+  private DataFrame readArray() throws IOException {
     read();
     final DataFrame array = new DataFrame();
+    array.setArrayBias( true );
     skipWhiteSpace();
     if ( readChar( ']' ) ) {
       return array;
@@ -233,33 +234,7 @@ public class JsonFrameParser {
 
 
 
-  /**
-   * @return a dataframe of unnamed fields
-   * @throws IOException
-   */
-  private DataFrame readArray() throws IOException {
-    DataFrame retval = new DataFrame();
-    read();
-    skipWhiteSpace();
-    if ( readChar( ']' ) ) {
-      return retval;
-    }
-    do {
-      skipWhiteSpace();
-      final DataField field = readFieldValue( null );
-      if ( field != null && field.isNotNull() ) {
-        retval.add( field );
-      }
-      skipWhiteSpace();
-    }
-    while ( readChar( ',' ) );
-    if ( !readChar( ']' ) ) {
-      throw expected( "',' or ']'" );
-    }
-    return retval;
-  }
-
-
+ 
 
 
   private boolean readChar( final char ch ) throws IOException {
@@ -528,7 +503,7 @@ public class JsonFrameParser {
       case '"':
         return new DataFrame( new DataField( readString() ) );
       case '[':
-        return readArrayFrame();
+        return readArray();
       case '{':
         return readObject();
       case '-':

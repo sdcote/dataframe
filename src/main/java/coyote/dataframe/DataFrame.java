@@ -66,6 +66,9 @@ public class DataFrame implements Cloneable {
   /** Static flag indicating encoded fields should be checked. */
   private static boolean CHECK = false;
 
+  /** flag indicating the data in this frame should be treated as an array; no named fields should be added, marshaling rules, etc. */
+  protected volatile boolean arrayBiased = false;
+
 
 
 
@@ -1321,7 +1324,7 @@ public class DataFrame implements Cloneable {
   public String toString() {
     StringBuffer b = new StringBuffer();
     if ( fields.size() > 0 ) {
-      boolean isArray = this.isArray();
+      boolean isArray = (this.isEmpty() && this.isArrayBiased()) || this.isArray();
       if ( isArray )
         b.append( "[" );
       else
@@ -1410,6 +1413,10 @@ public class DataFrame implements Cloneable {
    * Scans through all the children and if none have a name, then the frame is 
    * considered an array.
    * 
+   * <p>Empty frames can be treated as an array as there are no named fields. 
+   * In this case it is helpful to consider {@link #isArrayBiased()} when 
+   * handling the frame. 
+   * 
    * @return true if all the children have no (null) name, false otherwise.
    */
   public boolean isArray() {
@@ -1419,6 +1426,41 @@ public class DataFrame implements Cloneable {
         return false;
     }
     return retval;
+  }
+
+
+
+
+  /**
+   * Indicator as to the intent of how fields should be added and represented 
+   * in this frame.
+   * 
+   * <p>When frames are created, they have no fields, this leave them in a 
+   * state which can be difficult to represent my marshalers. They may be 
+   * expected to contain all unnamed fields (an array) or have no such 
+   * constraint. Additionally, logic may desire to know if this collection of 
+   * fields should be limited to one type (like an array) or may contain 
+   * different types. This flag helps to determine the bias of this collection
+   * when it was first created.
+   * 
+   * <p>This bias is not enforced. It may be overridden or ignored as needs 
+   * change. This is only an indicator of intent when the frame was created.
+   * Named fields can be added later, and the types of fields may vary.
+   * 
+   * @return true if this collection of fields wants to be treated as an array
+   */
+  public boolean isArrayBiased() {
+    return arrayBiased;
+  }
+
+
+
+
+  /**
+   * @param flag true indicates this collection of fields should be reated as an array, false otherwise
+   */
+  public void setArrayBias( boolean flag ) {
+    this.arrayBiased = flag;
   }
 
 
