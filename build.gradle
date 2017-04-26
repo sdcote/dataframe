@@ -92,7 +92,13 @@ publishing {
 	}
 }
 
-
+jacocoTestReport {
+   	reports {
+       	xml.enabled = false
+        html.enabled = true
+   	}
+}
+check.dependsOn jacocoTestReport
 
 
 bintray {
