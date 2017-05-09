@@ -141,7 +141,7 @@ public class JsonFrameParser {
 
 
   private boolean isWhiteSpace() {
-    return ( current == ' ' ) || ( current == '\t' ) || ( current == '\n' ) || ( current == '\r' );
+    return ( current == ' ' ) || ( current == '\t' ) || ( current == '\n' ) || ( current == '\r' || ( current == '\b' ) || ( current == '\f' ) );
   }
 
 
@@ -232,9 +232,6 @@ public class JsonFrameParser {
   }
 
 
-
-
- 
 
 
   private boolean readChar( final char ch ) throws IOException {
