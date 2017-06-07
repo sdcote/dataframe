@@ -29,8 +29,8 @@ import java.util.Set;
  */
 public class FrameSet {
 
-  private List<DataFrame> rows = new ArrayList<DataFrame>();
-  private Set<String> columns = new HashSet<String>();
+  protected final List<DataFrame> rows = new ArrayList<DataFrame>();
+  protected final Set<String> columns = new HashSet<String>();
 
 
 
@@ -194,6 +194,17 @@ public class FrameSet {
    */
   public void clearRows() {
     rows.clear();
+  }
+
+
+
+
+  /**
+   * Remove all the rows from this frame set
+   */
+  public void clearAll() {
+    rows.clear();
+    columns.clear();
   }
 
 }
