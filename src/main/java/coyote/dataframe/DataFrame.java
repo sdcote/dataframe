@@ -302,7 +302,7 @@ public class DataFrame implements Cloneable {
    * @throws DataFrameException if the object was null or not able to be parsed 
    *         into a long value
    */
-  private boolean asBoolean( Object val ) throws DataFrameException {
+  protected boolean asBoolean( Object val ) throws DataFrameException {
     if ( val != null ) {
       if ( val instanceof Boolean ) {
         return ( (Boolean)val ).booleanValue();
@@ -337,7 +337,7 @@ public class DataFrame implements Cloneable {
         throw new DataFrameException( "Could not convert type'" + val.getClass().getSimpleName() + "' to a boolean" );
       }
     }
-    throw new DataFrameException( "Value could not be found" );
+    throw new DataFrameException( "Null Value could not be converted" );
   }
 
 
