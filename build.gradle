@@ -17,7 +17,7 @@ apply plugin: 'maven-publish'
 apply plugin: 'com.jfrog.bintray'
 
 // call the bintray target to publish to bintray
-defaultTasks 'clean', 'build', 'jacocoTestReport', 'publish'
+defaultTasks 'clean', 'build', 'publish'
 
 
 group = 'coyote'
@@ -94,7 +94,7 @@ publishing {
 
 jacocoTestReport {
    	reports {
-       	xml.enabled = false
+       	xml.enabled = true
         html.enabled = true
    	}
 }
