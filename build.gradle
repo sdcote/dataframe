@@ -5,7 +5,7 @@ buildscript {
     }
   }
   dependencies {
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.1"
+    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
   }
 }
 
@@ -21,7 +21,7 @@ defaultTasks 'clean', 'build', 'jacocoTestReport', 'publish'
 
 
 group = 'coyote'
-version = '1.0'
+version = '1.0.1'
 
 
 ext {
@@ -30,13 +30,13 @@ ext {
 
 jar {
     manifest {
-        attributes 'Provider': 'Coyote Codeworks', 
+        attributes 'Provider': 'Coyote Systems', 
         'Implementation-Version': version
     }
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
+    gradleVersion = '4.2'
 }
 
 // custom tasks for creating source/javadoc jars
@@ -108,9 +108,9 @@ bintray {
 	pkg {
 		repo = 'maven'
 		name = 'DataFrame'
-		desc = 'A toolkit for Data Transfer Object (DTO) / Value Object (VO) design pattern implementations'
+		desc = 'A toolkit for Data Transfer Object (DTO) / Value Object (VO), and protocol buffer design pattern implementations'
 		licenses = ['MIT']
-		labels = ['Java', 'DTO', 'VO']
+		labels = ['Java', 'DTO', 'VO', 'ProtoBuf']
 	}
 }
 

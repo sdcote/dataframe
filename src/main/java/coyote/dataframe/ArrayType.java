@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
 
@@ -16,7 +12,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import coyote.commons.ByteUtil;
 
@@ -193,7 +188,7 @@ public class ArrayType implements FieldType {
           Object oval = orray[x];
           if ( oval instanceof Boolean ) {
             b.append( Boolean.toString( (Boolean)oval ) );
-          }else if ( oval instanceof Number ) {
+          } else if ( oval instanceof Number ) {
             b.append( ( (Number)oval ).toString() );
           } else {
             b.append( "\"" );
@@ -213,6 +208,18 @@ public class ArrayType implements FieldType {
 
     return b.toString();
 
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#parse(java.lang.String)
+   */
+  @Override
+  public Object parse( String text ) {
+    // TODO: ArrayType.parse not implememted
+    return null;
   }
 
 }

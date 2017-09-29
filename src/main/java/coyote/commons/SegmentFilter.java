@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.commons;
 
@@ -41,7 +37,7 @@ public class SegmentFilter {
     segments = getSegments( pattern );
 
     if ( segments == null ) {
-      throw new IllegalArgumentException( "Subject pattern is not legal" );
+      throw new IllegalArgumentException( "Filter pattern is not legal" );
     }
 
   }
@@ -191,7 +187,12 @@ public class SegmentFilter {
           }
         }
       } // for each segment
-      // PASSED!
+
+      // check for too many subSegments to match our filter
+      if ( subSegments.length > segments.length ) {
+        return false;
+      }
+
     } else {
       return false; // no match
     }

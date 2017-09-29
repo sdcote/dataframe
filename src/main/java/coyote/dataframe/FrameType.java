@@ -4,12 +4,13 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
+
+import java.util.List;
+
+import coyote.dataframe.marshal.JSONMarshaler;
+
 
 /**
  *
@@ -99,6 +100,22 @@ public class FrameType implements FieldType {
       return obj.toString();
     else
       return "";
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#parse(java.lang.String)
+   */
+  @Override
+  public Object parse( String text ) {
+    DataFrame retval = null;
+    List<DataFrame> frames = JSONMarshaler.marshal( text );
+    if ( frames != null && frames.size() > 0 ) {
+      retval = frames.get( 0 );
+    }
+    return retval;
   }
 
 }

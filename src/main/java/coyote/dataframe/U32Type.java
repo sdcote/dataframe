@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
 
@@ -79,6 +75,24 @@ public class U32Type implements FieldType {
       else
         return "";
     }
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#parse(java.lang.String)
+   */
+  @Override
+  public Object parse( String text ) {
+    Long retval = null;
+    try {
+      long num = Long.parseLong( text );
+      if ( num >= 0 && num <= 4294967295L ) {
+        retval = num;
+      }
+    } catch ( NumberFormatException ignore ) {}
+    return retval;
   }
 
 }

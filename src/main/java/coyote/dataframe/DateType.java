@@ -4,15 +4,14 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 import coyote.commons.ByteUtil;
 
@@ -24,7 +23,20 @@ public class DateType implements FieldType {
   private final static String _name = "DAT";
 
   private static final SimpleDateFormat FORMATTER = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSX" );
-
+  List<String> formatStrings = Arrays.asList(
+      "yyyy-MM-dd'T'HH:mm:ss.SSSX",
+      "yyyy-MM-dd'T'HH:mm:ss.SSS",
+      "yyyy-MM-dd'T'HH:mm:ss",
+      "yyyy-MM-dd' 'HH:mm:ss.SSSX",
+      "yyyy-MM-dd' 'HH:mm:ss.SSS",
+      "yyyy-MM-dd' 'HH:mm:ss",
+      "yyyy-MM-dd HH:mm:ss.SSSX",
+      "yyyy-MM-dd HH:mm:ss.SSS",
+      "yyyy-MM-dd HH:mm:ss",
+      "yyyy-MM-dd",
+      "M/y", 
+      "M/d/y", 
+      "M-d-y");
 
 
 
@@ -84,6 +96,19 @@ public class DateType implements FieldType {
       else
         return "";
     }
+  }
+
+
+
+
+  @Override
+  public Object parse( String text ) {
+    for ( String formatString : formatStrings ) {
+      try {
+        return new SimpleDateFormat( formatString ).parse( text );
+      } catch ( ParseException e ) {}
+    }
+    return null;
   }
 
 }

@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial concept and implementation
  */
 package coyote.commons;
 
@@ -61,12 +57,19 @@ public class DataFrameUtil {
       if ( token != null )
         fname = token + "." + fname;
 
-      if ( field.isFrame() )
-        recurse( (DataFrame)field.getObjectValue(), fname, target );
-      else
+      if ( field.isFrame() ){
+        DataFrame childFrame = (DataFrame)field.getObjectValue();
+        if( childFrame!= null){
+        recurse( childFrame, fname, target );
+        }
+      } else {
         target.set( fname, field.getObjectValue() );
-
+      }
     } // for each frame
   }
 
+
+
+
+  
 }

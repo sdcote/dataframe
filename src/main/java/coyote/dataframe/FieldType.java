@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
 
@@ -97,5 +93,21 @@ public interface FieldType {
    * @return The string representation of this type.
    */
   public String stringValue( byte[] val );
+
+
+
+
+  /**
+   * Parse the string into an object of this fields type.
+   * 
+   * <p>Ideally, the text emitted from the stringValue() should parse without 
+   * error.
+   * 
+   * @param text the text to parse
+   * 
+   * @return An object of this fields type, or null if the text could not be 
+   *         parsed into an object.
+   */
+  public Object parse( String text );
 
 }

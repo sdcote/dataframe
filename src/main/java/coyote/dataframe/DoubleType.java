@@ -4,10 +4,6 @@
  * This program and the accompanying materials are made available under the 
  * terms of the MIT License which accompanies this distribution, and is 
  * available at http://creativecommons.org/licenses/MIT/
- *
- * Contributors:
- *   Stephan D. Cote 
- *      - Initial API and implementation
  */
 package coyote.dataframe;
 
@@ -79,6 +75,21 @@ public class DoubleType implements FieldType {
       else
         return "";
     }
+  }
+
+
+
+
+  /**
+   * @see coyote.dataframe.FieldType#parse(java.lang.String)
+   */
+  @Override
+  public Object parse( String text ) {
+    Double retval = null;
+    try {
+      retval = Double.parseDouble( text );
+    } catch ( NumberFormatException ignore ) {}
+    return retval;
   }
 
 }

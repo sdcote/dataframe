@@ -8,9 +8,7 @@ import coyote.dataframe.DataField;
 
 public class XmlWriter {
   private static final String FIELD = "field";
-
   private static final int CONTROL_CHARACTERS_END = 0x001f;
-
   private static final char[] QUOT_CHARS = { '\\', '"' };
   private static final char[] BS_CHARS = { '\\', '\\' };
   private static final char[] LF_CHARS = { '\\', 'n' };
@@ -19,6 +17,7 @@ public class XmlWriter {
   private static final char[] UNICODE_2028_CHARS = { '\\', 'u', '2', '0', '2', '8' };
   private static final char[] UNICODE_2029_CHARS = { '\\', 'u', '2', '0', '2', '9' };
   private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+  public final Writer writer;
 
 
 
@@ -56,8 +55,6 @@ public class XmlWriter {
     }
     return new char[] { '\\', 'u', '0', '0', HEX_DIGITS[( ch >> 4 ) & 0x000f], HEX_DIGITS[ch & 0x000f] };
   }
-
-  public final Writer writer;
 
 
 
@@ -109,12 +106,16 @@ public class XmlWriter {
 
 
 
-  public void writeFrameClose() throws IOException {}
+  public void writeFrameClose() throws IOException {
+    writer.write( "</frame>" );
+  }
 
 
 
 
-  public void writeFrameOpen() throws IOException {}
+  public void writeFrameOpen() throws IOException {
+    writer.write( "<frame>" );
+  }
 
 
 
@@ -182,6 +183,13 @@ public class XmlWriter {
       }
     }
     writer.write( string, start, length - start );
+  }
+
+
+
+
+  public void writeEmptyFrame() throws IOException {
+    writer.write( "<frame/>" );
   }
 
 }
