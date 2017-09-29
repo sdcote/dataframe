@@ -1,4 +1,5 @@
-[![Build Status](https://drone.io/github.com/sdcote/dataframe/status.png)](https://drone.io/github.com/sdcote/dataframe/latest)
+[![Build Status](https://travis-ci.org/sdcote/dataframe.svg?branch=master)](https://travis-ci.org/sdcote/coyote)
+[![codecov](https://codecov.io/gh/sdcote/dataframe/branch/master/graph/badge.svg)](https://codecov.io/gh/sdcote/dataframe)
 [![Download](https://api.bintray.com/packages/sdcote/maven/DataFrame/images/download.png) ](https://bintray.com/sdcote/maven/DataFrame/_latestVersion)
 
 DataFrame
@@ -17,6 +18,6 @@ DataFrame uses a binary wire format which is more efficient to parse and transfe
 
 Prerequisites:
 --------
-  * JDK 1.6 or later installed
+  * JDK 1.8 or later installed
   * Ability to run bash scripts
   * Assumes you do not have gradle installed (if you do, you can replace gradlew with gradle)
