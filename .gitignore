@@ -46,3 +46,4 @@ json-docs/
 !gradle/wrapper/gradle-wrapper.jar
 /.nb-gradle/profiles/private/
 /build
+yaml-docs/
