@@ -603,11 +603,13 @@ public class DataFrameTest {
 
     int position = frame.put("one", 1);
     assertTrue(frame.isModified());
-    frame.add("two", "second");
-
     assertTrue(position == 0);
-    assertTrue(frame.getFieldCount() == 2);
     assertNotNull(frame.getObject(0));
+    
+    frame.add("two", "second");
+    assertTrue(frame.getFieldCount() == 2);
+    assertNotNull(frame.getObject(1));
+
     Object obj = frame.getObject("one");
     assertNotNull(obj);
     assertTrue(obj instanceof Integer);
@@ -617,6 +619,7 @@ public class DataFrameTest {
     assertTrue(position == 0); // replaced first position
     assertTrue(frame.getFieldCount() == 2);
     assertNotNull(frame.getObject(0));
+    assertNotNull(frame.getObject(1));
     obj = frame.getObject("one");
     assertNotNull(obj);
     assertTrue(obj instanceof Long);
@@ -624,9 +627,12 @@ public class DataFrameTest {
     // remove it
     position = frame.put("one", null);
     assertTrue(position == 0); // removed first position 
+    assertNull(frame.getObject("one"));
     assertTrue(frame.getFieldCount() == 1);
     assertNotNull(frame.getObject(0)); // now contains "two"
-    assertNull(frame.getObject("one"));
+    obj = frame.getObject("two");
+    assertNotNull(obj);
+    assertTrue(obj instanceof String);
   }
 
 
@@ -916,4 +922,6 @@ public class DataFrameTest {
     assertTrue(frame.getFieldCount() == 0);
     assertTrue(frame.isEmpty());
   }
+  
+  
 }
