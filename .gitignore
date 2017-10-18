@@ -47,3 +47,4 @@ json-docs/
 /.nb-gradle/profiles/private/
 /build
 yaml-docs/
+src/dev/
