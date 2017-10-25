@@ -15,7 +15,7 @@ public class U16TypeTest
 {
 
   /** The data type under test. */
-  static U16Type datatype = null;
+  private static U16Type datatype = null;
 
 
 

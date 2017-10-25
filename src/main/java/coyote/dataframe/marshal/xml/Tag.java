@@ -35,52 +35,52 @@ public class Tag {
    * @param token
    */
   public Tag( String token ) {
-
+    String text = token;
     // Empty tag check
-    if ( token.endsWith( "/" ) ) {
+    if ( text.endsWith( "/" ) ) {
       setEmptyTag( true );
-      token = token.substring( 0, token.length() - 1 );
+      text = text.substring( 0, text.length() - 1 );
     }
 
     // end tag check
-    if ( token.startsWith( "/" ) ) {
+    if ( text.startsWith( "/" ) ) {
       setEndTag( true );
-      token = token.substring( 1 );
+      text = text.substring( 1 );
     }
 
     // Preamble identification
-    if ( token.startsWith( "?" ) ) {
+    if ( text.startsWith( "?" ) ) {
       setPreamble( true );
-      token = token.substring( 1 );
+      text = text.substring( 1 );
 
-      if ( token.endsWith( "?" ) ) {
-        token = token.substring( 0, token.length() - 1 );
+      if ( text.endsWith( "?" ) ) {
+        text = text.substring( 0, text.length() - 1 );
       }
     } else {
       setPreamble( false );
     }
 
     // Comment check
-    if ( token.startsWith( "!--" ) ) {
+    if ( text.startsWith( "!--" ) ) {
       setComment( true );
-      token = token.substring( 3 );
+      text = text.substring( 3 );
     }
-    if ( token.endsWith( "--" ) ) {
-      token = token.substring( 0, token.length() - 2 );
+    if ( text.endsWith( "--" ) ) {
+      text = text.substring( 0, text.length() - 2 );
     }
 
     // See if there are attributes
-    if ( token.indexOf( ' ' ) > -1 ) {
-      setName( token.substring( 0, token.indexOf( ' ' ) ) );
-      processAttributes( token.substring( token.indexOf( ' ' ) ) );
+    if ( text.indexOf( ' ' ) > -1 ) {
+      setName( text.substring( 0, text.indexOf( ' ' ) ) );
+      processAttributes( text.substring( text.indexOf( ' ' ) ) );
     } else {
-      setName( token );
+      setName( text );
     }
 
     // split the name into namespace and name
     if ( name.indexOf( ':' ) > -1 ) {
-      setNamespace( name.substring( 0, token.indexOf( ':' ) ) );
-      setName( name.substring( token.indexOf( ':' ) + 1 ) );
+      setNamespace( name.substring( 0, text.indexOf( ':' ) ) );
+      setName( name.substring( text.indexOf( ':' ) + 1 ) );
     } else {
       setName( name );
     }
@@ -97,6 +97,11 @@ public class Tag {
 
     // TODO now look for attributes
     // scan for '=' everything up to the '=' is the name
+    //int pointer = 
+        substring.indexOf('=');
+    //String name = substring.substring(0, pointer);
+    //String value = substring.substring(pointer+1);
+    
     // scan for quoted string or the next ' '
 
   }

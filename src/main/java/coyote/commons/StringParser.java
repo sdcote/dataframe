@@ -50,10 +50,10 @@ public class StringParser {
   private String defaultDelimiters = " \t\n";
 
   /** flag indicating the parser is consuming/ignoring comments */
-  boolean consumingCodeComments = false;
+  private boolean consumingCodeComments = false;
 
   /** the currently collected comment */
-  StringBuffer comment;
+  private StringBuffer comment;
 
 
 

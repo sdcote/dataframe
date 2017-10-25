@@ -40,7 +40,7 @@ public class JSONMarshalTest {
     DataFrame frame = results.get(0);
     System.out.println(frame);
     assertTrue(frame.size() == 0);
-    DataField result = frame.getField(0); // get the JSON data object
+    frame.getField(0); // get the JSON data object
     System.out.println("----------------------------\r\n");
 
     json = "{\"one\" : 1}";
@@ -50,7 +50,7 @@ public class JSONMarshalTest {
     frame = results.get(0);
     System.out.println(frame);
     assertTrue(frame.size() == 1);
-    result = frame.getField(0);
+    frame.getField(0);
     System.out.println("----------------------------");
 
     json = "{\"one\" : 1,\"two\" : 2,\"three\" : 3}";
@@ -60,7 +60,7 @@ public class JSONMarshalTest {
     frame = results.get(0);
     System.out.println(frame);
     assertTrue(frame.size() == 3);
-    result = frame.getField(0);
+    frame.getField(0);
     System.out.println("----------------------------\r\n");
 
     json = "{}{}{}";
@@ -132,8 +132,7 @@ public class JSONMarshalTest {
     DataFrame[] frames = {frame1, frame2, frame3};
     DataFrame root = new DataFrame().set("Team", frames);
 
-    String text = JSONMarshaler.marshal(root);
-    //System.out.println( text );
+    JSONMarshaler.marshal(root);
     assertEquals(expected, root.toString());
   }
 
@@ -237,10 +236,12 @@ public class JSONMarshalTest {
       System.out.println(field.toString());
     }
     DataField users = frame.getField("Users");
-    //    assertTrue(users.isArray()); // list of unnamed fields
-    //    assertTrue( user);
-    //    DataField[] fields = (DataField[])users.getObjectValue();
-    //    System.out.println( fields.length );
+
+    // all arrays are frames with un-named fields
+    assertTrue(users.isFrame());
+    DataFrame array = (DataFrame)users.getObjectValue();
+    assertNotNull(array);
+    assertTrue(array.isArray());
 
   }
 

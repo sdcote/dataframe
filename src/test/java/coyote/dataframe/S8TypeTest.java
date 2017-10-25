@@ -12,7 +12,7 @@ public class S8TypeTest
 {
 
   /** The data type under test. */
-  static S8Type datatype = null;
+  private static S8Type datatype = null;
 
 
 

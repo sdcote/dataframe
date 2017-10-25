@@ -8,6 +8,7 @@
 package coyote.dataframe.marshal;
 
 //import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -34,7 +35,7 @@ public class CSVMarshalTest {
 
   @Before
   public void setUp() throws IOException {
-    tempFile = File.createTempFile( "CSVMarshalerTest", ".csv" );
+    tempFile = File.createTempFile("CSVMarshalerTest", ".csv");
     tempFile.deleteOnExit();
   }
 
@@ -49,36 +50,35 @@ public class CSVMarshalTest {
     FrameSet set = new FrameSet();
 
     DataFrame frame1 = new DataFrame();
-    frame1.add( "Column1", "first,text" );
-    frame1.add( "Column2", "second,text" );
-    set.add( frame1 );
+    frame1.add("Column1", "first,text");
+    frame1.add("Column2", "second,text");
+    set.add(frame1);
     DataFrame frame2 = new DataFrame();
-    frame2.add( "Column1", "third" );
-    frame2.add( "Column2", new Date() );
-    set.add( frame2 );
+    frame2.add("Column1", "third");
+    frame2.add("Column2", new Date());
+    set.add(frame2);
     DataFrame frame3 = new DataFrame();
-    frame3.add( "Column1", 123.4D );
-    frame3.add( "Column2", 1234L );
-    set.add( frame3 );
-    assertTrue( set.size() == 3 );
+    frame3.add("Column1", 123.4D);
+    frame3.add("Column2", 1234L);
+    set.add(frame3);
+    assertTrue(set.size() == 3);
 
     // create a new writer
     StringWriter sw = new StringWriter();
 
     // write our frameset to it
-    CSVMarshaler.write( set, sw );
+    CSVMarshaler.write(set, sw);
 
     // print result by converting to string
-    System.out.println( "" + sw.toString() );
+    System.out.println("" + sw.toString());
 
-    CSVMarshaler.write( set, tempFile );
-    
+    CSVMarshaler.write(set, tempFile);
 
     // Now read it
 
-    FrameSet frameset = CSVMarshaler.read( tempFile );
-    //    assertNotNull( frameset );
-    //    assertTrue( frameset.size() == 3 );
+    FrameSet frameset = CSVMarshaler.read(tempFile);
+    assertNotNull(frameset);
+    //assertTrue( frameset.size() == 3 );
 
     // 
   }

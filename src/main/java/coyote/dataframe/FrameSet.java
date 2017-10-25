@@ -45,8 +45,8 @@ public class FrameSet {
    * 
    * @param frames The list of frames to be added to this set.
    */
-  public FrameSet( List<? extends DataFrame> frames ) {
-    addAll( frames );
+  public FrameSet(List<? extends DataFrame> frames) {
+    addAll(frames);
   }
 
 
@@ -57,8 +57,8 @@ public class FrameSet {
    * 
    * @param frames the collection of frames to add.
    */
-  public void addAll( Collection<? extends DataFrame> frames ) {
-    for ( Iterator<? extends DataFrame> it = frames.iterator(); it.hasNext(); this.add( it.next() ) );
+  public void addAll(Collection<? extends DataFrame> frames) {
+    for (Iterator<? extends DataFrame> it = frames.iterator(); it.hasNext(); this.add(it.next()));
   }
 
 
@@ -69,13 +69,13 @@ public class FrameSet {
    * 
    * @param frame The frame to add
    */
-  public void add( DataFrame frame ) {
+  public void add(DataFrame frame) {
     // add the frame to the collection
-    rows.add( frame );
+    rows.add(frame);
 
     // Add all the named fields to the 
-    for ( String name : frame.getNames() ) {
-      columns.add( name );
+    for (String name : frame.getNames()) {
+      columns.add(name);
     }
   }
 
@@ -98,7 +98,7 @@ public class FrameSet {
    */
   public List<String> getColumns() {
     List<String> retval = new ArrayList<String>();
-    retval.addAll( columns );
+    retval.addAll(columns);
     return retval;
   }
 
@@ -124,8 +124,8 @@ public class FrameSet {
    * 
    * @throws IndexOutOfBoundsException - if the index is out of range (index &lt; 0 || index &gt;= size())
    */
-  public DataFrame get( int index ) {
-    return rows.get( index );
+  public DataFrame get(int index) {
+    return rows.get(index);
   }
 
 
@@ -140,11 +140,11 @@ public class FrameSet {
    * 
    * @return list of the string values of the object in that column.
    */
-  public List<String> getColumn( String name ) {
+  public List<String> getColumn(String name) {
     List<String> retval = new ArrayList<String>();
-    for ( DataFrame frame : rows ) {
-      if ( frame.contains( name ) ) {
-        retval.add( frame.getAsString( name ) );
+    for (DataFrame frame : rows) {
+      if (frame.contains(name)) {
+        retval.add(frame.getAsString(name));
       }
     }
     return retval;
@@ -162,11 +162,11 @@ public class FrameSet {
    * 
    * @return list of the object values in that column.
    */
-  public List<Object> getColumnValue( String name ) {
+  public List<Object> getColumnValue(String name) {
     List<Object> retval = new ArrayList<Object>();
-    for ( DataFrame frame : rows ) {
-      if ( frame.contains( name ) ) {
-        retval.add( frame.getObject( name ) );
+    for (DataFrame frame : rows) {
+      if (frame.contains(name)) {
+        retval.add(frame.getObject(name));
       }
     }
     return retval;
@@ -213,13 +213,13 @@ public class FrameSet {
    * 
    * @return {@code true} if the argument is empty or null or only whitespace
    */
-  public static boolean isBlank( String str ) {
+  public static boolean isBlank(String str) {
     int strLen;
-    if ( str == null || ( strLen = str.length() ) == 0 ) {
+    if (str == null || (strLen = str.length()) == 0) {
       return true;
     }
-    for ( int i = 0; i < strLen; i++ ) {
-      if ( ( Character.isWhitespace( str.charAt( i ) ) == false ) ) {
+    for (int i = 0; i < strLen; i++) {
+      if (!Character.isWhitespace(str.charAt(i))) {
         return false;
       }
     }
@@ -247,8 +247,8 @@ public class FrameSet {
    * @return true if there is the given value in the named column, false if 
    *         the value does not appear in the column
    */
-  public boolean columnContains( String columnName, String value ) {
-    return ( getFrameByColumnValue( columnName, value ) != null );
+  public boolean columnContains(String columnName, String value) {
+    return (getFrameByColumnValue(columnName, value) != null);
   }
 
 
@@ -272,17 +272,17 @@ public class FrameSet {
    *         column or null if that value is not found in any rows with the 
    *         given column name.
    */
-  public DataFrame getFrameByColumnValue( String columnName, String value ) {
-    if ( !isBlank( columnName ) ) {
-      for ( DataFrame frame : rows ) {
-        DataField field = frame.getFieldIgnoreCase( columnName );
-        if ( field != null ) {
-          if ( isBlank( value ) ) {
-            if ( field.isNull() ) {
+  public DataFrame getFrameByColumnValue(String columnName, String value) {
+    if (!isBlank(columnName)) {
+      for (DataFrame frame : rows) {
+        DataField field = frame.getFieldIgnoreCase(columnName);
+        if (field != null) {
+          if (isBlank(value)) {
+            if (field.isNull()) {
               return frame;
             }
           } else {
-            if ( value.equals( field.getStringValue() ) ) {
+            if (value.equals(field.getStringValue())) {
               return frame;
             }
           }

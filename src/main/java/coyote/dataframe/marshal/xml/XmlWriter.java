@@ -73,7 +73,9 @@ public class XmlWriter {
 
 
 
-  public void writeFieldClose() throws IOException {}
+  public void writeFieldClose() throws IOException {
+    // no-op
+  }
 
 
 

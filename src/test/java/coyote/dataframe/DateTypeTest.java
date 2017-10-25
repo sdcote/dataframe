@@ -26,10 +26,9 @@ import coyote.commons.ByteUtil;
  */
 public class DateTypeTest {
   /** The data type under test. */
-  static DateType datatype = null;
-  static SimpleDateFormat dateFormat = null;
-  static byte[] datedata = new byte[8];
-  static Calendar cal = null;
+  private static DateType datatype = null;
+  private static byte[] datedata = new byte[8];
+  private static Calendar cal = null;
 
 
 
@@ -38,7 +37,7 @@ public class DateTypeTest {
   public static void setUpBeforeClass() throws Exception
   {
     datatype = new DateType();
-    dateFormat = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
+    //SimpleDateFormat dateFormat = new SimpleDateFormat( "yyyy/MM/dd HH:mm:ss" );
     datedata[0] = (byte)0;
     datedata[1] = (byte)0;
     datedata[2] = (byte)0;

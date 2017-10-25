@@ -60,7 +60,7 @@ public class Stepper {
   private static void readDump() {
     byte[] data = Stepper.read( new File( "dump.dat" ) );
     try {
-      DataFrame frame = new DataFrame( data );
+      new DataFrame( data );
     } catch ( DecodeException e ) {
       System.out.println( "Previous:" + e.getPreviousPosition() + " Current:" + e.getPosition() );
       System.out.println(ByteUtil.dump( data ));
@@ -71,12 +71,12 @@ public class Stepper {
 
 
 
-  private static void xml2() {
+  protected static void xml2() {
     String rawBody = Stepper.fileToString( new File( "Soap.xml" ) );
     System.out.println( rawBody );
     XmlFrameParser parser = new XmlFrameParser( rawBody );
     try {
-      DataFrame frame = parser.parse();
+      parser.parse();
     } catch ( DecodeException e ) {
       Stepper.write( new File( "dump.dat" ), e.getBytes() );
       e.printStackTrace();
@@ -243,7 +243,7 @@ public class Stepper {
     List<DataFrame> results = JSONMarshaler.marshal( json );
     DataFrame frame = results.get( 0 );
     System.out.println( "Minimal ----------------------------" );
-    String nativetxt = frame.toString();
+    frame.toString();
     String minimal = JSONMarshaler.marshal( frame );
     System.out.println( minimal );
 

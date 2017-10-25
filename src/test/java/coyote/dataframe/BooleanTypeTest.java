@@ -12,7 +12,7 @@ import org.junit.Test;
 public class BooleanTypeTest
 {
   /** The data type under test. */
-  static BooleanType datatype = null;
+  private static BooleanType datatype = null;
 
 
 

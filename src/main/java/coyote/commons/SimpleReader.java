@@ -15,18 +15,10 @@ import java.io.Reader;
  * StringReader.
  */
 public final class SimpleReader extends Reader {
-
-  /** Field string */
-  String string;
-
-  /** Field length */
-  int length;
-
-  /** Field next */
-  int next;
-
-  /** Field mark */
-  int mark;
+  private String string;
+  private int length;
+  private int next;
+  private int mark;
 
 
 
