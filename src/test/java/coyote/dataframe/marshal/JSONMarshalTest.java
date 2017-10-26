@@ -166,7 +166,7 @@ public class JSONMarshalTest {
     System.out.println("----------------------------\r\n");
 
     //assertTrue(frame.size()==1);
-    DataField result = frame.getField(0); // get the JSON data object
+    frame.getField(0); // get the JSON data object
   }
 
   //  public void testx() throws Exception {

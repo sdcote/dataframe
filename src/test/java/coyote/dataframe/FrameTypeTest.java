@@ -13,12 +13,10 @@ import org.junit.Test;
 
 
 /**
- * @author Steve.Cote
- *
  */
 public class FrameTypeTest {
   /** The data type under test. */
-  static FrameType datatype = null;
+  private static FrameType datatype = null;
 
 
 

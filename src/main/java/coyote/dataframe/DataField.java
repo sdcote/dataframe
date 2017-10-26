@@ -69,7 +69,7 @@ public class DataField implements Cloneable {
   public static final short URI = 16;
   public static final short ARRAY = 17;
 
-  static final String ENC_UTF8 = "UTF8";
+  private static final String ENC_UTF8 = "UTF8";
 
   public static String DEFAULT_ENCODING = DataField.ENC_UTF8;
   protected static String strEnc = DataField.DEFAULT_ENCODING;
@@ -141,13 +141,13 @@ public class DataField implements Cloneable {
   }
 
   /** Name of this field */
-  String name = null;
+  protected String name = null;
 
   /** The type of data being held. */
-  short type;
+  protected short type;
 
   /** The actual value being held. Empty arrays are equivalent to a null value. */
-  byte[] value;
+  protected byte[] value;
 
 
 

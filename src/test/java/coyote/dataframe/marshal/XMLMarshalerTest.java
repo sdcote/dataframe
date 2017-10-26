@@ -35,8 +35,8 @@ public class XMLMarshalerTest {
   private static final String XML6 = "<peer>text</peer>\r\n<peer>\r\n<inner>Child</inner>\r\n</peer>";
   private static final String XML7 = "<?xml version=\"1.0\"?>"; // preamble=true, comment=false, empty=true, open=true, close=false
   private static final String XMLA = "<?xml version=\"1.0\"?>\r\n" + "<doc>\r\n   <assembly>\r\n       <name>Linkage</name>\r\n   </assembly>\r\n   <members>\r\n       <member name=\"T:Linkage.Logging.IFormatter\">\r\n           <summary> Class IFormatter</summary>\r\n       </member>\r\n       <member name=\"M:Linkage.Logging.IFormatter.Initialize\">\r\n           <summary></summary>\r\n       </member>\r\n       <!-- Comments can occur anywhere -->\r\n       <member name=\"M:Linkage.Logging.IFormatter.Format(System.Object,System.String)\">\r\n           <summary> Format the given object into a string based upon the given category.</summary>\r\n           <param name=\"obj\">The object to format into a string.</param>\r\n           <param name=\"category\">The category of the event to be used in optional condition\r\n           formatting.</param>\r\n            <returns> String representation of the event as it will be written to the log</returns>\r\n       </member>\r\n   </members>\r\n" + "</doc>\r\n";
-  private static final String XMLY = "<SAML-Signature><![CDATA[]]></SAML-Signature>";
-  private static final String XMLZ = "<SAML-Signature><![CDATA[ <![CDATA[]]> ]]></SAML-Signature>"; // pure evil!
+  //private static final String XMLY = "<SAML-Signature><![CDATA[]]></SAML-Signature>";
+  //private static final String XMLZ = "<SAML-Signature><![CDATA[ <![CDATA[]]> ]]></SAML-Signature>"; // pure evil!
 
 
 

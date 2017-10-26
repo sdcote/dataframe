@@ -30,7 +30,7 @@ public class U64Type implements FieldType {
 
 
   public boolean checkType(Object obj) {
-    return ((obj instanceof java.lang.Byte && ((Byte)obj).byteValue() >= 0) || (obj instanceof java.lang.Short && ((Short)obj).shortValue() >= 0) || (obj instanceof java.lang.Integer && ((Integer)obj).intValue() >= 0) || (obj instanceof java.lang.Long && ((Long)obj).longValue() >= 0 || (obj instanceof java.math.BigInteger && ((BigInteger)obj).compareTo(MIN_VALUE) >= 0 && ((BigInteger)obj).compareTo(MAX_VALUE) <= 0)));
+    return ((obj instanceof Byte && ((Byte)obj).byteValue() >= 0) || (obj instanceof Short && ((Short)obj).shortValue() >= 0) || (obj instanceof Integer && ((Integer)obj).intValue() >= 0) || (obj instanceof Long && ((Long)obj).longValue() >= 0 || (obj instanceof BigInteger && ((BigInteger)obj).compareTo(MIN_VALUE) >= 0 && ((BigInteger)obj).compareTo(MAX_VALUE) <= 0)));
   }
 
 

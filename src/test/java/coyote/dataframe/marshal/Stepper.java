@@ -38,7 +38,7 @@ public class Stepper {
         new String( new byte[] { (byte)20 }, "ISO-8859-1" );
 
         Stepper.ISO8859_1 = "ISO-8859-1";
-      } catch ( final java.io.UnsupportedEncodingException e ) {
+      } catch ( final UnsupportedEncodingException e ) {
         Stepper.ISO8859_1 = "ISO8859_1";
       }
     }
@@ -173,8 +173,9 @@ public class Stepper {
         try {
           if ( dos != null )
             dos.close();
-        } catch ( final Exception e ) {}
-        finally {}
+        } catch ( final Exception e ) {
+          // no-op
+        }
       }
     }
   }

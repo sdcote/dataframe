@@ -26,7 +26,7 @@ import coyote.dataframe.marshal.JSONMarshaler;
  */
 public class FrameSelectorTest {
 
-  static String json;
+  private static String json;
 
 
 
