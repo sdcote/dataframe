@@ -26,10 +26,10 @@ public class DataFrameUtil {
    * 
    * @return a dataframe with its hierarchy flattened to a single level.
    */
-  public static DataFrame flatten( DataFrame frame ) {
+  public static DataFrame flatten(DataFrame frame) {
     DataFrame retval = new DataFrame();
-    if ( frame != null )
-      recurse( frame, null, retval );
+    if (frame != null)
+      recurse(frame, null, retval);
     return retval;
   }
 
@@ -46,24 +46,24 @@ public class DataFrameUtil {
    * @param token The current build of the name of the property
    * @param target The frame into which values are placed.
    */
-  private static void recurse( DataFrame source, String token, DataFrame target ) {
-    for ( int x = 0; x < source.getFieldCount(); x++ ) {
-      final DataField field = source.getField( x );
+  private static void recurse(DataFrame source, String token, DataFrame target) {
+    for (int x = 0; x < source.getFieldCount(); x++) {
+      final DataField field = source.getField(x);
       String fname = field.getName();
 
-      if ( fname == null )
-        fname = Integer.toString( x );
+      if (fname == null)
+        fname = Integer.toString(x);
 
-      if ( token != null )
+      if (token != null)
         fname = token + "." + fname;
 
-      if ( field.isFrame() ){
+      if (field.isFrame()) {
         DataFrame childFrame = (DataFrame)field.getObjectValue();
-        if( childFrame!= null){
-        recurse( childFrame, fname, target );
+        if (childFrame != null) {
+          recurse(childFrame, fname, target);
         }
       } else {
-        target.set( fname, field.getObjectValue() );
+        target.set(fname, field.getObjectValue());
       }
     } // for each frame
   }
@@ -71,5 +71,59 @@ public class DataFrameUtil {
 
 
 
-  
+  /**
+   * Convenience method to perform a case insensitive search for a named field 
+   * in a data frame and return its value as a string.
+   * 
+   * @param name the name of the field to search
+   * @param frame the data frame in which to search
+   * 
+   * @return the string value of the first found field with that name or null 
+   *         if the field is null, the name is null or the field with that 
+   *         name was not found.
+   */
+  public static String findString(String name, DataFrame frame) {
+    if (name != null) {
+      for (DataField field : frame.getFields()) {
+        if (equalsIgnoreCase(name, field.getName())) {
+          return field.getStringValue();
+        }
+      }
+    }
+    return null;
+  }
+
+
+
+
+  /**
+   * A null-tolerant version of the Java String method of the same name.
+   * 
+   * <p>This method will accept null values, returning true if both values are 
+   * null and false if one is and the other is not.
+   * 
+   * @param source the source of the check
+   * @param target the string against which to check
+   * 
+   * @return true if source and target are equal without considering case, 
+   *         false otherwise.
+   */
+  private static boolean equalsIgnoreCase(String source, String target) {
+    boolean retval;
+    if (source == null) {
+      if (target == null) {
+        retval = true;
+      } else {
+        retval = false;
+      }
+    } else {
+      if (target == null) {
+        retval = false;
+      } else {
+        retval = source.equalsIgnoreCase(target);
+      }
+    }
+    return retval;
+  }
+
 }
