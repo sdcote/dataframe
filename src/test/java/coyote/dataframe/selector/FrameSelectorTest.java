@@ -7,7 +7,7 @@
  */
 package coyote.dataframe.selector;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -37,12 +37,12 @@ public class FrameSelectorTest {
   @BeforeClass
   public static void setUpBeforeClass() throws Exception {
     ClassLoader classLoader = FrameSelectorTest.class.getClassLoader();
-    File file = new File( classLoader.getResource( "nvdcve.json" ).getFile() );
-    byte[] bytes = new byte[new Long( file.length() ).intValue()];
-    try (DataInputStream dis = new DataInputStream( new FileInputStream( file ) )) {
-      dis.readFully( bytes );
-    } catch ( final Exception ignore ) {}
-    json = new String( bytes );
+    File file = new File(classLoader.getResource("nvdcve.json").getFile());
+    byte[] bytes = new byte[new Long(file.length()).intValue()];
+    try (DataInputStream dis = new DataInputStream(new FileInputStream(file))) {
+      dis.readFully(bytes);
+    } catch (final Exception ignore) {}
+    json = new String(bytes);
   }
 
 
@@ -50,14 +50,45 @@ public class FrameSelectorTest {
 
   @Test
   public void readArrayData() {
-    List<DataFrame> frames = JSONMarshaler.marshal( json );
-    assertTrue( frames.size() == 1 );
-    DataFrame frame = frames.get( 0 );
+    List<DataFrame> frames = JSONMarshaler.marshal(json);
+    assertTrue(frames.size() == 1);
+    DataFrame frame = frames.get(0);
 
-    FrameSelector selector = new FrameSelector( "CVE_Items.*.cve" );
-    List<DataFrame> results = selector.select( frame );
-    
-    assertTrue( results.size()==4);
+    FrameSelector selector = new FrameSelector("CVE_Items.*.cve");
+    List<DataFrame> results = selector.select(frame);
+
+    assertTrue(results.size() == 4);
+  }
+
+
+
+
+  /**
+   * Test the ability of the selector to publish the hierarchy of the selected 
+   * frame is a field with a specific name.
+   */
+  @Test
+  public void readArrayDataWithPath() {
+    List<DataFrame> frames = JSONMarshaler.marshal(json);
+    assertTrue(frames.size() == 1);
+    DataFrame frame = frames.get(0);
+
+    FrameSelector selector = new FrameSelector("CVE_Items.*.cve", "path");
+    List<DataFrame> results = selector.select(frame);
+    assertTrue(results.size() == 4);
+
+    DataFrame child = results.get(0);
+    assertNotNull(child);
+    assertEquals("CVE_Items.[0].cve",child.getAsString("path"));
+    child = results.get(1);
+    assertNotNull(child);
+    assertEquals("CVE_Items.[1].cve",child.getAsString("path"));
+    child = results.get(2);
+    assertNotNull(child);
+    assertEquals("CVE_Items.[2].cve",child.getAsString("path"));
+    child = results.get(3);
+    assertNotNull(child);
+    assertEquals("CVE_Items.[3].cve",child.getAsString("path"));
   }
 
 }
