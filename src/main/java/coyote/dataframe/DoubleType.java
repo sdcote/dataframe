@@ -7,6 +7,8 @@
  */
 package coyote.dataframe;
 
+import java.text.NumberFormat;
+
 import coyote.commons.ByteUtil;
 
 
@@ -19,22 +21,22 @@ public class DoubleType implements FieldType {
 
 
 
-  public boolean checkType( Object obj ) {
+  public boolean checkType(Object obj) {
     return obj instanceof Double;
   }
 
 
 
 
-  public Object decode( byte[] value ) {
-    return new Double( ByteUtil.retrieveDouble( value, 0 ) );
+  public Object decode(byte[] value) {
+    return new Double(ByteUtil.retrieveDouble(value, 0));
   }
 
 
 
 
-  public byte[] encode( Object obj ) {
-    return ByteUtil.renderDouble( ( (Double)obj ).doubleValue() );
+  public byte[] encode(Object obj) {
+    return ByteUtil.renderDouble(((Double)obj).doubleValue());
   }
 
 
@@ -65,14 +67,16 @@ public class DoubleType implements FieldType {
    * @see coyote.dataframe.FieldType#stringValue(byte[])
    */
   @Override
-  public String stringValue( byte[] val ) {
-    if ( val == null ) {
+  public String stringValue(byte[] val) {
+    if (val == null) {
       return "";
     } else {
-      Object obj = decode( val );
-      if ( obj != null )
-        return obj.toString();
-      else
+      Object obj = decode(val);
+      if (obj != null) {
+        NumberFormat nf = NumberFormat.getInstance();
+        nf.setMaximumFractionDigits(16);
+        return nf.format((Double)obj);
+      } else
         return "";
     }
   }
@@ -84,11 +88,11 @@ public class DoubleType implements FieldType {
    * @see coyote.dataframe.FieldType#parse(java.lang.String)
    */
   @Override
-  public Object parse( String text ) {
+  public Object parse(String text) {
     Double retval = null;
     try {
-      retval = Double.parseDouble( text );
-    } catch ( NumberFormatException ignore ) {}
+      retval = Double.parseDouble(text);
+    } catch (NumberFormatException ignore) {}
     return retval;
   }
 
