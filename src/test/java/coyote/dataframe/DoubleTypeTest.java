@@ -1,6 +1,6 @@
 package coyote.dataframe;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
@@ -223,5 +223,16 @@ public class DoubleTypeTest {
     assertTrue(test.startsWith("0.00005"));
     assertTrue(test.endsWith("5479"));
   }
+
+
+
+  @Test
+  public void testFormat() {
+    double value = new BigDecimal("2226.06269592").doubleValue();
+    DataField field = new DataField( value );
+    String test = field.getStringValue();
+    assertEquals("2226.06269592",test);
+  }
+
 
 }

@@ -75,6 +75,7 @@ public class DoubleType implements FieldType {
       if (obj != null) {
         NumberFormat nf = NumberFormat.getInstance();
         nf.setMaximumFractionDigits(16);
+        nf.setGroupingUsed(false);
         return nf.format((Double)obj);
       } else
         return "";

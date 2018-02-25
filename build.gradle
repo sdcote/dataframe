@@ -21,7 +21,7 @@ defaultTasks 'clean', 'build', 'publish'
 
 
 group = 'coyote'
-version = '1.0.3'
+version = '1.0.4'
 
 
 ext {
