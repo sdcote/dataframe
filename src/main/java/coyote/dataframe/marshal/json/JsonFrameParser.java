@@ -29,16 +29,16 @@ public class JsonFrameParser {
   private int line;
   private int lineOffset;
 
-  // where we are in the current buffer
+  /** where we are in the current buffer **/
   private int index;
 
-  // The current character under consideration
+  /** The current character under consideration **/
   private int current;
 
-  // What has been captured so far
+  /** What has been captured so far **/
   private StringBuilder captureBuffer;
 
-  // index into the current buffer where we start capturing our value
+  /** index into the current buffer where we start capturing our value **/
   private int captureStart;
 
 
