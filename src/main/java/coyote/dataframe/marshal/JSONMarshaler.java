@@ -26,8 +26,7 @@ public class JSONMarshaler {
   private static final String NULL = "null";
   private static final String TRUE = "true";
   private static final String FALSE = "false";
-
-
+  private static final String EMPTY_STRING = "\"\"";
 
 
   /**
@@ -164,7 +163,7 @@ public class JSONMarshaler {
             if (obj != null) {
               writer.writeString(obj.toString());
             } else {
-              writer.writeLiteral(NULL);
+              writer.writeLiteral(EMPTY_STRING);
             }
           }
           if (i + 1 < frame.size()) {
