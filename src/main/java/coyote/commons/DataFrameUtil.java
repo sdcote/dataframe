@@ -126,4 +126,31 @@ public class DataFrameUtil {
     return retval;
   }
 
+
+  /**
+   * Convenience method to perform a case insensitive search for a named field
+   * in a data frame and return its value as a string or the default value if
+   * it is not found
+   *
+   * @param name         the name of the field to search
+   * @param frame        the data frame in which to search
+   * @param defaultValue the default value to return if a field with that name
+   *                     was not found
+   * @return the string value of the first found field with that name or the
+   * given default value if the field is null, the name is null or the field
+   * with that name was not found.
+   */
+  public static String findString(String name, DataFrame frame, String defaultValue) {
+    String retval = defaultValue;
+    if (name != null) {
+      for (DataField field : frame.getFields()) {
+        if (equalsIgnoreCase(name, field.getName())) {
+          retval = field.getStringValue();
+          break;
+        }
+      }
+    }
+    return retval;
+  }
+
 }
