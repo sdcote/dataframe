@@ -8,22 +8,20 @@
 package coyote.dataframe.marshal;
 
 //import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.util.List;
-
-import org.junit.Test;
 
 import coyote.commons.ByteUtil;
 import coyote.dataframe.DataField;
 import coyote.dataframe.DataFrame;
 import coyote.dataframe.DataFrameException;
+import org.junit.Test;
+
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 
 /**
@@ -319,6 +317,29 @@ public class JSONMarshalTest {
     assertTrue(bytes.length == 1);
     assertTrue(bytes[0] == 8);
 
+  }
+
+
+  /**
+   * Check issue #6 JSONMarshaler changes format of date fields when marshaling to JSON
+   */
+  @Test
+  public void marshalDate() {
+    String FIELD_NAME = "Date";
+    Date date = new Date();
+    DataFrame frame = new DataFrame();
+    frame.add(FIELD_NAME, date);
+    String dateString = frame.getField(FIELD_NAME).getStringValue();
+
+    String json = JSONMarshaler.marshal(frame);
+
+    List<DataFrame> frames = JSONMarshaler.marshal(json);
+    assertNotNull(frames);
+    assertTrue(frames.size() == 1);
+    DataFrame frame1 = frames.get(0);
+    DataField field = frame1.getField(FIELD_NAME);
+    assertNotNull(field);
+    assertEquals(dateString, field.getStringValue());
   }
 
 }

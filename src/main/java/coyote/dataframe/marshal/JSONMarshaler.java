@@ -151,6 +151,8 @@ public class JSONMarshaler {
             } else {
               writer.writeArray(obj);
             }
+          } else if (field.getType() == DataField.DATE) {
+            writer.writeString(field.getStringValue());
           } else if (field.getType() == DataField.FRAMETYPE) {
             DataFrame dfm = (DataFrame)field.getObjectValue();
             if (dfm == null) {
