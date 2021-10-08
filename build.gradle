@@ -1,21 +1,14 @@
-buildscript {
-  repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
-  }
-  dependencies {
-    classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3"
-  }
-}
-
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'jacoco'
 apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
+
+repositories {
+	mavenCentral()
+	mavenLocal()
+}
 
 // call the bintray target to publish to bintray
 defaultTasks 'clean', 'build', 'publish'
@@ -24,10 +17,6 @@ defaultTasks 'clean', 'build', 'publish'
 group = 'coyote'
 version = '1.0.5'
 
-
-ext {
-	bintray_package = 'DataFrame'
-}
 
 jar {
     manifest {
@@ -56,11 +45,6 @@ task javadocJar(type: Jar, dependsOn: javadoc) {
 // add javadoc/source jar tasks as artifacts
 artifacts {
 	archives sourcesJar, javadocJar
-}
-
-
-repositories {
-    jcenter()
 }
 
 
@@ -100,18 +84,4 @@ jacocoTestReport {
    	}
 }
 check.dependsOn jacocoTestReport
-
-
-bintray {
-	user = bintrayUser
-	key = bintrayKey
-	publications = ['mavenJava']
-	pkg {
-		repo = 'maven'
-		name = 'DataFrame'
-		desc = 'A toolkit for Data Transfer Object (DTO) / Value Object (VO), and protocol buffer design pattern implementations'
-		licenses = ['MIT']
-		labels = ['Java', 'DTO', 'VO', 'ProtoBuf']
-	}
-}
 

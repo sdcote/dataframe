@@ -1,7 +1,6 @@
 [![Build Status](https://travis-ci.org/sdcote/dataframe.svg?branch=master)](https://travis-ci.org/sdcote/dataframe)
 [![codecov](https://codecov.io/gh/sdcote/dataframe/branch/master/graph/badge.svg)](https://codecov.io/gh/sdcote/dataframe)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/7b5666be8939409faa521ea5fc003e2b)](https://www.codacy.com/app/sdcote/dataframe?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=sdcote/dataframe&amp;utm_campaign=Badge_Grade)
-[ ![Download](https://api.bintray.com/packages/sdcote/maven/DataFrame/images/download.svg) ](https://bintray.com/sdcote/maven/DataFrame/_latestVersion)
 
 DataFrame
 =========
