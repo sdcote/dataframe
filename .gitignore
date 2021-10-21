@@ -48,3 +48,4 @@ json-docs/
 /build
 yaml-docs/
 src/dev/
+.idea/
