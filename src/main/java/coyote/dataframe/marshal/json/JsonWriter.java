@@ -88,9 +88,9 @@ public class JsonWriter {
   /**
    * Write the string replacing any non-standard characters as necessary.
    * 
-   * @param string
+   * @param string the string to process/write
    * 
-   * @throws IOException
+   * @throws IOException if the writer could not completely write to the result
    */
   public void writeJsonString(final String string) throws IOException {
     final int length = string.length();
