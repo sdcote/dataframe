@@ -342,4 +342,19 @@ public class JSONMarshalTest {
     assertEquals(dateString, field.getStringValue());
   }
 
+
+  @Test
+  public void readEscapedQuotes() throws DataFrameException {
+    String json = "{ \"format\": \"%h %l %u %t \\\"%r\\\" %>s %b \\\"%{Referer}i\\\" \\\"%{User-Agent}i\\\" \\\"%{UNIQUE_ID}e\\\"\" }";
+    List<DataFrame> results = JSONMarshaler.marshal(json);
+    assertTrue(results.size() == 1);
+    DataFrame frame = results.get(0);
+
+    for (DataField field : frame.getFields()) {
+      System.out.println(field.toString());
+    }
+    DataField field = frame.getField("format");
+    assertNotNull(field);
+  }
+
 }
