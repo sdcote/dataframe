@@ -294,7 +294,7 @@ public class JsonFrameParser {
         captureBuffer.append((char)Integer.parseInt(new String(hexChars), 16));
         break;
       default:
-        throw expected("valid escape sequence");
+        throw expected("valid escape sequence but received '" + (char) current + "'");
     }
     read();
   }
