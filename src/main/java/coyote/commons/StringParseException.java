@@ -43,8 +43,8 @@ public class StringParseException extends Exception {
   /**
    * Constructor StringParseException
    *
-   * @param message
-   * @param context
+   * @param message the exception message
+   * @param context window of data
    */
   public StringParseException( String message, String context ) {
     super( message );
@@ -59,7 +59,7 @@ public class StringParseException extends Exception {
    * Constructor
    *
    * @param message Error message
-   * @param excptn
+   * @param excptn the exception to wrap i.e. the cause
    */
   public StringParseException( String message, Throwable excptn ) {
     super( message, excptn );
@@ -71,7 +71,7 @@ public class StringParseException extends Exception {
   /**
    * Constructor
    *
-   * @param excptn
+   * @param excptn the exception to wrap i.e. the cause
    */
   public StringParseException( Throwable excptn ) {
     super( excptn );

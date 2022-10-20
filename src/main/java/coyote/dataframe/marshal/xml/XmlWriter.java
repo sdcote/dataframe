@@ -173,9 +173,9 @@ public class XmlWriter {
   /**
    * Write the string replacing any non-standard characters as necessary.
    * 
-   * @param string
+   * @param string the string to write
    * 
-   * @throws IOException
+   * @throws IOException if problems were encountered
    */
   public void writeXmlString(final String string) throws IOException {
     final int length = string.length();

@@ -127,7 +127,7 @@ public final class SimpleReader extends Reader {
   /**
    * Method mark
    *
-   * @param limit
+   * @param limit ignored
    */
   public void mark( int limit ) {
     mark = next;

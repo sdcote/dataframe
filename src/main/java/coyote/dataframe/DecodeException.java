@@ -36,7 +36,7 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
+   * @param message the message for the exception
    */
   public DecodeException( String message ) {
     this( message, null, true, true, 0, -1, -1, null, null );
@@ -46,7 +46,7 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param cause
+   * @param cause the underlying exception
    */
   public DecodeException( Throwable cause ) {
     this( MESSGE, cause, true, true, 0, -1, -1, null, null );
@@ -56,8 +56,8 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
-   * @param cause
+   * @param message exception message
+   * @param cause the underlying exception
    */
   public DecodeException( String message, Throwable cause ) {
     this( message, cause, true, true, 0, -1, -1, null, null );
@@ -67,8 +67,8 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
-   * @param bytes
+   * @param message exception message
+   * @param bytes data window
    */
   public DecodeException( String message, byte[] bytes ) {
     this( message, null, true, true, 0, -1, -1, null, bytes );
@@ -78,10 +78,10 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
-   * @param cause
-   * @param enableSuppression
-   * @param writableStackTrace
+   * @param message exception message
+   * @param cause underlying exception
+   * @param enableSuppression whether or not suppression is enabled or disabled
+   * @param writableStackTrace whether or not the stack trace should be writable
    */
   public DecodeException( String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace ) {
     this( message, cause, enableSuppression, writableStackTrace, 0, -1, -1, null, null );
@@ -91,12 +91,12 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
-   * @param cause
-   * @param pos
-   * @param prev 
-   * @param indx
-   * @param fld
+   * @param message exception message
+   * @param cause underlying exception
+   * @param pos the offset in the stream where the error occurred, more accurately, the start of reading the field where the error occurred
+   * @param prev the previous position
+   * @param indx field index
+   * @param fld current field
    */
   public DecodeException( String message, Throwable cause, int pos, int prev, int indx, DataField fld ) {
     this( message, cause, true, true, pos, prev, indx, fld, null );
@@ -106,15 +106,15 @@ public class DecodeException extends RuntimeException {
 
 
   /**
-   * @param message
-   * @param cause
-   * @param enableSuppression
-   * @param writableStackTrace
-   * @param pos
-   * @param prev 
-   * @param indx
-   * @param fld
-   * @param data 
+   * @param message exception message
+   * @param cause underlying exception
+   * @param enableSuppression whether or not suppression is enabled or disabled
+   * @param writableStackTrace whether or not the stack trace should be writable
+   * @param pos the offset in the stream where the error occurred, more accurately, the start of reading the field where the error occurred
+   * @param prev the previous position
+   * @param indx field index
+   * @param fld current field
+   * @param data window of data
    */
   public DecodeException( String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace, int pos, int prev, int indx, DataField fld, byte[] data ) {
     super( message, cause, enableSuppression, writableStackTrace );

@@ -130,7 +130,7 @@ public class StringParser {
    * Skip all the whitespace in the reader, by reading each character and
    * stopping just before a non-whitespace character is found.
    *
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public void skipWhitespace() throws IOException {
     while (true) {
@@ -286,7 +286,7 @@ public class StringParser {
    * 
    * @return the next token to be read (i.e. {@code peekToken()})
    * 
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public String readAndPeekToken() throws IOException {
     readToken();
@@ -304,7 +304,7 @@ public class StringParser {
    *
    * @return the character the next read operation will return
    *
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public String peek(int length) throws IOException {
     int[] array = new int[length];
@@ -365,7 +365,7 @@ public class StringParser {
    *
    * @param buffer the array of integers to fill.
    *
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public void peek(int[] buffer) throws IOException {
     reader.mark(buffer.length);
@@ -504,7 +504,7 @@ public class StringParser {
    * 
    * @return the next character to be read (i.e. {@code peek()})
    * 
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public int readAndPeek() throws IOException {
     read();
@@ -525,7 +525,7 @@ public class StringParser {
    * @return The string representing everything we read up to, but not
    *         including, that given character
    *
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public String readTo(int stop) throws IOException {
     StringBuffer retval = new StringBuffer();
@@ -603,7 +603,7 @@ public class StringParser {
    * @return The string of characters up, but not including the delimiter that
    *         marked the end of the token
    *
-   * @throws IOException
+   * @throws IOException if the buffer could not be read
    */
   public String readToDelimiter(String delimiters) throws IOException {
 

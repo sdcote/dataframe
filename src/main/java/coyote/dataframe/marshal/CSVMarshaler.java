@@ -69,7 +69,7 @@ public class CSVMarshaler {
 
 
   /**
-   * @param tempFile
+   * @param tempFile the file to read
    * 
    * @return the frameset read in from the file
    */
@@ -86,9 +86,9 @@ public class CSVMarshaler {
 
   /**
    * Write the given frameset to the given named file in CSV format.
-   *  
-   * @param frameset
-   * @param filename
+   *
+   * @param frameset the frame set to write
+   * @param filename the name of the file to which the data is written
    */
   public static void write( FrameSet frameset, String filename ) {
     File file = new File( filename );
@@ -103,8 +103,8 @@ public class CSVMarshaler {
 
   /**
    * 
-   * @param set
-   * @param tempFile
+   * @param set the frame set to write
+   * @param tempFile the file to which the data is written
    */
   public static void write( FrameSet set, File tempFile ) {
     Writer fwriter = null;

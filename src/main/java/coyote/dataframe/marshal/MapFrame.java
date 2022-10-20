@@ -15,7 +15,7 @@ public class MapFrame {
    * <p>If a map contains other maps, then the DataFrame will contain other 
    * DataFrames.
    * 
-   * @param source
+   * @param source source of the data
    * 
    * @return A dataframe version of the given Map.
    */

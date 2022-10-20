@@ -64,8 +64,8 @@ public class ByteUtil {
    *  260 : 0x00 0x00 0x01 0x04
    * </pre>
    *
-   * @param x
-   * @param buf
+   * @param x the value to write
+   * @param buf the buffer to which the value is written
    * @param offset at which to place the number.
    */
   public static void overlay(final long x, final byte[] buf, int offset) {
@@ -667,7 +667,7 @@ public class ByteUtil {
    * </pre>
    * 
    * @param data the byte array to format.
-   * @param size
+   * @param size how much of the data to process
    *
    * @return formatted dump of the data
    */
@@ -738,7 +738,7 @@ public class ByteUtil {
   /**
    * Converts a long to a little-endian four-byte array
    *
-   * @param val
+   * @param val the value to convert
    *
    * @return array of byte representing little-endian encoding of the value
    */
@@ -760,7 +760,7 @@ public class ByteUtil {
   /**
    * Converts a long to a little-endian two-byte array
    *
-   * @param val
+   * @param val the value to convert
    *
    * @return array of byte representing little-endian encoding of the value
    */
@@ -1117,10 +1117,10 @@ public class ByteUtil {
    * Read Base64 characters from the input and write the decoded bytes to the
    * output.
    *
-   * @param inputstream
-   * @param outputstream
+   * @param inputstream stream from which data is read
+   * @param outputstream stream to which data is written
    *
-   * @throws IOException
+   * @throws IOException if the stream could not be read
    */
   public static void fromBase64(final InputStream inputstream, final OutputStream outputstream) throws IOException {
     int i = 0;

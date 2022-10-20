@@ -230,7 +230,7 @@ public class DataField implements Cloneable {
    * @param name The name of this DataField
    * @param obj The object value to encode
    *
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the value could not be encoded
    */
   public DataField( final String name, final Object obj ) throws IllegalArgumentException {
     this.name = DataField.nameCheck( name );
@@ -244,7 +244,7 @@ public class DataField implements Cloneable {
   /**
    * Create a deep-copy of this DataField.
    * 
-   * <p>The name and type references are shared and the value is copied to an 
+   * <p>The name and type references are shared and the value is copied to a
    * new byte array.
    *
    * @return A mutable copy of this DataField.
@@ -437,7 +437,7 @@ public class DataField implements Cloneable {
    *
    * @return the value of the given object using the given type specification.
    *
-   * @throws IllegalArgumentException
+   * @throws IllegalArgumentException if the value could not be encoded
    */
   public static byte[] encode( final Object obj, final short type ) throws IllegalArgumentException {
     FieldType datatype = getDataType( type );

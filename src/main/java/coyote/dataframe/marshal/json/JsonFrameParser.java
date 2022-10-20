@@ -97,7 +97,7 @@ public class JsonFrameParser {
   /**
    * generate a parse exception with the given message.
    * 
-   * @param message
+   * @param message the exception message
    * 
    * @return a parse exception with the given message.
    */
@@ -158,6 +158,8 @@ public class JsonFrameParser {
    * 
    * @return the data represented by the currently set string as one or more 
    * DataFrames
+   *
+   * @throws IOException if the data could not be read
    */
   public List<DataFrame> parse() throws IOException {
     final List<DataFrame> retval = new ArrayList<DataFrame>();

@@ -32,7 +32,7 @@ public class JSONMarshaler {
   /**
    * Marshal the given JSON into a dataframe.
    * 
-   * @param json
+   * @param json the JSON data to parse
    * 
    * @return Data frame containing the JSON represented data
    */
@@ -80,8 +80,8 @@ public class JSONMarshaler {
 
 
   /**
-   * @param frame
-   * @param config
+   * @param frame the frame to write
+   * @param config the writer configuration describing the writer to use
    * 
    * @return the string containing the marshaled data 
    */
@@ -106,10 +106,10 @@ public class JSONMarshaler {
 
   /**
    * 
-   * @param frame
-   * @param config
+   * @param frame the frame to write
+   * @param writer the writer to use to write the frame
    * 
-   * @throws IOException 
+   * @throws IOException if the frame could not be written
    */
   private static void writeFrame(final DataFrame frame, final JsonWriter writer) throws IOException {
 

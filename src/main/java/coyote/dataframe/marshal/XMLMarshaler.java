@@ -28,7 +28,7 @@ public class XMLMarshaler {
   /**
    * Marshal the given XML into a dataframe.
    * 
-   * @param xml
+   * @param xml the data to process
    * 
    * @return Data frame containing the XML represented data
    */

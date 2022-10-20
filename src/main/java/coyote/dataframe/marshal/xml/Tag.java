@@ -32,7 +32,7 @@ public class Tag {
 
 
   /**
-   * @param token
+   * @param token token to use for the tag
    */
   public Tag( String token ) {
     String text = token;
