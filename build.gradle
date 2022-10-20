@@ -1,4 +1,3 @@
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
@@ -10,9 +9,7 @@ repositories {
 	mavenLocal()
 }
 
-// call the bintray target to publish to bintray
 defaultTasks 'clean', 'build', 'publish'
-
 
 group = 'coyote'
 version = '1.0.5'
@@ -25,9 +22,6 @@ jar {
     }
 }
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.2'
-}
 
 // custom tasks for creating source/javadoc jars
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -50,7 +44,7 @@ artifacts {
 
 dependencies {
 	// Unit testing, of course
-	testCompile 'junit:junit:4.12'
+	testImplementation 'junit:junit:4.12'
 }
 
 
@@ -84,4 +78,3 @@ jacocoTestReport {
    	}
 }
 check.dependsOn jacocoTestReport
-
