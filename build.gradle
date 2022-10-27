@@ -9,7 +9,7 @@ repositories {
 	mavenLocal()
 }
 
-defaultTasks 'clean', 'build', 'publish'
+defaultTasks 'clean', 'build'
 
 group = 'coyote'
 version = '1.0.5'
@@ -68,6 +68,14 @@ publishing {
 	}
 	repositories {
 		mavenLocal()
+		maven {
+			name = 'github'
+			url = 'https://maven.pkg.github.com/sdcote/dataframe/'
+			credentials {
+				username = '{USERNAME}'
+				password = '{TOKEN}'
+			}
+		}
 	}
 }
 
