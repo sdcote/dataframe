@@ -12,7 +12,7 @@ repositories {
 defaultTasks 'clean', 'build'
 
 group = 'coyote'
-version = '1.0.5'
+version = '1.0.5-SNAPSHOT'
 
 
 jar {
@@ -70,10 +70,10 @@ publishing {
 		mavenLocal()
 		maven {
 			name = 'github'
-			url = 'https://maven.pkg.github.com/sdcote/dataframe/'
+			url = "https://maven.pkg.github.com/sdcote/packages"
 			credentials {
-				username = '{USERNAME}'
-				password = '{TOKEN}'
+				username = USERNAME
+				password = TOKEN
 			}
 		}
 	}
