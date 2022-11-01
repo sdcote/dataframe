@@ -50,3 +50,6 @@ yaml-docs/
 src/dev/
 target/
 .idea/
+
+# This file should not be checked in as it contains local variables
+gradle.properties
