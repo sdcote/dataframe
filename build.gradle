@@ -72,8 +72,9 @@ publishing {
 			name = 'github'
 			url = "https://maven.pkg.github.com/sdcote/packages"
 			credentials {
-				username = USERNAME
-				password = TOKEN
+				// get credentials from 'gradle.properties' if they exist or from the environment
+				username = project.findProperty("USERNAME") ?: System.getenv("secrets.ACTIONS_USER")
+				password = project.findProperty("TOKEN") ?: System.getenv("secrets.ACTIONS_TOKEN")
 			}
 		}
 	}
