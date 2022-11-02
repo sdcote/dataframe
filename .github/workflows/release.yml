@@ -31,6 +31,10 @@ jobs:
       with:
         arguments: build
 
+    # For some reason, gradlew sometimes loses its executable bit
+    - name: Ensure gradlew is executable
+      run: chmod +x gradlew
+
     # Show how to print unmasked GitHub secrets to the console
     - name: Echo out a GitHub Actions Secret to the logs
       run: |
