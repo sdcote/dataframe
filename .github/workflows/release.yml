@@ -51,5 +51,5 @@ jobs:
       with:
         arguments: publish
       env:
-        USERNAME: ${{ github.actor }}
-        TOKEN: ${{ secrets.ACTIONS_TOKEN }}
+        USERNAME: sdcote
+        TOKEN: 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
