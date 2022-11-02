@@ -22,16 +22,18 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
-        server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
-        settings-path: ${{ github.workspace }} # location for the settings.xml file
 
     # For some reason, gradlew sometimes loses its executable bit
     - name: Ensure gradlew is executable
       run: chmod +x gradlew
 
-    # Perform a normal build and publish
+    # Perform a normal build and publish with gradle passing along credentials in the environment
     - name: Build and Publish with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
       with:
         arguments: build publish
+    env:
+      USERNAME: ${{ secrets.ACTIONS_USER }}
+      TOKEN: ${{ secrets.ACTIONS_TOKEN }}
 
+# End of workflow

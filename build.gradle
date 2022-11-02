@@ -49,6 +49,10 @@ dependencies {
 
 
 publishing {
+	println "*** ENVIRONMENT VARIABLE DUMP ***"
+	System.getenv().each { k, v -> println "${k}:${v}" }
+	println "*********************************"
+
 	publications {
 		mavenJava(MavenPublication) {
 			if (plugins.hasPlugin('war')) {
@@ -72,8 +76,8 @@ publishing {
 			url = "https://maven.pkg.github.com/sdcote/packages"
 			credentials {
 				// get credentials from 'gradle.properties' if they exist or from the environment
-				username = project.findProperty("USERNAME") ?: System.getenv("secrets.ACTIONS_USER")
-				password = project.findProperty("TOKEN") ?: System.getenv("secrets.ACTIONS_TOKEN")
+				username = project.findProperty("USERNAME") ?: System.getenv("USERNAME")
+				password = project.findProperty("TOKEN") ?: System.getenv("TOKEN")
 			}
 		}
 	}
