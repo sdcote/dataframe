@@ -69,7 +69,6 @@ publishing {
 	repositories {
 		mavenLocal()
 		maven {
-			name = 'github'
 			url = "https://maven.pkg.github.com/sdcote/packages"
 			credentials {
 				// get credentials from 'gradle.properties' if they exist or from the environment
