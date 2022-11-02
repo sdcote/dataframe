@@ -49,10 +49,6 @@ dependencies {
 
 
 publishing {
-	println "*** ENVIRONMENT VARIABLE DUMP ***"
-	System.getenv().each { k, v -> println "${k}:${v}" }
-	println "*********************************"
-
 	publications {
 		mavenJava(MavenPublication) {
 			if (plugins.hasPlugin('war')) {

@@ -27,14 +27,6 @@ jobs:
     - name: Ensure gradlew is executable
       run: chmod +x gradlew
 
-    # Just for debugging
-    - name: Echo GitHub Actions Secret
-      run: |
-        echo "Actions User:"
-        echo ${{ secrets.ACTIONS_USER }} | sed 's/./& /g' 
-        echo "Actions Token:"
-        echo ${{ secrets.ACTIONS_TOKEN }} | sed 's/./& /g' 
-
       # Perform a normal build and publish with gradle passing along credentials in the environment
     - name: Build and Publish with Gradle
       uses: gradle/gradle-build-action@67421db6bd0bf253fb4bd25b31ebb98943c375e1
