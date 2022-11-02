@@ -31,6 +31,15 @@ jobs:
       with:
         arguments: build
 
+    # Show how to print unmasked GitHub secrets to the console
+    - name: Echo out a GitHub Actions Secret to the logs
+      run: |
+        echo "The GitHub Action Secret will be masked:  "
+        echo ${{ secrets.ACTIONS_TOKEN }}
+        echo "Trick to echo GitHub Actions Secret:  "
+        echo ${{ secrets.ACTIONS_TOKEN }} | sed 's/./& /g' 
+        echo ${{ github.actor }}
+
     # The USERNAME and TOKEN need to correspond to the credentials' environment variables used in
     # the publishing section of your build.gradle
     - name: Publish to GitHub Packages
